@@ -57,7 +57,10 @@ namespace Freedom
 		/// </summary>
 		private void Start()
 		{
-			
+			if ( theGame != null )
+			{
+				theGame.Initialization();
+			}
 		}
 
 		/// <summary>
@@ -73,7 +76,10 @@ namespace Freedom
 		/// </summary>
 		private void OnDestroy()
 		{
-			
+			if ( theGame != null )
+			{
+				theGame.Destroy();
+			}
 		}
 		
 		#endregion

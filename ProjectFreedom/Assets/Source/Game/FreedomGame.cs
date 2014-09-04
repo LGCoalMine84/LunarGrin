@@ -35,7 +35,7 @@ namespace Freedom
 		public FreedomGame() :
 			base()
 		{
-		
+			
 		}
 		
 		#endregion
@@ -49,6 +49,16 @@ namespace Freedom
 		{
 			base.Initialization();
 			
+			/*
+			MainMenuState mainMenuState = new MainMenuState( "MainMenuState" );
+			
+			stateManager.PushState( mainMenuState );
+			
+			OptionsMenuState optionsMenuState = new OptionsMenuState( "OptionsMenuState" );
+			
+			stateManager.PushState( optionsMenuState );
+			*/
+			/*
 			IGameState state1 = new StartMenuGameState( "StartState" );
 			IGameState state2 = new OptionsMenuGameState( "OptionsState" );
 			
@@ -66,6 +76,7 @@ namespace Freedom
 			{
 				Debug.Log( "So far so good!" );
 			}
+			*/
 		}
 		
 		/// <summary>

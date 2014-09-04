@@ -178,7 +178,10 @@ namespace LunarGrin.Core
 		/// Updates the game state logic.
 		/// </summary>
 		/// <param name="time">The delta time.</param>
-		public abstract void Update( Single deltaTime );
+		public virtual void Update( Single deltaTime )
+		{
+		
+		}
 		
 		#endregion
 		
