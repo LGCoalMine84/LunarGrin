@@ -45,9 +45,9 @@ namespace Freedom
 		/// <summary>
 		/// Initializes the game instance.
 		/// </summary>
-		public override void Initialization()
+		public override void Initialize()
 		{
-			base.Initialization();
+			base.Initialize();
 			
 			/*
 			MainMenuState mainMenuState = new MainMenuState( "MainMenuState" );
@@ -62,15 +62,15 @@ namespace Freedom
 			IGameState state1 = new StartMenuGameState( "StartState" );
 			IGameState state2 = new OptionsMenuGameState( "OptionsState" );
 			
-			stateManager.PushState( state1 );
-			stateManager.PushState( state2 );
-			stateManager.PopState();
-			stateManager.PushState( state2 );
+			GameServices.StateManager.PushState( state1 );
+			GameServices.StateManager.PushState( state2 );
+			GameServices.StateManager.PopState();
+			GameServices.StateManager.PushState( state2 );
 			
-			stateManager.ChangeState( state1 );
+			GameServices.StateManager.ChangeState( state1 );
 			
-			Boolean isTrue = stateManager.ContainsState( state1 );
-			isTrue = stateManager.ContainsState( state2 );
+			Boolean isTrue = GameServices.StateManager.ContainsState( state1 );
+			isTrue = GameServices.StateManager.ContainsState( state2 );
 			
 			if( !isTrue )
 			{
