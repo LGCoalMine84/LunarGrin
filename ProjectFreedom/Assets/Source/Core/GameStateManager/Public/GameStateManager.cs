@@ -27,6 +27,15 @@ namespace LunarGrin.Core
 	/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 	public sealed class GameStateManager : IGameStateManager
 	{
+		#region Constants
+	
+		/// <summary>
+		/// The type of game service.
+		/// </summary>
+		private const ServiceType TypeOfGameService = ServiceType.GameStateManager;
+		
+		#endregion
+	
 		#region Private Fields
 	    	
 	    /// <summary>
@@ -54,6 +63,22 @@ namespace LunarGrin.Core
 		/// </summary>
 		private IGameState previousState = null;
 
+		#endregion
+		
+		#region Properties
+		
+		/// <summary>
+		/// Gets the type of the game service.
+		/// </summary>
+		/// <value>The type of the game service.</value>
+		public ServiceType GameServiceType
+		{
+			get
+			{
+				return TypeOfGameService;
+			}
+		}
+		
 		#endregion
 
 		#region Constructor

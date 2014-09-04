@@ -27,27 +27,10 @@ namespace LunarGrin.Core
 	public abstract class Game
 	{
 		#region Protected Fields
-		
-		/// <summary>
-		/// Manages the game states of the application.
-		/// </summary>
-		protected IGameStateManager stateManager = null;
-		
+			
 		#endregion
 		
 		#region Properties
-		
-		/// <summary>
-		/// Gets the game state manager.
-		/// </summary>
-		/// <value>The game state manager.</value>
-		public IGameStateManager StateManager
-		{
-			get
-			{
-				return stateManager;
-			}
-		}
 		
 		#endregion
 		
@@ -55,7 +38,7 @@ namespace LunarGrin.Core
 		
 		protected Game()
 		{
-			stateManager = new GameStateManager();
+			
 		}
 		
 		#endregion
@@ -65,7 +48,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Initializes the game instance.
 		/// </summary>
-		public virtual void Initialization()
+		public virtual void Initialize()
 		{
 			
 		}
@@ -76,10 +59,7 @@ namespace LunarGrin.Core
 		/// <param name="deltaTime"></param>
 		public virtual void Update( Single deltaTime )
 		{
-			if( stateManager != null )
-			{
-				stateManager.Update( deltaTime );
-			}
+			
 		}
 		
 		/// <summary>

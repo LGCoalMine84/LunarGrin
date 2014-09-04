@@ -21,7 +21,7 @@ namespace LunarGrin.Core
 	/// <summary>
 	/// Interface to the game state manager that handles the game states of the application.
 	/// </summary>
-	public interface IGameStateManager
+	public interface IGameStateManager : IGameService
 	{		
 		#region Public Methods
 
