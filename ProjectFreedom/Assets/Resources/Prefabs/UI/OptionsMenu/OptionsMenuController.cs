@@ -12,11 +12,14 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using LunarGrin.Core;
 #endregion
 
 public class OptionsMenuController : MonoBehaviour
 {
 	#region UI Game Objects
+	public GameObject goSoundNavigation = null;
+	
 	public GameObject goSoundConfig = null;
 	
 	public GameObject goVideoConfig = null;
@@ -41,6 +44,8 @@ public class OptionsMenuController : MonoBehaviour
         SetVisibility( goSoundConfig, false );
         
         SetVisibility( goVideoConfig, false );
+        
+        GameServices.StateManager.PopState();
     }
     
     private void SetVisibility( GameObject go, Boolean isVisible )

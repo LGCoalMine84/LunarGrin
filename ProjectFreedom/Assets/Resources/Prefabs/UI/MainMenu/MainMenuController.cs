@@ -11,6 +11,7 @@
 #region Using Directives
 using UnityEngine;
 using System.Collections;
+using LunarGrin.Core;
 #endregion
 
 public class MainMenuController : MonoBehaviour
@@ -28,7 +29,7 @@ public class MainMenuController : MonoBehaviour
         
         OptionsMenuState optionsMenuState = new OptionsMenuState( "OptionsMenu" );
         
-        //	TODO:	Push the optionsMenuState to the game state machine
+        GameServices.StateManager.PushState( optionsMenuState );
     }
     
     public void OnCreditsClick()

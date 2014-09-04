@@ -16,38 +16,12 @@ using UnityEngine.UI;
 
 public class SoundOptionsController : MonoBehaviour
 {
-	#region UI Game Objects
-	public GameObject goSaveButton = null;
-	
-	public GameObject goCancelButton = null;
-	#endregion
-	
 	#region UI Components
 	public AdvancedSliderController effectsController = null;
 	
 	public AdvancedSliderController musicController = null;
 	
 	public AdvancedSliderController speechController = null;
-	
-	private Button cSaveButton = null;
-	
-	private Button cCancelButton = null;
-	#endregion
-	
-	#region Unity Functions
-	
-	void Start()
-	{
-		if ( goSaveButton != null )
-		{
-			cSaveButton = goSaveButton.GetComponent<Button>();
-		}
-		if ( goCancelButton != null )
-		{
-			cCancelButton = goCancelButton.GetComponent<Button>();
-		}
-	}
-	
 	#endregion
 	
 	public void OnSaveClick()

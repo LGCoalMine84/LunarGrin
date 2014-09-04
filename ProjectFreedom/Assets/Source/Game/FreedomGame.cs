@@ -49,34 +49,9 @@ namespace Freedom
 		{
 			base.Initialize();
 			
-			/*
 			MainMenuState mainMenuState = new MainMenuState( "MainMenuState" );
 			
-			stateManager.PushState( mainMenuState );
-			
-			OptionsMenuState optionsMenuState = new OptionsMenuState( "OptionsMenuState" );
-			
-			stateManager.PushState( optionsMenuState );
-			*/
-			/*
-			IGameState state1 = new StartMenuGameState( "StartState" );
-			IGameState state2 = new OptionsMenuGameState( "OptionsState" );
-			
-			GameServices.StateManager.PushState( state1 );
-			GameServices.StateManager.PushState( state2 );
-			GameServices.StateManager.PopState();
-			GameServices.StateManager.PushState( state2 );
-			
-			GameServices.StateManager.ChangeState( state1 );
-			
-			Boolean isTrue = GameServices.StateManager.ContainsState( state1 );
-			isTrue = GameServices.StateManager.ContainsState( state2 );
-			
-			if( !isTrue )
-			{
-				Debug.Log( "So far so good!" );
-			}
-			*/
+			GameServices.StateManager.PushState( mainMenuState );
 		}
 		
 		/// <summary>
