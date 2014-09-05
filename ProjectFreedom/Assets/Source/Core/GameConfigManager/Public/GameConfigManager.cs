@@ -10,10 +10,20 @@
 
 #region Using Directives
 using System;
+using LunarGrin.Core;
 #endregion
 
-public class GameConfigManager : IGameConfigManager
+public class GameConfigManager : IGameConfigManager, IGameService
 {
+	#region Constants
+	
+	/// <summary>
+	/// The type of game service.
+	/// </summary>
+	private const ServiceType TypeOfGameService = ServiceType.GameConfigManager;
+	
+	#endregion
+	
 	private GameSoundConfig sound = new GameSoundConfig();
 	
 	private GameVideoConfig video = new GameVideoConfig();
@@ -31,6 +41,18 @@ public class GameConfigManager : IGameConfigManager
 		get
 		{
 			return video;
+		}
+	}
+	
+	/// <summary>
+	/// Gets the type of the game service.
+	/// </summary>
+	/// <value>The type of the game service.</value>
+	public ServiceType GameServiceType
+	{
+		get
+		{
+			return TypeOfGameService;
 		}
 	}
 }
