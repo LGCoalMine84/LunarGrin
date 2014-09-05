@@ -15,11 +15,11 @@ using System;
 
 public class GameConfig
 {
-	private static GameSoundConfig soundConfig = new GameSoundConfig();
+	private GameSoundConfig soundConfig = new GameSoundConfig();
 	
-	private static GameVideoConfig videoConfig = new GameVideoConfig();
+	private GameVideoConfig videoConfig = new GameVideoConfig();
 	
-	public static GameSoundConfig SoundConfig
+	public GameSoundConfig SoundConfig
 	{
 		get
 		{
@@ -27,7 +27,7 @@ public class GameConfig
 		}
 	}
 	
-	public static GameVideoConfig VideoConfig
+	public GameVideoConfig VideoConfig
 	{
 		get
 		{
