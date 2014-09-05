@@ -9,7 +9,6 @@
 #endregion
 
 #region Using Directives
-using UnityEngine;
 using System;
 #endregion
 

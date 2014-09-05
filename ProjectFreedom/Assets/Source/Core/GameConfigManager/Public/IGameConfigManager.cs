@@ -1,5 +1,5 @@
 ﻿#region File Header
-// File Name:		GameSoundConfig.cs
+// File Name:		IGameConfigManager.cs
 // Author:			John Whitsell
 // Creation Date:	
 //
@@ -9,15 +9,18 @@
 #endregion
 
 #region Using Directives
-using UnityEngine;
 using System;
 #endregion
 
-public class GameSoundConfig
+public interface IGameConfigManager
 {
-	public Single effectVolume = 1f;
+	GameSoundConfig Sound
+	{
+		get;
+	}
 	
-	public Single musicVolume = 1f;
-	
-	public Single speechVolume = 1f;
+	GameVideoConfig Video
+	{
+		get;
+	}
 }

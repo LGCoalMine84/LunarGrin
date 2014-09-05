@@ -31,6 +31,7 @@ namespace LunarGrin.Core
 	{
 		Invalid = 0,
 		
+		GameConfigManager,
 		GameStateManager,
 	}
 	
@@ -51,6 +52,18 @@ namespace LunarGrin.Core
 		#endregion
 		
 		#region Properties
+		
+		/// <summary>
+		/// Gets the game config manager.
+		/// </summary>
+		/// <value>The game config manager.</value>
+		public static IGameConfigManager ConfigManager
+		{
+			get
+			{
+				return (IGameConfigManager)servicesManager.GetService( ServiceType.GameConfigManager );
+			}
+		}
 		
 		/// <summary>
 		/// Gets the game state manager.
@@ -176,6 +189,8 @@ namespace LunarGrin.Core
 		{
 			try
 			{
+				servicesManager.AddService( ServiceType.GameConfigManager, new GameConfigManager() );
+				
 				servicesManager.AddService( ServiceType.GameStateManager, new GameStateManager() );
 			}
 			catch( Exception )
