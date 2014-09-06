@@ -15,7 +15,7 @@ using System;
 namespace LunarGrin.Core
 {
 	/// <summary>
-	/// Interface to the game config manager.
+	/// Interface to the <see cref="LunarGrin.Core.MainMenuState"/>.
 	/// </summary>
 	public interface IGameConfigManager
 	{
