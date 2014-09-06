@@ -1,7 +1,7 @@
 ﻿#region File Header
 // File Name:		OptionsMenuState.cs
 // Author:			John Whitsell
-// Creation Date:	
+// Creation Date:	2014/09/06
 //
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
@@ -16,54 +16,67 @@ using System;
 using Object = UnityEngine.Object;
 #endregion
 
-public class OptionsMenuState : GameState
+namespace LunarGrin.Core
 {
-    private GameObject optionsMenu = null;
-    
-    public OptionsMenuState( String stateName ) : base( stateName )
-    {
-    }
-    
 	/// <summary>
-	/// Raised when the game state has been pushed to the top of the stack.
+	/// The Options menu state displays the options menu UI.
 	/// </summary>
-	public override void OnEnter()
+	public class OptionsMenuState : GameState
 	{
-		Object optionsMenuPrefab = Resources.Load( "Prefabs/UI/OptionsMenu/OptionsMenu" );
+		/// <summary>
+		/// The options menu UI game object.
+		/// </summary>
+	    private GameObject optionsMenu = null;
+	    
+	    /// <summary>
+	    /// Initializes a new instance of the <see cref="LunarGrin.Core.OptionsMenuState"/> class.
+	    /// </summary>
+	    /// <param name="stateName">State name.</param>
+	    public OptionsMenuState( String stateName ) : base( stateName )
+	    {
+	    }
+	    
+		/// <summary>
+		/// Raised when the game state has been pushed to the top of the stack.
+		/// </summary>
+		public override void OnEnter()
+		{
+			Object optionsMenuPrefab = Resources.Load( "Prefabs/UI/OptionsMenu/OptionsMenu" );
+			
+			if ( optionsMenuPrefab != null )
+			{
+				optionsMenu = (GameObject)GameObject.Instantiate( optionsMenuPrefab, Vector3.zero, Quaternion.identity );
+			}
+		}
 		
-		if ( optionsMenuPrefab != null )
+		/// <summary>
+		/// Raised when the game state has been enabled by the current game state being popped from the stack.
+		/// </summary>
+		public override void OnEnabled()
 		{
-			optionsMenu = (GameObject)GameObject.Instantiate( optionsMenuPrefab, Vector3.zero, Quaternion.identity );
+			if ( optionsMenu != null )
+			{
+				optionsMenu.SetActive( true );
+			}
 		}
-	}
-	
-	/// <summary>
-	/// Raised when the game state has been enabled by the current game state being popped from the stack.
-	/// </summary>
-	public override void OnEnabled()
-	{
-		if ( optionsMenu != null )
+		
+		/// <summary>
+		/// Raised when the game state has been disabled by a new game state being pushed to the stack.
+		/// </summary>
+		public override void OnDisabled()
 		{
-			optionsMenu.SetActive( true );
+			if ( optionsMenu != null )
+			{
+				optionsMenu.SetActive( false );
+			}
 		}
-	}
-	
-	/// <summary>
-	/// Raised when the game state has been disabled by a new game state being pushed to the stack.
-	/// </summary>
-	public override void OnDisabled()
-	{
-		if ( optionsMenu != null )
+		
+		/// <summary>
+		/// Raised when the game state has been popped from the top of the stack.
+		/// </summary>
+		public override void OnExit()
 		{
-			optionsMenu.SetActive( false );
+			GameObject.Destroy( optionsMenu );
 		}
-	}
-	
-	/// <summary>
-	/// Raised when the game state has been popped from the top of the stack.
-	/// </summary>
-	public override void OnExit()
-	{
-		GameObject.Destroy( optionsMenu );
 	}
 }

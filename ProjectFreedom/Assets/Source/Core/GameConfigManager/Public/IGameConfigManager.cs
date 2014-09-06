@@ -1,7 +1,7 @@
 ﻿#region File Header
 // File Name:		IGameConfigManager.cs
 // Author:			John Whitsell
-// Creation Date:	
+// Creation Date:	2014/09/06
 //
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
@@ -12,15 +12,29 @@
 using System;
 #endregion
 
-public interface IGameConfigManager
+namespace LunarGrin.Core
 {
-	GameSoundConfig Sound
+	/// <summary>
+	/// Interface to the game config manager.
+	/// </summary>
+	public interface IGameConfigManager
 	{
-		get;
-	}
-	
-	GameVideoConfig Video
-	{
-		get;
+		/// <summary>
+		/// Gets the sound config.
+		/// </summary>
+		/// <value>The sound config.</value>
+		GameSoundConfig Sound
+		{
+			get;
+		}
+		
+		/// <summary>
+		/// Gets the video config.
+		/// </summary>
+		/// <value>The video config.</value>
+		GameVideoConfig Video
+		{
+			get;
+		}
 	}
 }

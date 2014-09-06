@@ -1,7 +1,7 @@
 ﻿#region File Header
 // File Name:		GameVideoConfig.cs
 // Author:			John Whitsell
-// Creation Date:	
+// Creation Date:	2014/09/06
 //
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
@@ -12,7 +12,10 @@
 using System;
 #endregion
 
-public class GameVideoConfig
+namespace LunarGrin.Core
 {
-	
+	public class GameVideoConfig
+	{
+		//	TODO:	Video config...
+	}
 }

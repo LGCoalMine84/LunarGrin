@@ -1,7 +1,7 @@
 ﻿#region File Header
 // File Name:		GameConfigManager.cs
 // Author:			John Whitsell
-// Creation Date:	
+// Creation Date:	2014/09/06
 //
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
@@ -10,49 +10,68 @@
 
 #region Using Directives
 using System;
-using LunarGrin.Core;
 #endregion
 
-public class GameConfigManager : IGameConfigManager, IGameService
+namespace LunarGrin.Core
 {
-	#region Constants
-	
 	/// <summary>
-	/// The type of game service.
+	/// The Game config manager is the central access point for the game's core configuration.
 	/// </summary>
-	private const ServiceType TypeOfGameService = ServiceType.GameConfigManager;
-	
-	#endregion
-	
-	private GameSoundConfig sound = new GameSoundConfig();
-	
-	private GameVideoConfig video = new GameVideoConfig();
-	
-	public GameSoundConfig Sound
+	public class GameConfigManager : IGameConfigManager, IGameService
 	{
-		get
+		#region Constants
+		
+		/// <summary>
+		/// The type of game service.
+		/// </summary>
+		private const ServiceType TypeOfGameService = ServiceType.GameConfigManager;
+		
+		#endregion
+		
+		/// <summary>
+		/// The game's sound configuration.
+		/// </summary>
+		private GameSoundConfig sound = new GameSoundConfig();
+		
+		/// <summary>
+		/// The game's video configuration.
+		/// </summary>
+		private GameVideoConfig video = new GameVideoConfig();
+		
+		/// <summary>
+		/// Gets the game's sound configuration.
+		/// </summary>
+		/// <value>The sound configuration.</value>
+		public GameSoundConfig Sound
 		{
-			return sound;
+			get
+			{
+				return sound;
+			}
 		}
-	}
-	
-	public GameVideoConfig Video
-	{
-		get
+		
+		/// <summary>
+		/// Gets the game's video configuration.
+		/// </summary>
+		/// <value>The video configuration.</value>
+		public GameVideoConfig Video
 		{
-			return video;
+			get
+			{
+				return video;
+			}
 		}
-	}
-	
-	/// <summary>
-	/// Gets the type of the game service.
-	/// </summary>
-	/// <value>The type of the game service.</value>
-	public ServiceType GameServiceType
-	{
-		get
+		
+		/// <summary>
+		/// Gets the type of the game service.
+		/// </summary>
+		/// <value>The type of the game service.</value>
+		public ServiceType GameServiceType
 		{
-			return TypeOfGameService;
+			get
+			{
+				return TypeOfGameService;
+			}
 		}
 	}
 }
