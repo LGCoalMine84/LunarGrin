@@ -12,6 +12,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using LunarGrin.Core;
 #endregion
 
 public class SoundOptionsController : MonoBehaviour
@@ -24,15 +25,89 @@ public class SoundOptionsController : MonoBehaviour
 	public AdvancedSliderController speechController = null;
 	#endregion
 	
+	#region Unity Functions
+
+	void OnDisable()
+	{
+		RemoveListeners();
+	}
+	
+	void OnEnable()
+	{
+		InitializeUI();
+	}
+	
+	#endregion
+	
+	#region Event Handlers
+	
+	private void OnEffectVolumeChange( Single value )
+	{
+		GameServices.ConfigManager.Sound.SetEffectVolume( value );
+	}
+	
+	private void OnMusicVolumeChange( Single value )
+	{
+		GameServices.ConfigManager.Sound.SetMusicVolume( value );
+	}
+	
+	private void OnSpeechVolumeChange( Single value )
+	{
+		GameServices.ConfigManager.Sound.SetSpeechVolume( value );
+	}
+	
+	#endregion
+	
 	public void OnSaveClick()
 	{
-		//	TODO:	Commit data to the GameConfig
+		GameServices.ConfigManager.Sound.Save();
+		
 		gameObject.SetActive( false );
 	}
 	
 	public void OnCancelClick()
 	{
-		//	TODO:	Revert game settings back to GameConfig
+		GameServices.ConfigManager.Sound.Revert();
+		
 		gameObject.SetActive( false );
+	}
+	
+	private void InitializeUI()
+	{
+		if ( effectsController != null )
+		{
+			effectsController.Value = GameServices.ConfigManager.Sound.EffectVolume;
+			effectsController.OnValueChange += OnEffectVolumeChange;
+		}
+		
+		if ( musicController != null )
+		{
+			musicController.Value = GameServices.ConfigManager.Sound.MusicVolume;
+			musicController.OnValueChange += OnMusicVolumeChange;
+		}
+		
+		if ( speechController != null )
+		{
+			speechController.Value = GameServices.ConfigManager.Sound.SpeechVolume;
+			musicController.OnValueChange += OnSpeechVolumeChange;
+		}
+	}
+	
+	private void RemoveListeners()
+	{
+		if ( effectsController != null )
+		{
+			effectsController.OnValueChange -= OnEffectVolumeChange;
+		}
+		
+		if ( musicController != null )
+		{
+			musicController.OnValueChange -= OnMusicVolumeChange;
+		}
+		
+		if ( speechController != null )
+		{
+			speechController.OnValueChange -= OnSpeechVolumeChange;
+		}
 	}
 }

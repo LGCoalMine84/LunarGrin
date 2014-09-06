@@ -18,6 +18,30 @@ public class GameSoundConfig
 	
 	private SoundSettings savedSettings = new SoundSettings();
 	
+	public Single EffectVolume
+	{
+		get
+		{
+			return activeSettings.effectVolume;
+		}
+	}
+	
+	public Single MusicVolume
+	{
+		get
+		{
+			return activeSettings.musicVolume;
+		}
+	}
+	
+	public Single SpeechVolume
+	{
+		get
+		{
+			return activeSettings.speechVolume;
+		}
+	}
+	
 	public void SetEffectVolume( Single value )
 	{
 		if ( activeSettings.effectVolume != value )
@@ -71,5 +95,12 @@ public class GameSoundConfig
 		{
 			SetSpeechVolume( savedSettings.speechVolume );
 		}
+	}
+	
+	public void Save()
+	{
+		savedSettings.effectVolume = activeSettings.effectVolume;
+		savedSettings.musicVolume = activeSettings.musicVolume;
+		savedSettings.speechVolume = activeSettings.speechVolume;
 	}
 }

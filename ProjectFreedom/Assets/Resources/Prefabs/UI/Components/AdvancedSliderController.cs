@@ -38,6 +38,12 @@ public class AdvancedSliderController : MonoBehaviour
 	private Boolean valueChanged = false;
 	#endregion
 	
+	#region Events
+	public delegate void SingleDelegate( Single value );
+	
+	public SingleDelegate OnValueChange;
+	#endregion
+	
 	private String nameText = "";
 	
 	private Single value = 1f;
@@ -73,6 +79,13 @@ public class AdvancedSliderController : MonoBehaviour
 			{
 				this.value = value;
 				valueChanged = true;
+				
+				CommitProperties();
+				
+				if ( OnValueChange != null )
+				{
+					OnValueChange( this.value );
+				}
 			}
 		}
 	}
