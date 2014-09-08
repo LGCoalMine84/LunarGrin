@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Test/ant/macros/doxygen.xml&apos; to &apos;global.xml&apos;" description="Rename resource &apos;doxygen.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="ant/macros/doxygen.xml" name="global.xml" stamp="1410115568675" updateReferences="true"/>
+</session>

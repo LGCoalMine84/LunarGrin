@@ -1,0 +1,144 @@
+<project name="Global" xmlns:unless="ant:unless">
+	
+	<scriptdef name="global.concatenate" language="javascript" >
+		<attribute name="pa" />
+		<attribute name="pb" />
+		<attribute name="property" />
+	    <![CDATA[
+			var combined = attributes.get( "pa" ) + attributes.get( "pb" );
+			project.setProperty( attributes.get( "property" ), combined );
+	    ]]>
+	</scriptdef>
+	
+	<!-- This allows ant to generate a uuid and store it to a property.
+		 
+		 <generateguid property="uuid" />
+	-->
+	<scriptdef name="global.generateguid" language="javascript" >
+	    <attribute name="property" />
+	    <![CDATA[
+	    	project.setProperty( attributes.get( "property" ), java.util.UUID.randomUUID() );
+	    ]]>
+	</scriptdef>
+	
+	<macrodef name="global.removeSystemEnvironmentVariable" description="Removes a system environment variable">
+		<attribute name="name"/>
+		<sequential>
+		
+			<echo>Removing system environment variable @{name}</echo>
+		
+		  	<exec executable="reg">
+		  	  <arg value="delete"/>
+		  	  <arg value="&quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot;"/>
+		  	  <arg value="/v"/>
+		  	  <arg value="@{name}"/>
+		  	  <arg value="/f"/>
+		  	</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="global.removeUserEnvironmentVariable" description="Removes a user environment variable">
+		<attribute name="name"/>
+		<sequential>
+		
+			<echo>Removing user environment variable @{name}</echo>
+		
+		  	<exec executable="reg">
+		  	  <arg value="delete"/>
+		  	  <arg value="&quot;HKEY_CURRENT_USER\Environment&quot;"/>
+		  	  <arg value="/v"/>
+		  	  <arg value="@{name}"/>
+		  	  <arg value="/f"/>
+		  	</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<!-- IMPORTANT: outputProperty can NOT be the same as inputProperty,
+		 this creates a new property using the value of outputProperty -->
+	<macrodef name="global.replaceInProperty" description="Performs a find and replace on inputProperty and creates a new property named outputProperty that stores the result">
+		<attribute name="inputProperty"/>
+		<attribute name="find"/>
+		<attribute name="replaceWith"/>
+		<attribute name="outputProperty"/>
+		<sequential>
+		
+			<loadresource property="@{outputProperty}">
+				<propertyresource name="@{inputProperty}"/>
+				<filterchain>
+					<striplinebreaks/>
+					<tokenfilter>
+						<filetokenizer/>
+						<replacestring from="@{find}" to="@{replaceWith}"/>
+					</tokenfilter>
+				</filterchain>
+			</loadresource>
+		
+		</sequential>
+	</macrodef>	
+	
+	<macrodef name="global.setSystemEnvironmentVariable" description="Sets a system environment variable">
+		<attribute name="name"/>
+		<attribute name="value"/>
+		<sequential>
+		
+			<echo>Setting system environment variable @{name} = @{value}</echo>
+		
+		  	<exec executable="setx">
+		  	  <arg value="@{name}"/>
+		  	  <arg value="@{value}"/>
+		  	  <arg value="/M"/>
+		  	</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="global.setUserEnvironmentVariable" description="Sets a user environment variable">
+		<attribute name="name"/>
+		<attribute name="value"/>
+		<sequential>
+		
+			<echo>Setting user environment variable @{name} = @{value}</echo>
+		
+		  	<exec executable="setx">
+		  	  <arg value="@{name}"/>
+		  	  <arg value="@{value}"/>
+		  	</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="global.updatePathEnvironmentVariable" description="Concatenates the specified value to the path envrionment variable if it does not already exist">
+		<attribute name="value"/>
+		<sequential>
+		
+			<echo>Appending @{value} to the path environment variable</echo>
+		
+			<!-- read the current path, we don't use env.path because it expands path abbreviations like %JAVA_HOME% -->
+			<exec executable="REG" outputproperty="regout">
+				<arg value="QUERY"/>
+				<arg value="&quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot;"/>
+				<arg value="/v"/>
+				<arg value="PATH"/>
+			</exec>
+			
+			<!-- we need to correct the output given by the windows reg command to just get the path value -->
+			<global.replaceInProperty inputProperty="regout" find="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" replaceWith="" outputProperty="outone"/>
+			<global.replaceInProperty inputProperty="outone" find="    PATH    REG_EXPAND_SZ    " replaceWith="" outputProperty="PATH"/>
+			
+			<condition property="pathContainsEntry">
+			    <contains string="${PATH}" substring="@{value}"/>
+			</condition>
+			
+			<sequential unless:set="pathContainsEntry">
+				<property name="finalPath" value=""/>
+				<global.concatenate property="finalPath" pa="${PATH}" pb=";@{value}"/>
+				<global.setSystemEnvironmentVariable name="Path" value="${finalPath}"/>
+			</sequential>
+		
+		</sequential>
+	</macrodef>
+	
+	
+</project>

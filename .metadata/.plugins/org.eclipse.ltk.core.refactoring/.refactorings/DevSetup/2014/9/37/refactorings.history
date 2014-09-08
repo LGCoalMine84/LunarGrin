@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;DevEnvironment/global.xml&apos; to &apos;macros.xml&apos;" description="Rename resource &apos;global.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="global.xml" name="macros.xml" stamp="1410117288237" updateReferences="true"/>
+</session>

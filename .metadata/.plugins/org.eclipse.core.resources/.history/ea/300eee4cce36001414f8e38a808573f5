@@ -1,0 +1,99 @@
+<project name="Global" >
+	
+	<!-- This allows ant to generate a uuid and store it to a property.
+		 
+		 <generateguid property="uuid" />
+	-->
+	<scriptdef name="global.generateguid" language="javascript" >
+	    <attribute name="property" />
+	    <![CDATA[
+	    	project.setProperty( attributes.get( "property" ), java.util.UUID.randomUUID() );
+	    ]]>
+	</scriptdef>
+	
+	<macrodef name="global.removeSystemEnvironmentVariable" description="Removes a system environment variable">
+		<attribute name="name"/>
+		<sequential>
+		
+			<echo>Removing system environment variable @{name}</echo>
+		
+		  	<exec executable="reg">
+		  	  <arg value="delete"/>
+		  	  <arg value="&quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot;"/>
+		  	  <arg value="/v"/>
+		  	  <arg value="@{name}"/>
+		  	  <arg value="/f"/>
+		  	</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="global.removeUserEnvironmentVariable" description="Removes a user environment variable">
+		<attribute name="name"/>
+		<sequential>
+		
+			<echo>Removing user environment variable @{name}</echo>
+		
+		  	<exec executable="reg">
+		  	  <arg value="delete"/>
+		  	  <arg value="&quot;HKEY_CURRENT_USER\Environment&quot;"/>
+		  	  <arg value="/v"/>
+		  	  <arg value="@{name}"/>
+		  	  <arg value="/f"/>
+		  	</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="global.setSystemEnvironmentVariable" description="Sets a system environment variable">
+		<attribute name="name"/>
+		<attribute name="value"/>
+		<sequential>
+		
+			<echo>Setting system environment variable @{name} = @{value}</echo>
+		
+		  	<exec executable="setx">
+		  	  <arg value="@{name}"/>
+		  	  <arg value="@{value}"/>
+		  	  <arg value="/M"/>
+		  	</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="global.setUserEnvironmentVariable" description="Sets a user environment variable">
+		<attribute name="name"/>
+		<attribute name="value"/>
+		<sequential>
+		
+			<echo>Setting user environment variable @{name} = @{value}</echo>
+		
+		  	<exec executable="setx">
+		  	  <arg value="@{name}"/>
+		  	  <arg value="@{value}"/>
+		  	</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="global.replaceInProperty" description="Sets a user environment variable">
+		<attribute name="input"/>
+		<attribute name="find"/>
+		<attribute name="replaceWith"/>
+		<attribute name="output"/>
+		<sequential>
+		
+			<loadresource property="@{output}">
+				<propertyresource name="@{input}"/>
+				<filterchain>
+				<tokenfilter>
+					<filetokenizer/>
+					<replacestring from="@{find}" to="@{replaceWith}"/>
+				</tokenfilter>
+				</filterchain>
+			</loadresource>
+		
+		</sequential>
+	</macrodef>	
+	
+</project>
