@@ -1,0 +1,4 @@
+#environment setup
+googleDriveBase.dir=C:\Google Drive\Lunar Grin\Games\Project Freedom\
+
+ant.install.dir=C:/Program Files (x86)/Apache Ant 1.9.2

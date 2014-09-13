@@ -12,8 +12,8 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="C:\Google Drive\Lunar Grin\Games\Project Freedom"/>
 			<item value="E:\UnityProjects\LunarGrin"/>
+			<item value="C:\Google Drive\Lunar Grin\Games\Project Freedom"/>
 			<item value="C:\Google Drive\Lunar Grin\Games\Delta Squad"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
@@ -23,7 +23,7 @@
 	<section name="ResourceNavigator">
 		<item value="Aggregate for window 1409518339614" key="ResourceWorkingSetFilter.STORE_WORKING_SET"/>
 		<item value="1" key="ResourceViewer.STORE_SORT_TYPE"/>
-		<item value="true" key="LINK_NAVIGATOR_TO_EDITOR"/>
+		<item value="false" key="LINK_NAVIGATOR_TO_EDITOR"/>
 	</section>
 	<section name="NewWizardAction">
 		<item value="org.eclipse.jdt.ui.wizards.JavaProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>

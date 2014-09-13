@@ -109,7 +109,7 @@
 		</sequential>
 	</macrodef>
 	
-	<macrodef name="global.updatePathEnvironmentVariable" description="Concatenates the specified value to the path envrionment variable if it does not already exist">
+	<macrodef name="global.updateSystemPathEnvironmentVariable" description="Concatenates the specified value to the path envrionment variable if it does not already exist">
 		<attribute name="value"/>
 		<sequential>
 		
@@ -139,6 +139,5 @@
 		
 		</sequential>
 	</macrodef>
-	
 	
 </project>

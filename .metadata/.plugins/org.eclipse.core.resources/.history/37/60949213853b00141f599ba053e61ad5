@@ -1,0 +1,16 @@
+#-----------------
+#Environment Setup
+#-----------------
+
+#Onetime Environment Setup - This determines how some environment variables will be set
+#IMPORTANT: You MUST use two backslahes ( \\ ) for each slash you want to specify in your path on the right side of = sign
+
+#influences GOOGLE_DRIVE_HOME environment variable when setEnvironmentVariables is executed
+googleDriveBase.dir=C:\\Google Drive
+
+#------------------
+#Installation Setup
+#------------------
+
+#Determines the installation location of Apache Ant
+ant.install.dir=C:/Program Files (x86)/Apache Ant 1.9.2

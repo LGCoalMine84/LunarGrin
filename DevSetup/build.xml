@@ -7,6 +7,7 @@
 	<import file="${antMacrosBase.dir}/global.xml"/>
 	<import file="${doxygenBase.dir}/doxygen.xml"/>
 	
+	<!-- add the ability to read environment variables from the local system -->
 	<property environment="env"/>
 	
 	<!-- import project specific properties/macros -->
@@ -31,21 +32,24 @@
 	
 	-->
 	
-	<target name="install" depends="installApacheAnt" description="Installs all applications for the development environment"/>
+	<target name="install" description="Installs all applications for the development environment">
+		
+		<devEnvironment.setEnvironmentVariables/>
+		<devEnvronment.install.ant />
+		
+	</target>
 	
 	<target name="installApacheAnt" description="Installs Apache Ant">
 		
-		<devEnvronment.install.ant archive="${basedir}/install/java/apache-ant-1.9.2-bin.zip" install.dir="${ant.install.dir}" />
+		<devEnvronment.install.ant />
 		
 	</target>
-	
-	<!--
-	<target name="installDoxygen" descirption="Installs Doxygen">
+
+	<target name="setEnvironmentVariables" description="One time setup of development environment variables as specified in build.properties">
 		
-		<devEnvironment.install.doxygen archive="${basedir}/install/doxygen/doxygen-1.8.8-setup.exe" />
+		<devEnvironment.setEnvironmentVariables/>
 		
 	</target>
-	-->
 	
 	<target name="use" description="Usage information on using the build scripts">
 	
