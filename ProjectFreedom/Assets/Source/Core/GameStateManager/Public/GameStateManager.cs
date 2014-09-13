@@ -67,6 +67,8 @@ namespace LunarGrin.Core
 		
 		#region Properties
 		
+		#region IGameService
+		
 		/// <summary>
 		/// Gets the type of the game service.
 		/// </summary>
@@ -78,6 +80,8 @@ namespace LunarGrin.Core
 				return TypeOfGameService;
 			}
 		}
+		
+		#endregion
 		
 		#endregion
 
@@ -306,7 +310,7 @@ namespace LunarGrin.Core
 		{
 			if( currentState == null )
 			{
-				//throw new ArgumentNullException( "Unable to get the current game state because the game state is invalid." );
+				throw new ArgumentNullException( "Unable to get the current game state because the game state is invalid." );
 			}
 			
 			return currentState;
