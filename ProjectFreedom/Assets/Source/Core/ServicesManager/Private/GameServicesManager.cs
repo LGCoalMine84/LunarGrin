@@ -68,7 +68,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Removes a game service from the application.
 		/// </summary>
-		/// <param name="serviceType">The game service type to remove.</param>
+		/// <param name="serviceType">The game service type of the game service to unregister.</param>
 		/// <exception cref="InvalidOperationException">Unable to remove the game service.</exception>
 		public void RemoveService( ServiceType type )
 		{
@@ -83,15 +83,15 @@ namespace LunarGrin.Core
 		}
 		
 		/// <summary>
-		/// Removes a game service by type from the application.
+		/// Removes a game service from the application.
 		/// </summary>
 		/// <param name="service">The game service to remove.</param>
 		/// <exception cref="InvalidOperationException">Unable to remove a game service.</exception>
-		public void RemoveServiceByType( IGameService service )
+		public void RemoveService( IGameService service )
 		{
 			try
 			{
-				RemoveGameServiceByType( service );
+				RemoveGameService( service );
 			}
 			catch( Exception ex )
 			{
@@ -168,7 +168,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Removes a game service from the application.
 		/// </summary>
-		/// <param name="serviceType">The game service type to remove.</param>
+		/// <param name="serviceType">The game service type of the game service to unregister.</param>
 		/// <exception cref="ArgumentNullException">Unable to remove the game service because the service type is invalid.</exception>
 		/// <exception cref="InvalidOperationException">Unable to remove the game service because the service type was not found within the service container.</exception>
 		private void RemoveGameService( ServiceType serviceType )
@@ -185,13 +185,13 @@ namespace LunarGrin.Core
 		}
 		
 		/// <summary>
-		/// Removes a game servie by type from the application.
+		/// Removes a game service from the application.
 		/// </summary>
 		/// <param name="service">The game service to remove.</param>
 		/// <exception cref="ArgumentNullException">Unable to remove the game service because the service is invalid.</exception>
 		/// <exception cref="ArgumentException">Unable to remove the game service because the service type within the service is invalid.</exception>
 		/// <exception cref="InvalidOperationException">Unable to remove the game service because the service type was not found within the service container.</exception>
-		private void RemoveGameServiceByType( IGameService service )
+		private void RemoveGameService( IGameService service )
 		{
 			if( service == null )
 			{

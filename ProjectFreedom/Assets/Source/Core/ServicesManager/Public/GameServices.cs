@@ -115,7 +115,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Unregisters a game service from the application.
 		/// </summary>
-		/// <param name="serviceType">The game service type to unregister.</param>
+		/// <param name="serviceType">The game service type of the game service to unregister.</param>
 		private static void UnregisterGameService( ServiceType serviceType )
 		{
 			try
@@ -129,14 +129,14 @@ namespace LunarGrin.Core
 		}
 		
 		/// <summary>
-		/// Unregisters a game service by type from the application.
+		/// Unregisters a game service from the application.
 		/// </summary>
 		/// <param name="service">The game service to unregister.</param>
-		private static void UnregisterGameServiceByType( IGameService service )
+		private static void UnregisterGameService( IGameService service )
 		{
 			try
 			{
-				servicesManager.RemoveServiceByType( service );
+				servicesManager.RemoveService( service );
 			}
 			catch( Exception )
 			{
