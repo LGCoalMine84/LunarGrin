@@ -22,4 +22,10 @@
 		
 	</target>
 	
+	<target name="install" description="Installs files specific to this project to the local machine">
+		
+		<projectFreedom.createBatchesShorcutOnDesktop/>
+		
+	</target>
+	
 </project>

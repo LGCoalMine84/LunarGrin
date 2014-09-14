@@ -15,6 +15,7 @@
 		<devEnvironment.setEnvironmentVariables/>
 		<devEnvronment.install.ant />
 		<devEnvronment.install.doxygen />
+		<devEnvronment.install.hxDen/>
 		
 	</target>
 	
@@ -27,6 +28,12 @@
 	<target name="installDoxygen" description="Installs Doxygen">
 		
 		<devEnvronment.install.doxygen />
+		
+	</target>
+
+	<target name="installHxDen" description="Installs HxDen, a hex editor">
+		
+		<devEnvronment.install.hxDen/>
 		
 	</target>
 	

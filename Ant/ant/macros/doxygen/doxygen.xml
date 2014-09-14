@@ -4,6 +4,7 @@
 	     There will be a scratchpad temporary directory (output.dir/{random-uuid}) that
 	     is created and deleted each time this macro is executed -->
 	<macrodef name="doxygen.generateCSharpDocumentation" description="Generates C# documentation from source">
+		<attribute name="apiTitle"/>
 		<attribute name="doxygenBase.dir"/>
 	    <attribute name="output.dir"/>
 	   	<attribute name="source.dir"/>
@@ -23,7 +24,8 @@
 		
 		<copy file="@{doxygenBase.dir}/c#template.doxy" tofile="${temp.doxy}"/>
 		
-		<replace file="${temp.doxy}" token="@INPUT@" value="@{source.dir}"/>
+	   	<replace file="${temp.doxy}" token="@APITITLE@" value="@{apiTitle}"/>
+	   	<replace file="${temp.doxy}" token="@INPUT@" value="@{source.dir}"/>
 		
 		<mkdir dir="${temp.dir}"/>
 	   	<replace file="${temp.doxy}" token="@OUTPUT_DIRECTORY@" value="${temp.dir}"/>

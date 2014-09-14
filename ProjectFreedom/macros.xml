@@ -6,9 +6,27 @@
 	<macrodef name="projectFreedom.generateDocumentation" description="Generates C# documentation">
 		<sequential>
 		  	
-			<doxygen.generateCSharpDocumentation doxygenBase.dir="${doxygenBase.dir}" output.dir="${projectFreedom.build.dir}"
+			<doxygen.generateCSharpDocumentation apiTitle="Project Freedom API" doxygenBase.dir="${doxygenBase.dir}"
+												 output.dir="${projectFreedom.build.dir}"
 												 source.dir="${basedir}/Assets/Source" />
 			<global.showWebPage url="${projectFreedom.build.dir}/namespaces.html"/>
+			
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="projectFreedom.createBatchesShorcutOnDesktop" description="Generates C# documentation">
+		<sequential>
+		  	
+			<property name="USERPROFILE" value="${env.USERPROFILE}"/>
+			<property name="batchesDesktopShortcut.link" value="${USERPROFILE}/Desktop/Project Freedom Batches"/>
+			
+			<echo>Generating batch shortcut to ${desktopShortcut.link}</echo>
+			
+		  	<!-- since we are setting an environment variable on windows, replace the / with \ -->
+		  	<property name="incorrectBatch.dir" value="${basedir}/Batch"/>
+			<global.replaceInProperty inputProperty="incorrectBatch.dir" outputProperty="correctedBatch.dir" find="/" replaceWith="\"/>
+			
+			<global.makeShortcut shortcutpath="${batchesDesktopShortcut.link}" targetpath="${correctedBatch.dir}"/>
 			
 		</sequential>
 	</macrodef>

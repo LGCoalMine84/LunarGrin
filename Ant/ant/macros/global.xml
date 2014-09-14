@@ -4,11 +4,11 @@
 	<property environment="env"/>
 	
 	<scriptdef name="global.concatenate" language="javascript" >
-		<attribute name="pa" />
-		<attribute name="pb" />
+		<attribute name="first" />
+		<attribute name="second" />
 		<attribute name="property" />
 	    <![CDATA[
-			var combined = attributes.get( "pa" ) + attributes.get( "pb" );
+			var combined = attributes.get( "first" ) + attributes.get( "second" );
 			project.setProperty( attributes.get( "property" ), combined );
 	    ]]>
 	</scriptdef>
@@ -136,7 +136,7 @@
 			
 			<sequential unless:set="pathContainsEntry">
 				<property name="finalPath" value=""/>
-				<global.concatenate property="finalPath" pa="${PATH}" pb=";@{value}"/>
+				<global.concatenate property="finalPath" first="${PATH}" second=";@{value}"/>
 				<global.setSystemEnvironmentVariable name="Path" value="${finalPath}"/>
 			</sequential>
 		
@@ -169,6 +169,26 @@
 				<arg value="@{url}"/>
 			</exec>
 		
+		</sequential>
+	</macrodef>
+	
+	<!--
+		shortcut - where to create the .lnk file
+		target - the directory or executable that is being linked
+	-->
+	<macrodef name="global.makeShortcut" description="Creates a shortcut on the Windows operating system">
+		<attribute name="shortcutPath"/>
+		<attribute name="targetPath"/>
+		<sequential>
+			
+			<echo>Createing shortcut targeting @{targetPath} at @{shortcutPath}.lnk</echo>
+			
+			<exec executable="cscript">
+				<arg value="${antMacrosBase.dir}/mkshortcut.vbs"/>
+				<arg value="/target:@{targetPath}"/>
+				<arg value="/shortcut:@{shortcutPath}"/>
+			</exec>
+			
 		</sequential>
 	</macrodef>
 	
