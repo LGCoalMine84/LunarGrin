@@ -18,7 +18,7 @@
 		<sequential>
 		  	
 			<property name="USERPROFILE" value="${env.USERPROFILE}"/>
-			<property name="desktopShortcut.link" value="${USERPROFILE}/Desktop/Project Freedom Batches"/>
+			<property name="batchesDesktopShortcut.link" value="${USERPROFILE}/Desktop/Project Freedom Batches"/>
 			
 			<echo>Generating batch shortcut to ${desktopShortcut.link}</echo>
 			
@@ -26,7 +26,7 @@
 		  	<property name="incorrectBatch.dir" value="${basedir}/Batch"/>
 			<global.replaceInProperty inputProperty="incorrectBatch.dir" outputProperty="correctedBatch.dir" find="/" replaceWith="\"/>
 			
-			<global.makeShortcut shortcutpath="${desktopShortcut.link}" targetpath="${correctedBatch.dir}"/>
+			<global.makeShortcut shortcutpath="${batchesDesktopShortcut.link}" targetpath="${correctedBatch.dir}"/>
 			
 		</sequential>
 	</macrodef>

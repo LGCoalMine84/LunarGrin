@@ -34,7 +34,7 @@
 			<global.replaceInProperty inputProperty="incorrectInstall.dir" outputProperty="correctedInstall.dir" find="/" replaceWith="\"/>
 			
 		  	<echo>Installation directory: ${correctedInstall.dir}</echo>
-		  	<unzip src="@{archive}" dest="@{install.dir}"/>
+		  	<unzip src="@{archive}" dest="${correctedInstall.dir}"/>
 						
 		  	<global.setSystemEnvironmentVariable name="ANT_HOME" value="${correctedInstall.dir}"/>
 			
@@ -72,12 +72,12 @@
 		  	
 		  	<echo>Installing @{name}</echo>
 
-		  	<!-- since we are setting an environment variable on windows, replace the / with \ -->
+		  	<!-- replace the / with \ -->
 		  	<property name="incorrectDoxygenInstall.dir" value="@{install.dir}"/>
 			<global.replaceInProperty inputProperty="incorrectDoxygenInstall.dir" outputProperty="correctedDoxygenInstall.dir" find="/" replaceWith="\"/>
 			
 		  	<echo>Installation directory: ${correctedDoxygenInstall.dir}</echo>
-		  	<unzip src="@{archive}" dest="@{correctedDoxygenInstall.dir}"/>
+		  	<unzip src="@{archive}" dest="${correctedDoxygenInstall.dir}"/>
 						
 		  	<global.setSystemEnvironmentVariable name="DOXYGEN_HOME" value="${correctedDoxygenInstall.dir}"/>
 			
@@ -89,6 +89,49 @@
 			<echo>IMPORTAT: Remember to restart applications for new evironment variable settings to take affect!</echo>
 			<echo>-----------------------------------------------------------------------------------------------</echo>
 			<echo>If you see "Unable to expand to file" or "ERROR: Access to the registry path is denied." listed above, you need to run this script as Administrator!</echo>
+			
+		</sequential>
+	</macrodef>
+	
+	<!--
+		Macro for installing HxDen, a hex editor.
+	-->
+	<macrodef name="devEnvronment.install.hxDen" description="Installs HxDen, a hex editor">
+		<sequential>
+		  	
+			<property name="GOOGLE_DRIVE_HOME" value="${env.GOOGLE_DRIVE_HOME}" />
+			<property name="install.dir" value="${GOOGLE_DRIVE_HOME}/Lunar Grin/Games/Project Freedom/DevSetup/install" />
+			
+		  	<devEnvronment.install.hxDen.logic archive="${install.dir}/HxDen.zip"
+											   install.dir="${hxDen.install.dir}" name="HxDen (Hex Editor)"/>
+			
+		</sequential>
+	</macrodef>
+	
+	<!--
+		Parameterized macro for installing HxDen.
+		
+		archive - The installation archive for HxDen.
+	-->
+	<macrodef name="devEnvronment.install.hxDen.logic" description="Installs HxDen, a hex editor">
+		<attribute name="archive"/>
+		<attribute name="install.dir"/>
+		<attribute name="name"/>
+		<sequential>
+		  	
+		  	<echo>Installing @{name}</echo>
+
+		  	<!-- since we are setting an environment variable on windows, replace the / with \ -->
+		  	<property name="incorrectHxDenInstall.dir" value="@{install.dir}"/>
+			<global.replaceInProperty inputProperty="incorrectHxDenInstall.dir" outputProperty="correctedHxDenInstall.dir" find="/" replaceWith="\"/>
+			
+		  	<echo>Installation directory: ${correctedHxDenInstall.dir}</echo>
+		  	<unzip src="@{archive}" dest="${correctedHxDenInstall.dir}"/>
+			
+			<property name="USERPROFILE" value="${env.USERPROFILE}"/>
+			<property name="hxDenDesktopShortcut.link" value="${USERPROFILE}/Desktop/HxDen Hex Editor"/>
+			
+			<global.makeShortcut shortcutPath="${hxDenDesktopShortcut.link}" targetPath="${correctedHxDenInstall.dir}/HxD.exe"/>
 			
 		</sequential>
 	</macrodef>
