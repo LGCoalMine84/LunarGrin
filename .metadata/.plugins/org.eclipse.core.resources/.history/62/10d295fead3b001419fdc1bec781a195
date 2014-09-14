@@ -53,7 +53,7 @@
 			<property name="GOOGLE_DRIVE_HOME" value="${env.GOOGLE_DRIVE_HOME}" />
 			<property name="install.dir" value="${GOOGLE_DRIVE_HOME}/Lunar Grin/Games/Project Freedom/DevSetup/install" />
 			
-		  	<devEnvronment.install.doxygen.logic archive="${install.dir}/Doxygen/doxygen-1.8.8.windows.x64.bin.zip"
+		  	<devEnvronment.install.doxygen.logic archive="${install.dir}/Doygen/doxygen-1.8.8.windows.x64.bin.zip"
 												 install.dir="${doxygen.install.dir}" name="Doxygen 1.8.8"/>
 			
 		</sequential>
