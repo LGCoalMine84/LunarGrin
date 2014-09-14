@@ -1,0 +1,16 @@
+#-----------------
+#Environment Setup
+#-----------------
+
+#Onetime Environment Setup - This determines how some environment variables will be set
+#This property influences GOOGLE_DRIVE_HOME environment variable when setEnvironmentVariables is executed
+googleDriveBase.dir=C:/Google Drive
+
+#------------------
+#Installation Setup
+#------------------
+
+#Determines the installation location of Apache Ant
+#This property influences how ANT_HOME is set when ant is installed
+ant.install.dir=C:/Program Files (x86)/Apache Ant 1.9.2
+doxygen.install.dir=C:/Program Files (x86)/Doxygen 

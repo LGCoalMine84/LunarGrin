@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="installDoxygen" key="selection"/>
+		<item value="doxygenBase.dir" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="doxygenBase.dir"/>
+			<item value="output.dir"/>
+			<item value="generateCSharpDocumentation"/>
 			<item value="installDoxygen"/>
 			<item value="value"/>
 			<item value="%ANT_HOME%\bin"/>
 			<item value="dumm"/>
 			<item value="replace"/>
-			<item value="propertya"/>
-			<item value="setUserEnvironmentVariable"/>
-			<item value="global.setSystemEnvironmentVariable"/>
 		</list>
 		<list key="replacehistory">
 			<item value="output.dir"/>

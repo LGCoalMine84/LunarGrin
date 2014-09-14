@@ -1,0 +1,18 @@
+<project name="Ant" default="use" basedir=".">
+	
+	<property name="antMacrosBase.dir" value="${basedir}/ant/macros" />
+	<property name="doxygenBase.dir" value="${antMacrosBase.dir}/doxygen" />
+	
+	<import file="${antMacrosBase.dir}/global.xml"/>
+	<import file="${doxygenBase.dir}/doxygen.xml"/>
+
+	<target name="use" description="Usage information on using the build scripts">
+	
+		<!-- <global.listAntTargets dir="${basedir}" /> -->
+		
+		<echo>${antMacrosBase.dir}</echo>
+		<echo>${doxygenBase.dir}</echo>
+		
+	</target>
+	
+</project>

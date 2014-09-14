@@ -1,0 +1,21 @@
+<project name="ProjectFreedom" default="use" basedir=".">
+	
+	<property name="antMacrosBase.dir" value="${basedir}/../Ant/ant/macros" />
+	<property name="doxygenBase.dir" value="${antMacrosBase.dir}/doxygen" />
+	
+	<import file="${antMacrosBase.dir}/global.xml"/>
+	<import file="${doxygenBase.dir}/doxygen.xml"/>
+
+	<target name="test">
+		
+		
+		
+	</target>
+	
+	<target name="use" description="Usage information on using the build scripts">
+	
+		<global.listAntTargets dir="${basedir}" />
+		
+	</target>
+	
+</project>

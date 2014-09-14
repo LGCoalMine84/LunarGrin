@@ -1,0 +1,46 @@
+<project name="DevEnvironment" default="use" basedir="." xmlns:unless="ant:unless">
+	
+	<!-- import library properties/macros -->
+	<property name="antMacrosBase.dir" value="${basedir}/../Ant/ant/macros" />
+	<property name="doxygenBase.dir" value="${antMacrosBase.dir}/doxygen" />
+	
+	<import file="${antMacrosBase.dir}/global.xml"/>
+	<import file="${doxygenBase.dir}/doxygen.xml"/>
+	
+	<!-- import project specific properties/macros -->
+	<property file="${basedir}/build.properties"/>
+	<import file="${basedir}/macros.xml"/>
+	
+	<target name="install" description="Installs all applications for the development environment">
+		
+		<devEnvironment.setEnvironmentVariables/>
+		<devEnvronment.install.ant />
+		<devEnvronment.install.doxygen />
+		
+	</target>
+	
+	<target name="installApacheAnt" description="Installs Apache Ant">
+		
+		<devEnvronment.install.ant />
+		
+	</target>
+
+	<target name="installDoxygen" description="Installs Doxygen">
+		
+		<devEnvronment.install.doxygen />
+		
+	</target>
+	
+	<target name="setEnvironmentVariables" description="One time setup of development environment variables as specified in build.properties">
+		
+		<devEnvironment.setEnvironmentVariables/>
+		
+	</target>
+	
+	<target name="use" description="Usage information on using the build scripts">
+	
+		<global.listAntTargets dir="${basedir}" />
+		
+	</target>
+	
+</project>

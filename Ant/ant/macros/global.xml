@@ -1,5 +1,8 @@
 <project name="Global" xmlns:unless="ant:unless">
 	
+	<!-- add the ability to read environment variables from the local system -->
+	<property environment="env"/>
+	
 	<scriptdef name="global.concatenate" language="javascript" >
 		<attribute name="pa" />
 		<attribute name="pb" />
@@ -136,6 +139,35 @@
 				<global.concatenate property="finalPath" pa="${PATH}" pb=";@{value}"/>
 				<global.setSystemEnvironmentVariable name="Path" value="${finalPath}"/>
 			</sequential>
+		
+		</sequential>
+	</macrodef>
+	
+	<!--
+		Lists the Ant targets for the specified directory.  Assumes build.xml targets will be listed.
+	-->
+	<macrodef name="global.listAntTargets" description="Displays the ant targets for the specified directory">
+		<attribute name="dir"/>
+		<sequential>
+		
+			<property name="ANT_HOME" value="${env.ANT_HOME}" />
+			
+			<exec executable="${ANT_HOME}/bin/ant.bat" dir="@{dir}">
+				<arg value="-p"/>
+			</exec>
+		
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="global.showWebPage" description="Displays a web page with the preconfigured web browser">
+		<attribute name="url"/>
+		<sequential>
+		
+			<property name="BROWSER_EXECUTABLE" value="${env.BROWSER_EXECUTABLE}" />
+			
+			<exec executable="${BROWSER_EXECUTABLE}">
+				<arg value="@{url}"/>
+			</exec>
 		
 		</sequential>
 	</macrodef>

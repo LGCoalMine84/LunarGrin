@@ -1,0 +1,23 @@
+<project name="Ant" default="test" basedir=".">
+	
+	<property name="antMacrosBase.dir" value="${basedir}/../Ant/ant/macros" />
+	<property name="doxygenBase.dir" value="${antMacrosBase.dir}/doxygen" />
+	
+	<import file="${doxygenBase.dir}/global.xml"/>
+	<import file="${antMacrosBase.dir}/doxygen.xml"/>
+	
+	<target name="test" description="Initial beta to build doxygen documentation">
+		
+		<doxygen.generateCSharpDocumentation
+				 doxygenBase.dir="${doxygenBase.dir}"
+				 output.dir="${basedir}/Documentation/Logging"	 
+				 source.dir="E:/UnityProjects/New/Assets/3rdParty/Logging" />
+		
+		<doxygen.generateCSharpDocumentation
+				 doxygenBase.dir="${doxygenBase.dir}"
+				 output.dir="${basedir}/Documentation/JsonFX"
+				 source.dir="E:\UnityProjects\New\Assets\3rdParty\JsonFX" />
+		
+	</target>
+
+</project>

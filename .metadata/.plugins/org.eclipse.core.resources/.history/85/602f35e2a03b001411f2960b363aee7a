@@ -1,0 +1,44 @@
+<project name="Doxygen">
+	
+	<!-- doxygenBase.dir is the Ant\ant\macros\doxygen directory in the Ant project.
+	     There will be a scratchpad temp directory (output.dir/{random-uuid}) that is created 
+	     and delete each time this macro is executed -->
+	<macrodef name="doxygen.generateCSharpDocumentation" description="Generates C# documentation from source">
+		<attribute name="doxygenBase.dir"/>
+	    <attribute name="output.dir"/>
+	   	<attribute name="source.dir"/>
+	   <sequential>
+	    
+	   	<mkdir dir="@{output.dir}"/>
+	   	
+		<property environment="env"/>
+		<property name="DOXYGEN_HOME" value="${env.DOXYGEN_HOME}"/>
+	   	
+	   	<global.generateguid property="uuid" />
+	   	
+	   	<property name="temp.dir" value="@{doxygenBase.dir}/${uuid}"/>
+	   	
+		<property name="doxygen.exe" value="${DOXYGEN_HOME}/bin/doxygen.exe"/>
+		<property name="temp.doxy" value="${temp.dir}/temp.doxy"/>
+		
+		<copy file="@{doxygenBase.dir}/c#template.doxy" tofile="${temp.doxy}"/>
+		
+		<replace file="${temp.doxy}" token="@INPUT@" value="@{source.dir}"/>
+		
+		<mkdir dir="${temp.dir}"/>
+	   	<replace file="${temp.doxy}" token="@OUTPUT_DIRECTORY@" value="${temp.dir}"/>
+	   	
+		<exec dir="${DOXYGEN_HOME}" executable="${doxygen.exe}">
+			<arg value="${temp.doxy}"/>
+		</exec>
+	   	
+	   	<move todir="@{output.dir}">
+	   	    <fileset dir="${temp.dir}/html"/>
+	   	</move>
+	   	
+	   	<delete dir="${temp.dir}"/>
+	   	
+	   </sequential>
+	</macrodef>
+	
+</project>

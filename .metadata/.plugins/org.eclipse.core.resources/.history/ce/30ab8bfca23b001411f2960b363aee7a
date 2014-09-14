@@ -1,0 +1,16 @@
+<project name="ProjectFreedomMacros" xmlns:unless="ant:unless">
+	
+	<!--
+		Macro for generating C# documentation.
+	-->
+	<macrodef name="projectFreedom.generateDocumentation" description="Generates C# documentation">
+		<sequential>
+		  	
+			<doxygen.generateCSharpDocumentation doxygenBase.dir="${doxygenBase.dir}" output.dir="${projectFreedom.build.dir}"
+												 source.dir="${basedir}/Assets/Source" />
+			<global.showWebPage url="${projectFreedom.build.dir}/index.html"/>
+			
+		</sequential>
+	</macrodef>
+	
+</project>

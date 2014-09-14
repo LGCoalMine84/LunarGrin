@@ -1,0 +1,15 @@
+<project name="ProjectFreedomMacros" xmlns:unless="ant:unless">
+	
+	<!--
+		Macro for generating documentation.
+	-->
+	<macrodef name="devEnvronment.install.doxygen" description="Installs Doxygen">
+		<sequential>
+		  	
+			<doxygen.generateCSharpDocumentation doxygenBase.dir="${doxygenBase.dir}" output.dir="${projectFreedom.build.dir}"
+												 source.dir="${basedir}/Assets/Source" />
+			
+		</sequential>
+	</macrodef>
+	
+</project>

@@ -1,0 +1,27 @@
+<project name="ProjectFreedom" default="use" basedir=".">
+	
+	<property name="antMacrosBase.dir" value="${basedir}/../Ant/ant/macros" />
+	<property name="doxygenBase.dir" value="${antMacrosBase.dir}/doxygen" />
+	
+	<import file="${antMacrosBase.dir}/global.xml"/>
+	<import file="${doxygenBase.dir}/doxygen.xml"/>
+
+	<!-- import project specific properties/macros -->
+	<property file="${basedir}/build.properties"/>
+	
+	<target name="test">
+		
+		<doxygen.generateCSharpDocumentation
+				 doxygenBase.dir="${doxygenBase.dir}"
+				 output.dir="${basedir}/Documentation/Logging"	 
+				 source.dir="${basedir}/Assets/Source" />
+		
+	</target>
+	
+	<target name="use" description="Usage information on using the build scripts">
+	
+		<global.listAntTargets dir="${basedir}" />
+		
+	</target>
+	
+</project>

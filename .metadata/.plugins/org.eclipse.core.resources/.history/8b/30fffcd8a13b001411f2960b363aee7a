@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['igameconfigmanager',['IGameConfigManager',['../interface_lunar_grin_1_1_core_1_1_i_game_config_manager.html',1,'LunarGrin::Core']]],
+  ['igameservice',['IGameService',['../interface_lunar_grin_1_1_core_1_1_i_game_service.html',1,'LunarGrin::Core']]],
+  ['igamestate',['IGameState',['../interface_lunar_grin_1_1_core_1_1_i_game_state.html',1,'LunarGrin::Core']]],
+  ['igamestatemanager',['IGameStateManager',['../interface_lunar_grin_1_1_core_1_1_i_game_state_manager.html',1,'LunarGrin::Core']]],
+  ['initialize',['Initialize',['../class_lunar_grin_1_1_core_1_1_game.html#a5b57087bd027d149542ed3b96d255aa4',1,'LunarGrin.Core.Game.Initialize()'],['../class_freedom_1_1_freedom_game.html#abe0e764eee365361e83b2d598eddf71d',1,'Freedom.FreedomGame.Initialize()']]],
+  ['isenabled',['IsEnabled',['../class_lunar_grin_1_1_core_1_1_game_state.html#ab439d8721577d1d019511de82b8a614b',1,'LunarGrin.Core.GameState.IsEnabled()'],['../interface_lunar_grin_1_1_core_1_1_i_game_state.html#a01ec690ceddbbdcef19e1b38a5f89db1',1,'LunarGrin.Core.IGameState.IsEnabled()']]],
+  ['isvisible',['IsVisible',['../class_lunar_grin_1_1_core_1_1_game_state.html#a6ec5f0a344da08029e091e8ed9620100',1,'LunarGrin.Core.GameState.IsVisible()'],['../interface_lunar_grin_1_1_core_1_1_i_game_state.html#ae3953c7e70418d14f88c8d4c6e544cdf',1,'LunarGrin.Core.IGameState.IsVisible()']]]
+];
