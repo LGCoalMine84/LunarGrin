@@ -165,7 +165,7 @@
 		
 			<property name="BROWSER_EXECUTABLE" value="${env.BROWSER_EXECUTABLE}" />
 			
-			<exec executable="${BROWSER_EXECUTABLE}">
+			<exec executable="${BROWSER_EXECUTABLE}" spawn="true">
 				<arg value="@{url}"/>
 			</exec>
 		

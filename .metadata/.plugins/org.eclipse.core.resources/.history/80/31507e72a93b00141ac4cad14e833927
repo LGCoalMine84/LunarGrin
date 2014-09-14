@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['name',['Name',['../class_lunar_grin_1_1_core_1_1_game_state.html#a1e20bfed6de09708ba4282b6c4077e3f',1,'LunarGrin.Core.GameState.Name()'],['../interface_lunar_grin_1_1_core_1_1_i_game_state.html#af091631db81f3212ad69cd0dc6c9c49e',1,'LunarGrin.Core.IGameState.Name()']]],
+  ['newstatename',['NewStateName',['../class_lunar_grin_1_1_core_1_1_game_state_changed_event_args.html#ace5e3ca8dd1a587107c9fc8ed455cb76',1,'LunarGrin.Core.GameStateChangedEventArgs.NewStateName()'],['../class_lunar_grin_1_1_core_1_1_game_state_changing_event_args.html#a197c3452feec0c24241159d862ba71eb',1,'LunarGrin.Core.GameStateChangingEventArgs.NewStateName()']]]
+];
