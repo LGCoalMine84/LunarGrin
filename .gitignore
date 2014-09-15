@@ -6,6 +6,7 @@ Assembly-CSharp-vs.csproj
 ProjectFreedom.sln
 ProjectFreedom.userprefs
 
-ProjectFreedom/ProjectSettings/QualitySettings.asset
 build
 /.metadata
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp-Editor-vs.csproj
