@@ -8,3 +8,5 @@ ProjectFreedom.userprefs
 
 build
 /.metadata
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp-Editor-vs.csproj
