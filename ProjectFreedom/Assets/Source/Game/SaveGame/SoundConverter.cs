@@ -14,44 +14,44 @@ namespace SaveGame
 		private static ILogger Log = LogFactory.CreateLogger( typeof( SoundConverter ) );
 		#endif
 
-		public static Sound DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )
+		public static SoundSettings DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )
 		{
 			#if LOGGING_TRACE
 			Log.Trace( "Begin DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )" );
 			#endif
 
-			Sound soundSaveGameData = new Sound();
+			SoundSettings soundSaveGameData = new SoundSettings();
 
-			String type = propertyNameToValueMap [Sound.Properties.Effects].GetType ().ToString();
+			String type = propertyNameToValueMap [SoundSettings.Properties.EffectVolume].GetType ().ToString();
 
-			if( propertyNameToValueMap[Sound.Properties.Effects] is Double )
+			if( propertyNameToValueMap[SoundSettings.Properties.EffectVolume] is Double )
 			{
-				soundSaveGameData.Effects = Convert.ToSingle( propertyNameToValueMap[Sound.Properties.Effects] );
+				soundSaveGameData.EffectVolume = Convert.ToSingle( propertyNameToValueMap[SoundSettings.Properties.EffectVolume] );
 			}
 			else
 			{
-				throw new InvalidOperationException( "Expected an Int32 for field " + typeof( Sound ).ToString() + 
-				                                    "." + Sound.Properties.Effects );
+				throw new InvalidOperationException( "Expected a Double for field " + typeof( SoundSettings ).ToString() + 
+				                                    "." + SoundSettings.Properties.EffectVolume );
 			}
 			
-			if( propertyNameToValueMap[Sound.Properties.Music] is Double )
+			if( propertyNameToValueMap[SoundSettings.Properties.MusicVolume] is Double )
 			{
-				soundSaveGameData.Music = Convert.ToSingle( propertyNameToValueMap[Sound.Properties.Music] );
+				soundSaveGameData.MusicVolume = Convert.ToSingle( propertyNameToValueMap[SoundSettings.Properties.MusicVolume] );
 			}
 			else
 			{
-				throw new InvalidOperationException( "Expected an Int32 for field " + typeof( Sound ).ToString() + 
-				                                    "." + Sound.Properties.Music );
+				throw new InvalidOperationException( "Expected a Double for field " + typeof( SoundSettings ).ToString() + 
+				                                    "." + SoundSettings.Properties.MusicVolume );
 			}
 			
-			if( propertyNameToValueMap[Sound.Properties.Speech] is Double )
+			if( propertyNameToValueMap[SoundSettings.Properties.SpeechVolume] is Double )
 			{
-				soundSaveGameData.Speech = Convert.ToSingle( propertyNameToValueMap[Sound.Properties.Speech] );
+				soundSaveGameData.SpeechVolume = Convert.ToSingle( propertyNameToValueMap[SoundSettings.Properties.SpeechVolume] );
 			}
 			else
 			{
-				throw new InvalidOperationException( "Expected an Int32 for field " + typeof( Sound ).ToString() + 
-				                                    "." + Sound.Properties.Speech );
+				throw new InvalidOperationException( "Expected a Double for field " + typeof( SoundSettings ).ToString() + 
+				                                    "." + SoundSettings.Properties.SpeechVolume );
 			}
 
 			#if LOGGING_TRACE
@@ -61,7 +61,7 @@ namespace SaveGame
 			return soundSaveGameData;
 		}
 
-		public static Dictionary<string, object> SoundToDictionary( Sound sound )
+		public static Dictionary<string, object> SoundToDictionary( SoundSettings sound )
 		{
 			#if LOGGING_TRACE
 			Log.Trace( "Begin SoundToDictionary( Sound sound )" );
@@ -74,9 +74,9 @@ namespace SaveGame
 				return propertyNameToValueMap;
 			}
 			
-			propertyNameToValueMap.Add( Sound.Properties.Effects, sound.Effects );
-			propertyNameToValueMap.Add( Sound.Properties.Music, sound.Music );
-			propertyNameToValueMap.Add( Sound.Properties.Speech, sound.Speech );
+			propertyNameToValueMap.Add( SoundSettings.Properties.EffectVolume, sound.EffectVolume );
+			propertyNameToValueMap.Add( SoundSettings.Properties.MusicVolume, sound.MusicVolume );
+			propertyNameToValueMap.Add( SoundSettings.Properties.SpeechVolume, sound.SpeechVolume );
 
 			#if LOGGING_TRACE
 			Log.Trace( "End SoundToDictionary( Sound sound )" );
@@ -90,7 +90,7 @@ namespace SaveGame
 		/// </summary>
 		/// <param name="saveGameData">The save game data.</param>
 		/// <param name="stream">The stream to which the save game data will be written.</param>
-		public static void SoundToStream( Sound soundSaveGameData, Stream stream )
+		public static void SoundToStream( SoundSettings soundSaveGameData, Stream stream )
 		{
 			#if LOGGING_TRACE
 			Log.Trace( "Begin SoundToStream( Sound soundSaveGameData, Stream stream )" );
@@ -108,9 +108,9 @@ namespace SaveGame
 			
 			BinaryWriter writer = new BinaryWriter( stream );
 			
-			writer.Write( soundSaveGameData.Effects );
-			writer.Write( soundSaveGameData.Music );
-			writer.Write( soundSaveGameData.Speech );
+			writer.Write( soundSaveGameData.EffectVolume );
+			writer.Write( soundSaveGameData.MusicVolume );
+			writer.Write( soundSaveGameData.SpeechVolume );
 			
 			writer.Close();
 			
@@ -124,7 +124,7 @@ namespace SaveGame
 		/// </summary>
 		/// <param name="stream">The stream from which the save game data will be read.</param>
 		/// <param name="saveGameData">The save game data.</param>
-		public static void StreamToSound( Stream stream, Sound soundSaveGameData )
+		public static void StreamToSound( Stream stream, SoundSettings soundSaveGameData )
 		{
 			#if LOGGING_TRACE
 			Log.Trace( "Begin treamToSound( Stream stream, Sound soundSaveGameData )" );
@@ -142,9 +142,9 @@ namespace SaveGame
 			
 			BinaryReader reader = new BinaryReader( stream );
 			
-			soundSaveGameData.Effects = reader.ReadSingle();
-			soundSaveGameData.Music = reader.ReadSingle();
-			soundSaveGameData.Speech = reader.ReadSingle();
+			soundSaveGameData.EffectVolume = reader.ReadSingle();
+			soundSaveGameData.MusicVolume = reader.ReadSingle();
+			soundSaveGameData.SpeechVolume = reader.ReadSingle();
 			
 			reader.Close();
 			
@@ -164,7 +164,7 @@ namespace SaveGame
 			Log.Trace( "Begin bool CanConvert( Type type )" );
 			#endif
 			
-			Boolean result = type == typeof( Sound );
+			Boolean result = type == typeof( SoundSettings );
 			
 			#if LOGGING_TRACE
 			Log.Trace( "End bool CanConvert( Type type )" );
@@ -190,19 +190,19 @@ namespace SaveGame
 			
 			try
 			{
-				if( !( value is Sound ) )
+				if( !( value is SoundSettings ) )
 				{
-					Log.Error( "parameter value was expected to be of type " + typeof( Sound ).ToString() );
+					Log.Error( "parameter value was expected to be of type " + typeof( SoundSettings ).ToString() );
 					return null;
 				}
 				
-				Sound soundSaveGameData = (Sound)value;
+				SoundSettings soundSaveGameData = (SoundSettings)value;
 
 				propertyNameToValueMap = SoundToDictionary( soundSaveGameData );
 			}
 			catch( Exception e )
 			{
-				Log.Error( "Unable to serialize type " + typeof( SaveGameData ).ToString() + " to JSON" + " " + e.Message );
+				Log.Error( "Unable to serialize type " + typeof( GameConfig ).ToString() + " to JSON" + " " + e.Message );
 			}
 			
 			#if LOGGING_TRACE
@@ -227,7 +227,7 @@ namespace SaveGame
 			Log.Trace( "Begin object ReadJson( Type type, Dictionary<string,object> propertyNameToValueMap )" );
 			#endif
 			
-			Sound soundSaveGameData = null;
+			SoundSettings soundSaveGameData = null;
 			
 			try
 			{
@@ -235,7 +235,7 @@ namespace SaveGame
 			}
 			catch( Exception e )
 			{
-				Log.Error( "Unable to deserialize JSON into type " + typeof( SaveGameData ).ToString() + " " + e.Message );
+				Log.Error( "Unable to deserialize JSON into type " + typeof( GameConfig ).ToString() + " " + e.Message );
 			}
 			
 			#if LOGGING_TRACE

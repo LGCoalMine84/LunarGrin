@@ -7,10 +7,10 @@ namespace SaveGame
 	/// <summary>
 	/// This is a data centric class that stores the save game data.
 	/// </summary>
-	public class SaveGameData
+	public class GameConfig
 	{
 		#if LOGGING
-		private ILogger Log = LogFactory.CreateLogger( typeof( SaveGameData ) );
+		private ILogger Log = LogFactory.CreateLogger( typeof( GameConfig ) );
 		#endif
 
 		public static class Properties
@@ -18,11 +18,9 @@ namespace SaveGame
 			public static readonly String Sound = "Sound";
 		}
 
-		private Boolean isActive;
-
-		private Sound sound;
+		private SoundSettings sound;
 		
-		public SaveGameData()
+		public GameConfig()
 		{
 			#if LOGGING_TRACE
 			Log.Trace( "Begin MySaveGameData()" );
@@ -30,7 +28,7 @@ namespace SaveGame
 			#endif
 		}
 
-		public Sound Sound
+		public SoundSettings Sound
 		{
 			get
 			{

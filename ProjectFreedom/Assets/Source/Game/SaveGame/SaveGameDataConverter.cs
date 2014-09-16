@@ -26,7 +26,7 @@ namespace SaveGame
 		/// </summary>
 		/// <param name="saveGameData">The save game data.</param>
 		/// <param name="stream">The stream to which the save game data will be written.</param>
-		public static void MySaveGameDataToStream( SaveGameData saveGameData, Stream stream )
+		public static void MySaveGameDataToStream( GameConfig saveGameData, Stream stream )
 		{
 			#if LOGGING_TRACE
 			Log.Trace( "Begin SaveGameToStream( MySaveGameData saveGameData, Stream stream )" );
@@ -50,9 +50,9 @@ namespace SaveGame
 			BinaryWriter writer = new BinaryWriter( stream );
 			
 			//TODO: as we add more save game data fields, they will need to be added here
-			writer.Write( saveGameData.Sound.Effects );
-			writer.Write( saveGameData.Sound.Music );
-			writer.Write( saveGameData.Sound.Speech );
+			writer.Write( saveGameData.Sound.EffectVolume );
+			writer.Write( saveGameData.Sound.MusicVolume );
+			writer.Write( saveGameData.Sound.SpeechVolume );
 
 			writer.Close();
 			
@@ -66,7 +66,7 @@ namespace SaveGame
 		/// </summary>
 		/// <param name="stream">The stream from which the save game data will be read.</param>
 		/// <param name="saveGameData">The save game data.</param>
-		public static void StreamToMySaveGameData( Stream stream, SaveGameData saveGameData )
+		public static void StreamToMySaveGameData( Stream stream, GameConfig saveGameData )
 		{
 			#if LOGGING_TRACE
 			Log.Trace( "Begin StreamToSaveGame( Stream stream, MySaveGameData saveGameData )" );
@@ -84,15 +84,15 @@ namespace SaveGame
 
 			if( saveGameData.Sound == null )
 			{
-				saveGameData.Sound = new Sound();
+				saveGameData.Sound = new SoundSettings();
 			}
 
 			BinaryReader reader = new BinaryReader( stream );
 			
 			//TODO: as we add more save game data fields, they will need to be added here
-			saveGameData.Sound.Effects = reader.ReadSingle();
-			saveGameData.Sound.Music = reader.ReadSingle();
-			saveGameData.Sound.Speech = reader.ReadSingle();
+			saveGameData.Sound.EffectVolume = reader.ReadSingle();
+			saveGameData.Sound.MusicVolume = reader.ReadSingle();
+			saveGameData.Sound.SpeechVolume = reader.ReadSingle();
 
 			reader.Close();
 			
@@ -112,7 +112,7 @@ namespace SaveGame
 			Log.Trace( "Begin bool CanConvert( Type t )" );
 			#endif
 			
-			Boolean result = t == typeof( SaveGameData );
+			Boolean result = t == typeof( GameConfig );
 			
 			#if LOGGING_TRACE
 			Log.Trace( "End bool CanConvert( Type t )" );
@@ -138,27 +138,27 @@ namespace SaveGame
 			
 			try
 			{
-				if( !( value is SaveGameData ) )
+				if( !( value is GameConfig ) )
 				{
-					Debug.Log ( "parameter value was expected to be of type " + typeof( SaveGameData ).ToString() );
+					Debug.Log ( "parameter value was expected to be of type " + typeof( GameConfig ).ToString() );
 					return null;
 				}
 				
-				SaveGameData mySaveGameData = (SaveGameData)value;
+				GameConfig mySaveGameData = (GameConfig)value;
 				propertyNameToValueMap = new Dictionary<string, object>();
 
 				if( mySaveGameData.Sound == null )
 				{
-					throw new InvalidOperationException( typeof( SaveGameData ).ToString() +  "." + 
-					                                     SaveGameData.Properties.Sound + " is required" );
+					throw new InvalidOperationException( typeof( GameConfig ).ToString() +  "." + 
+					                                     GameConfig.Properties.Sound + " is required" );
 				}
 
 				Dictionary<string,object> soundPropertyNameToValueMap = SoundConverter.SoundToDictionary( mySaveGameData.Sound );
-				propertyNameToValueMap[SaveGameData.Properties.Sound] = soundPropertyNameToValueMap;
+				propertyNameToValueMap[GameConfig.Properties.Sound] = soundPropertyNameToValueMap;
 			}
 			catch( Exception e )
 			{
-				Debug.Log( "Unable to serialize type " + typeof( SaveGameData ).ToString() + " to JSON" + " " + e.Message );
+				Debug.Log( "Unable to serialize type " + typeof( GameConfig ).ToString() + " to JSON" + " " + e.Message );
 			}
 			
 			#if LOGGING_TRACE
@@ -183,23 +183,23 @@ namespace SaveGame
 			Log.Trace( "Begin object ReadJson( Type type, Dictionary<string,object> propertyNameToValueMap )" );
 			#endif
 			
-			SaveGameData mySaveGameData = null;
+			GameConfig mySaveGameData = null;
 			
 			try
 			{
-				mySaveGameData = new SaveGameData();
+				mySaveGameData = new GameConfig();
 
-				if( propertyNameToValueMap[SaveGameData.Properties.Sound] is Dictionary<string, object> )
+				if( propertyNameToValueMap[GameConfig.Properties.Sound] is Dictionary<string, object> )
 				{
 					Dictionary<string, object> soundSaveGameDataMap = 
-						(Dictionary<string, object>)propertyNameToValueMap[SaveGameData.Properties.Sound];
+						(Dictionary<string, object>)propertyNameToValueMap[GameConfig.Properties.Sound];
 
 					mySaveGameData.Sound = SoundConverter.DictoinaryToSound( soundSaveGameDataMap );
 				}
 			}
 			catch( Exception e )
 			{
-				Debug.Log( "Unable to deserialize JSON into type " + typeof( SaveGameData ).ToString() + " " + e.Message );
+				Debug.Log( "Unable to deserialize JSON into type " + typeof( GameConfig ).ToString() + " " + e.Message );
 			}
 			
 			#if LOGGING_TRACE
