@@ -1,8 +1,10 @@
+using Logging;
+
 using Pathfinding.Serialization.JsonFx;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Logging;
 
 namespace SaveGame
 {
@@ -19,12 +21,12 @@ namespace SaveGame
 			#endif
 
 			Sound soundSaveGameData = new Sound();
-			
-			//TODO: I'm not sure what this returns, will have to debug this to see what type jsonFX provides for ints that are 0-255
-			if( propertyNameToValueMap[Sound.Properties.Effects] is Int32 )
-			{
 
-				soundSaveGameData.Effects = Convert.ToByte( propertyNameToValueMap[Sound.Properties.Effects] );
+			String type = propertyNameToValueMap [Sound.Properties.Effects].GetType ().ToString();
+
+			if( propertyNameToValueMap[Sound.Properties.Effects] is Double )
+			{
+				soundSaveGameData.Effects = Convert.ToSingle( propertyNameToValueMap[Sound.Properties.Effects] );
 			}
 			else
 			{
@@ -32,9 +34,9 @@ namespace SaveGame
 				                                    "." + Sound.Properties.Effects );
 			}
 			
-			if( propertyNameToValueMap[Sound.Properties.Music] is Int32 )
+			if( propertyNameToValueMap[Sound.Properties.Music] is Double )
 			{
-				soundSaveGameData.Music = Convert.ToByte( propertyNameToValueMap[Sound.Properties.Music] );
+				soundSaveGameData.Music = Convert.ToSingle( propertyNameToValueMap[Sound.Properties.Music] );
 			}
 			else
 			{
@@ -42,9 +44,9 @@ namespace SaveGame
 				                                    "." + Sound.Properties.Music );
 			}
 			
-			if( propertyNameToValueMap[Sound.Properties.Speech] is Int32 )
+			if( propertyNameToValueMap[Sound.Properties.Speech] is Double )
 			{
-				soundSaveGameData.Speech = Convert.ToByte( propertyNameToValueMap[Sound.Properties.Speech] );
+				soundSaveGameData.Speech = Convert.ToSingle( propertyNameToValueMap[Sound.Properties.Speech] );
 			}
 			else
 			{
@@ -140,9 +142,9 @@ namespace SaveGame
 			
 			BinaryReader reader = new BinaryReader( stream );
 			
-			soundSaveGameData.Effects = reader.ReadByte();
-			soundSaveGameData.Music = reader.ReadByte();
-			soundSaveGameData.Speech = reader.ReadByte();
+			soundSaveGameData.Effects = reader.ReadSingle();
+			soundSaveGameData.Music = reader.ReadSingle();
+			soundSaveGameData.Speech = reader.ReadSingle();
 			
 			reader.Close();
 			

@@ -1,6 +1,6 @@
-using Logging;
-
 using Pathfinding.Serialization.JsonFx;
+
+using Logging;
 
 using System;
 using System.Collections.Generic;
@@ -90,9 +90,9 @@ namespace SaveGame
 			BinaryReader reader = new BinaryReader( stream );
 			
 			//TODO: as we add more save game data fields, they will need to be added here
-			saveGameData.Sound.Effects = reader.ReadByte();
-			saveGameData.Sound.Music = reader.ReadByte();
-			saveGameData.Sound.Speech = reader.ReadByte();
+			saveGameData.Sound.Effects = reader.ReadSingle();
+			saveGameData.Sound.Music = reader.ReadSingle();
+			saveGameData.Sound.Speech = reader.ReadSingle();
 
 			reader.Close();
 			

@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿
+using Logging;
 using System;
 
 namespace SaveGame

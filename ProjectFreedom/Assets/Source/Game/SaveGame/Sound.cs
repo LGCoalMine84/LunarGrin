@@ -1,5 +1,4 @@
 ﻿using Logging;
-
 using System;
 
 namespace SaveGame
@@ -20,9 +19,9 @@ namespace SaveGame
 			public static readonly String Speech = "Speech";
 		}
 
-		private Byte effects;
-		private Byte music;
-		private Byte speech;
+		private Single effects;
+		private Single music;
+		private Single speech;
 
 		public Sound()
 		{
@@ -32,7 +31,7 @@ namespace SaveGame
 			#endif
 		}
 
-		public Byte Effects
+		public Single Effects
 		{
 			get
 			{
@@ -45,7 +44,7 @@ namespace SaveGame
 			}
 		}
 
-		public Byte Music
+		public Single Music
 		{
 			get
 			{
@@ -58,7 +57,7 @@ namespace SaveGame
 			}
 		}
 
-		public Byte Speech
+		public Single Speech
 		{
 			get
 			{
