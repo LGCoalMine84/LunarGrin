@@ -19,6 +19,8 @@ namespace LunarGrin.Core
 	/// </summary>
 	public class GameSoundConfig
 	{
+		public Action OnSoundSettingsSave;
+	
 		/// <summary>
 		/// The active sound settings.
 		/// </summary>
@@ -111,7 +113,7 @@ namespace LunarGrin.Core
 		/// Load the specified soundSettings.  This will also apply the sound settings.
 		/// </summary>
 		/// <param name="soundSettings">Sound settings.</param>
-		public void Load( SoundSettings soundSettings )
+		public void Load( ref SoundSettings soundSettings )
 		{
 			savedSettings = soundSettings;
 			
@@ -147,6 +149,11 @@ namespace LunarGrin.Core
 			savedSettings.effectVolume = activeSettings.effectVolume;
 			savedSettings.musicVolume = activeSettings.musicVolume;
 			savedSettings.speechVolume = activeSettings.speechVolume;
+			
+			if ( OnSoundSettingsSave != null )
+			{
+				OnSoundSettingsSave();
+			}
 		}
 	}
 }

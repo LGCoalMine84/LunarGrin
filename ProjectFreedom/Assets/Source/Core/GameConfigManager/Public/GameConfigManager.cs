@@ -38,6 +38,27 @@ namespace LunarGrin.Core
 		/// </summary>
 		private GameVideoConfig video = new GameVideoConfig();
 		
+		private GameConfig gameConfig = null;
+		
+		#region Mocking Load Data
+		public GameConfigManager()
+		{
+			Load( "This is a test" );
+		}
+		
+		public void Load( String path )
+		{
+			//	TODO:	Load GameConfig here
+			
+			gameConfig = new GameConfig();
+			gameConfig.soundSettings = new SoundSettings();
+			
+			sound.Load( ref gameConfig.soundSettings );
+			
+			sound.OnSoundSettingsSave += OnGameConfigSave;
+		}
+		#endregion
+		
 		/// <summary>
 		/// Gets the game's sound configuration.
 		/// </summary>
@@ -72,6 +93,11 @@ namespace LunarGrin.Core
 			{
 				return TypeOfGameService;
 			}
+		}
+		
+		private void OnGameConfigSave()
+		{
+			UnityEngine.Debug.Log( "GameConfigManager.OnGameConfigSave Sound=" + Sound.EffectVolume + " | " + Sound.MusicVolume + " | " + Sound.SpeechVolume );
 		}
 	}
 }
