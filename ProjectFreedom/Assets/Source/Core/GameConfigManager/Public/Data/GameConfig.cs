@@ -1,6 +1,22 @@
-﻿
+﻿#region File Header
+
+// File Name:           GameConfig.cs
+// Author:              Chris Mraovich
+// Creation Date:       8/26/2014   9:54 PM
+//
+// Copyrights:          Copyright 2014
+//                      Lunar Grin, LLC.
+//                      All rights reserved.
+
+#endregion
+
+#region Using Directives
+
 using Logging;
+
 using System;
+
+#endregion
 
 namespace LunarGrin.Core
 {
@@ -10,7 +26,7 @@ namespace LunarGrin.Core
 	public class GameConfig
 	{
 		#if LOGGING
-		private ILogger Log = LogFactory.CreateLogger( typeof( GameConfig ) );
+		private static ILogger Log = LogFactory.CreateLogger( typeof( GameConfig ) );
 		#endif
 
 		public static class Properties
@@ -23,11 +39,15 @@ namespace LunarGrin.Core
 		public GameConfig()
 		{
 			#if LOGGING_TRACE
-			Log.Trace( "Begin MySaveGameData()" );
-			Log.Trace( "End MySaveGameData()" );
+			Log.Trace( "Begin GameConfig()" );
+			Log.Trace( "End GameConfig()" );
 			#endif
 		}
 
+		/// <summary>
+		/// Gets or sets the sound settings.
+		/// </summary>
+		/// <value>The sound settings.</value>
 		public SoundSettings SoundSettings
 		{
 			get

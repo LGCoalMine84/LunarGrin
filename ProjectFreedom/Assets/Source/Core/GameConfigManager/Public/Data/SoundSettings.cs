@@ -1,12 +1,29 @@
-﻿using Logging;
+﻿#region File Header
+
+// File Name:           SoundSettings.cs
+// Author:              Chris Mraovich
+// Creation Date:       8/26/2014   9:54 PM
+//
+// Copyrights:          Copyright 2014
+//                      Lunar Grin, LLC.
+//                      All rights reserved.
+
+#endregion
+
+#region Using Directives
+
+using Logging;
+
 using System;
+
+#endregion
 
 namespace LunarGrin.Core
 {
 	public class SoundSettings
 	{
 		#if LOGGING
-		private ILogger Log = LogFactory.CreateLogger( typeof( SoundSettings ) );
+		private static ILogger Log = LogFactory.CreateLogger( typeof( SoundSettings ) );
 		#endif
 
 		/// <summary>
@@ -31,6 +48,10 @@ namespace LunarGrin.Core
 			#endif
 		}
 
+		/// <summary>
+		/// Gets or sets the effect volume.
+		/// </summary>
+		/// <value>The effect volume.</value>
 		public Single EffectVolume
 		{
 			get
@@ -44,6 +65,10 @@ namespace LunarGrin.Core
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the music volume.
+		/// </summary>
+		/// <value>The music volume.</value>
 		public Single MusicVolume
 		{
 			get
@@ -57,6 +82,10 @@ namespace LunarGrin.Core
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the speech volume.
+		/// </summary>
+		/// <value>The speech volume.</value>
 		public Single SpeechVolume
 		{
 			get
