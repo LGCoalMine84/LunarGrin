@@ -32,7 +32,7 @@ namespace Freedom
 		/// <summary>
 		/// The game reference.
 		/// </summary>
-		FreedomGame theGame = null;
+		private FreedomGame theGame = null;
 		
 		#endregion
 		

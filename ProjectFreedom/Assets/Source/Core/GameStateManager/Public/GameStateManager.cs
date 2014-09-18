@@ -102,78 +102,90 @@ namespace LunarGrin.Core
 		#region IGameStateManager
 
 		/// <summary>
-		/// Registers a game state changing handler to the game state manager.
+		/// Registers an event handler for when the game state manager broadcasts a game state changing event.
 		/// </summary>
-		/// <param name="handler">The game state changing event handler to add.</param>
-		/// <exception cref="ArgumentNullException">Unable to register the game state changing handler because the handler is invalid.</exception>
+		/// <param name="handler">The event handler to register.</param>
+		/// <exception cref="ArgumentNullException">Unable to register the event handler to the game state changing event.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public void RegisterStateChangingEvent( EventHandler<GameStateChangingEventArgs> handler )
 		{
 			if( handler == null )
 			{
-				throw new ArgumentNullException( "Unable to register the game state changing handler because the handler is invalid." );
+				throw new ArgumentNullException( "Unable to register the event handler to the game state changing event." );
 			}
 			
 			onStateChanging += handler;
 		}
 		
 		/// <summary>
-		/// Unregisters a game state changing handler to the game state manager.
+		/// Unregisters an event handler from when the game state manager broadcasts a game state changing event.
 		/// </summary>
-		/// <param name="handler">The game state changing event handler to remove.</param>
-		/// <exception cref="ArgumentNullException">Unable to unregister the game state changing handler because the handler is invalid.</exception>
+		/// <param name="handler">The event handler to unregister.</param>
+		/// <exception cref="ArgumentNullException">Unable to unregister the event handler from the game state changing event.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public void UnregisterStateChangingEvent( EventHandler<GameStateChangingEventArgs> handler )
 		{
 			if( handler == null )
 			{
-				throw new ArgumentNullException( "Unable to unregister the game state changing handler because the handler is invalid." );
+				throw new ArgumentNullException( "Unable to unregister the event handler from the game state changing event." );
 			}
 			
-			onStateChanging -= handler;
+			if( onStateChanging != null )
+			{
+				onStateChanging -= handler;
+			}
 		}
-
+		
 		/// <summary>
-		/// Registers a game state changed handler to the game state manager.
+		/// Registers an event handler for when the game state manager broadcasts a game state changed event.
 		/// </summary>
-		/// <param name="handler">The game state changed event handler to register.</param>
-		/// <exception cref="ArgumentNullException">Unable to register the game state changed handler because the handler is invalid.</exception>
+		/// <param name="handler">The event handler to register.</param>
+		/// <exception cref="ArgumentNullException">Unable to register the event handler to the game state changed event.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public void RegisterStateChangedEvent( EventHandler<GameStateChangedEventArgs> handler )
 		{
 			if( handler == null )
 			{
-				throw new ArgumentNullException( "Unable to register the game state changed handler because the handler is invalid." );
+				throw new ArgumentNullException( "Unable to register the event handler to the game state changed event." );
 			}
 			
 			onStateChanged += handler;
 		}
 		
 		/// <summary>
-		/// Unregisters a game state changed handler to the game state manager.
+		/// Unregisters an event handler from when the game state manager broadcasts a game state changed event.
 		/// </summary>
-		/// <param name="handler">The game state changed event handler to unregister.</param>
-		/// <exception cref="ArgumentNullException">Unable to unregister the game state changed handler because the handler is invalid.</exception>
+		/// <param name="handler">The event handler to unregister.</param>
+		/// <exception cref="ArgumentNullException">Unable to unregister the event handler from the game state changed event.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public void UnregisterStateChangedEvent( EventHandler<GameStateChangedEventArgs> handler )
 		{
 			if( handler == null )
 			{
-				throw new ArgumentNullException( "Unable to unregister the game state changed handler because the handler is invalid." );
+				throw new ArgumentNullException( "Unable to unregister the event handler from the game state changed event." );
 			}
 			
-			onStateChanged -= handler;
+			if( onStateChanged != null )
+			{
+				onStateChanged -= handler;
+			}
 		}
 		
 		/// <summary>
 		/// Pushes a game state to the game state stack.
 		/// </summary>
 		/// <param name="state">The state to push.</param>
+		/// <exception cref="NullReferenceException">Unable to push the game state because the stack is invalid.</exception>
 		/// <exception cref="InvalidOperationException">Unable to push the game state because failed to add the state to the stack.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public void PushState( IGameState state )
 		{
-			if( currentState != null )
+			if( gameStates == null )
+			{
+				throw new NullReferenceException( "Unable to push the game state because the stack is invalid." );
+			}
+		
+			if( currentState != null && state != null )
 			{
 				previousState = currentState;
 				previousState.OnDisabled();
@@ -207,13 +219,19 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Pops the current game state from the stack.
 		/// </summary>
+		/// <exception cref="NullReferenceException">Unable to pop the current game state because the stack is invalid.</exception>
 		/// <exception cref="InvalidOperationException">Unable to pop the current game state because there are no previous game states to fallback to.</exception>
 		/// <exception cref="NullReferenceException">Unable to pop the current game state because the current game state reference is invalid.</exception>
 		/// <exception cref="InvalidOperationException">Unable to pop the current game state because failed to remove the game state from the stack.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public void PopState()
 		{
-			if( !IsGameStatePopValid() )
+			if( gameStates == null )
+			{
+				throw new NullReferenceException( "Unable to pop the current game state because the stack is invalid." );
+			}
+		
+			if( gameStates.Count < 2 )
 			{
 				throw new InvalidOperationException( "Unable to pop the current game state because there are no previous game states to fallback to." );
 			}
@@ -264,10 +282,16 @@ namespace LunarGrin.Core
 		/// Removes all previous game states and adds a new game state to the stack.
 		/// </summary>
 		/// <param name="state">The new game state to add.</param>
-		/// <exception cref="InvalidOperationException">Unable to change the state because failed to remove previous states from the stack.</exception>
+		/// <exception cref="NullReferenceException">Unable to change to a game state because the stack is invalid.</exception>
+		/// <exception cref="InvalidOperationException">Unable to change the game state because failed to remove previous states from the stack.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public void ChangeState( IGameState state )
 		{
+			if( gameStates == null )
+			{
+				throw new NullReferenceException( "Unable to change to a game state because the stack is invalid." );
+			}
+		
 			try
 			{
 				while( gameStates.Count > 0 )
@@ -279,7 +303,7 @@ namespace LunarGrin.Core
 			}
 			catch( Exception ex )
 			{
-				throw new InvalidOperationException( "Unable to change the state because failed to remove previous states from the stack.", ex );
+				throw new InvalidOperationException( "Unable to change the game state because failed to remove previous states from the stack.", ex );
 			}
 		}	
 		
@@ -289,12 +313,18 @@ namespace LunarGrin.Core
 		/// <param name="state">The game state to check.</param>
 		/// <returns><c>True</c> if state was containes.</returns>
 		/// <exception cref="ArgumentNullException">Unable to find the game state because it was not found within the stack.</exception>
+		/// <exception cref="NullReferenceException">Unable to find the game state because the stack is invalid.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public Boolean ContainsState( IGameState state )
 		{
 			if( state == null )
 			{
 				throw new ArgumentNullException( "Unable to find the game state because it was not found within the stack." );
+			}
+			
+			if( gameStates == null )
+			{
+				throw new NullReferenceException( "Unable to find the game state because the stack is invalid." );
 			}
 
 			return gameStates.Contains( state );
@@ -450,15 +480,6 @@ namespace LunarGrin.Core
 			previousState = ( states.Length >= 2 ) ? states[states.Length - 2] : null;
 			
 			return previousState;
-		}
-		
-		/// <summary>
-		/// Determines whether is valid to pop a game state from the stack.
-		/// </summary>
-		/// <returns><c>True</c> if it is valid to pop a game from the stack.</returns>
-		private Boolean IsGameStatePopValid()
-		{
-			return gameStates.Count >= 2;
 		}
 		
 		#endregion
