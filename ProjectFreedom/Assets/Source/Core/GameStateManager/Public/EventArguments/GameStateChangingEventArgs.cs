@@ -31,9 +31,9 @@ namespace LunarGrin.Core
 		private String currentStateName = null;
 		
 		/// <summary>
-		/// The name of the new game state.
+		/// The name of the next game state.
 		/// </summary>
-		private String newStateName = null;
+		private String nextStateName = null;
 		
 		#endregion
 		
@@ -52,14 +52,14 @@ namespace LunarGrin.Core
 		}
 		
 		/// <summary>
-		/// Gets the name of the new game state.
+		/// Gets the name of the next game state.
 		/// </summary>
-		/// <value>The name of the new game state.</value>
-		public String NewStateName
+		/// <value>The name of the next game state.</value>
+		public String NextStateName
 		{
 			get
 			{
-				return newStateName;
+				return nextStateName;
 			}
 		}
 		
@@ -71,11 +71,11 @@ namespace LunarGrin.Core
 		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.GameStateChangingEventArgs"/> class.
 		/// </summary>
 		/// <param name="nameOfCurrentState">Name of previous game state.</param>
-		/// <param name="nameOfNewState">Name of new game state.</param>
-		public GameStateChangingEventArgs( String nameOfCurrentState, String nameOfNewState )
+		/// <param name="nameOfNextState">Name of next game state.</param>
+		public GameStateChangingEventArgs( String nameOfCurrentState, String nameOfNextState )
 		{
 			currentStateName = nameOfCurrentState;
-			newStateName = nameOfNewState;
+			nextStateName = nameOfNextState;
 		}
 		
 		#endregion

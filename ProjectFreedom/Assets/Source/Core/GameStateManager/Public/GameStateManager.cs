@@ -231,7 +231,7 @@ namespace LunarGrin.Core
 				throw new NullReferenceException( "Unable to pop the current game state because the stack is invalid." );
 			}
 		
-			if( gameStates.Count < 2 )
+			if( gameStates.Count < 2 || previousState == null )
 			{
 				throw new InvalidOperationException( "Unable to pop the current game state because there are no previous game states to fallback to." );
 			}
