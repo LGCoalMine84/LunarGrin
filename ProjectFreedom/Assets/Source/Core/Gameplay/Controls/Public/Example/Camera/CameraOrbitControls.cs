@@ -4,17 +4,58 @@
 #endregion
 
 #region Using Directives
-using UnityEngine;
-using System;
+
+using Logging;
 
 using LunarGrin.Core;
+
+using System;
+
+using UnityEngine;
+
 #endregion
 
 /// <summary>
 /// This is an example camera controls implementation.
 /// </summary>
 public class CameraOrbitControls : IControls
-{   
+{
+	#if LOGGING
+	private static ILogger Log = LogFactory.CreateLogger( typeof( CameraOrbitControls ) );
+	#endif
+
+	/// <summary>
+	/// Clamps the angle.
+	/// </summary>
+	/// <returns>The angle.</returns>
+	/// <param name="angle">Angle.</param>
+	/// <param name="min">Minimum.</param>
+	/// <param name="max">Max.</param>
+	public static float ClampAngle( float angle, float min, float max )
+	{
+		#if LOGGING
+		Log.Trace( "Begin float ClampAngle( float angle, float min, float max )" );
+		#endif
+
+		if (angle < -360F)
+		{
+			angle += 360F;
+		}
+
+		if (angle > 360F)
+		{
+			angle -= 360F;
+		}
+
+		float result = Mathf.Clamp(angle, min, max);
+
+		#if LOGGING
+		Log.Trace( "End float ClampAngle( float angle, float min, float max )" );
+		#endif
+
+		return result;
+	}
+
     /// <summary>
     /// The game camera.
     /// </summary>
@@ -72,25 +113,48 @@ public class CameraOrbitControls : IControls
     /// <param name="target">Target.</param>
     public CameraOrbitControls( GameCamera camera )
     {
+		#if LOGGING
+		Log.Trace( "Begin CameraOrbitControls( GameCamera camera )" );
+		#endif
+
+		#if PARAM_CHECKING
+		if( camera == null )
+		{
+			throw new ArgumentException( "parameter camera is required" );
+		}
+		#endif
+
         gameCamera = camera;
         
         Vector3 angles = camera.transform.eulerAngles;
         x = angles.y;
         y = angles.x;
+
+		#if LOGGING
+		Log.Trace( "End CameraOrbitControls( GameCamera camera )" );
+		#endif
     }
     
+	/// <summary>
+	/// Raises the resume event. OnResume is called every time the owner of the controls is set.
+	/// </summary>
+	public void OnResume()
+	{
+		
+	}
+
+	/// <summary>
+	/// Raises the shutdown event. OnShutdown is called once on destruction.
+	/// </summary>
+	public void OnShutdown()
+	{
+		
+	}
+
     /// <summary>
     /// Raises the startup event. OnStartup is called once on initialization.
     /// </summary>
     public void OnStartup()
-    {
-        
-    }
-    
-    /// <summary>
-    /// Raises the resume event. OnResume is called every time the owner of the controls is set.
-    /// </summary>
-    public void OnResume()
     {
         
     }
@@ -99,14 +163,6 @@ public class CameraOrbitControls : IControls
     /// Raises the suspend event. OnSuspend is called every time the owner of the controls is cleared.
     /// </summary>
     public void OnSuspend()
-    {
-        
-    }
-    
-    /// <summary>
-    /// Raises the shutdown event. OnShutdown is called once on destruction.
-    /// </summary>
-    public void OnShutdown()
     {
         
     }
@@ -140,21 +196,5 @@ public class CameraOrbitControls : IControls
             camera.rotation = rotation;
             camera.position = position;
         } 
-    }
-
-    /// <summary>
-    /// Clamps the angle.
-    /// </summary>
-    /// <returns>The angle.</returns>
-    /// <param name="angle">Angle.</param>
-    /// <param name="min">Minimum.</param>
-    /// <param name="max">Max.</param>
-    public static float ClampAngle(float angle, float min, float max)
-    {
-        if (angle < -360F)
-            angle += 360F;
-        if (angle > 360F)
-            angle -= 360F;
-        return Mathf.Clamp(angle, min, max);
     }
 }

@@ -1,17 +1,24 @@
 ﻿#region File Header
-// File Name:		BasePawn.cs
+
+// File Name:		Pawn.cs
 // Author:			John Whitsell
 // Creation Date:	2014/09/07
 //
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
 //					All rights reserved.
+
 #endregion
 
 #region Using Directives
-using UnityEngine;
+
+using Logging;
+
 using System;
 using System.Collections.Generic;
+
+using UnityEngine;
+
 #endregion
 
 namespace LunarGrin.Core
@@ -21,6 +28,10 @@ namespace LunarGrin.Core
     /// </summary>
     public class Pawn : MonoBehaviour
     {
+		#if LOGGING
+		private static ILogger Log = LogFactory.CreateLogger( typeof( Pawn ) );
+		#endif
+
         /// <summary>
         /// The Pawn's controller.
         /// </summary>
@@ -32,7 +43,22 @@ namespace LunarGrin.Core
         /// <param name="controller">The <see cref="BaseController"/> controlling the Pawn.</param>
         public virtual void OnPossess( BaseController controller )
         {
+			#if LOGGING
+			Log.Trace( "Begin void OnPossess( BaseController controller )" );
+			#endif
+
+			#if PARAM_CHECKING
+			if( controller == null )
+			{
+				throw new ArgumentException( "parameter controller is required" );
+			}
+			#endif
+
             this.controller = controller;
+
+			#if LOGGING
+			Log.Trace( "End void OnPossess( BaseController controller )" );
+			#endif
         }
 
         /// <summary>
@@ -40,7 +66,15 @@ namespace LunarGrin.Core
         /// </summary>
         public virtual void OnUnPossess()
         {
+			#if LOGGING
+			Log.Trace( "Begin void OnUnPossess()" );
+			#endif
+
             controller = null;
+
+			#if LOGGING
+			Log.Trace( "End void OnUnPossess()" );
+			#endif
         }
         
         /// <summary>

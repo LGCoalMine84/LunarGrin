@@ -1,4 +1,5 @@
 ﻿#region File Header
+
 // File Name:		CameraManager.cs
 // Author:			John Whitsell
 // Creation Date:	2014/09/07
@@ -6,11 +7,17 @@
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
 //					All rights reserved.
+
 #endregion
 
 #region Using Directives
-using UnityEngine;
+
+using Logging;
+
 using System;
+
+using UnityEngine;
+
 #endregion
 
 namespace LunarGrin.Core
@@ -20,6 +27,10 @@ namespace LunarGrin.Core
     /// </summary>
     public class GameCamera : MonoBehaviour
     {
+		#if LOGGING
+		private static ILogger Log = LogFactory.CreateLogger( typeof( GameCamera ) );
+		#endif
+
         /// <summary>
         /// The camera's controls.
         /// </summary>
@@ -124,7 +135,15 @@ namespace LunarGrin.Core
         //  the new control state.
         public void SetOrbitControls()
         {
+			#if LOGGING
+			Log.Trace( "Begin void SetOrbitControls()" );
+			#endif
+
             Controls = new CameraOrbitControls( this );
+
+			#if LOGGING
+			Log.Trace( "End void SetOrbitControls()" );
+			#endif
         }
     }
 }

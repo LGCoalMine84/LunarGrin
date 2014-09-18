@@ -1,6 +1,20 @@
-using Pathfinding.Serialization.JsonFx;
+#region File Header
+
+// File Name:           GameConfigConverter.cs
+// Author:              Chris Mraovich
+// Creation Date:       8/26/2014   9:54 PM
+//
+// Copyrights:          Copyright 2014
+//                      Lunar Grin, LLC.
+//                      All rights reserved.
+
+#endregion
+
+#region Using Directives
 
 using Logging;
+
+using Pathfinding.Serialization.JsonFx;
 
 using System;
 using System.Collections.Generic;
@@ -8,13 +22,15 @@ using System.IO;
 
 using UnityEngine;
 
-/// <summary>
-/// This class is responsible for defining how the
-/// MySaveGameData type is serialized/deserialized 
-/// to/from JSON/object forms.
-/// </summary>
+#endregion
+
 namespace LunarGrin.Core
 {
+	/// <summary>
+	/// This class is responsible for defining how the
+	/// GameConfig type is serialized/deserialized 
+	/// to/from JSON/object forms.
+	/// </summary>
 	public class GameConfigConverter : JsonConverter
 	{
 		#if LOGGING
@@ -29,7 +45,7 @@ namespace LunarGrin.Core
 		public static void MySaveGameDataToStream( GameConfig saveGameData, Stream stream )
 		{
 			#if LOGGING_TRACE
-			Log.Trace( "Begin SaveGameToStream( MySaveGameData saveGameData, Stream stream )" );
+			Log.Trace( "Begin void MySaveGameDataToStream( GameConfig saveGameData, Stream stream )" );
 			#endif
 			
 			if( saveGameData == null )
@@ -57,7 +73,7 @@ namespace LunarGrin.Core
 			writer.Close();
 			
 			#if LOGGING_TRACE
-			Log.Trace( "End SaveGameToStream( MySaveGameData saveGameData, Stream stream )" );
+			Log.Trace( "End void MySaveGameDataToStream( GameConfig saveGameData, Stream stream )" );
 			#endif
 		}
 		
@@ -69,7 +85,7 @@ namespace LunarGrin.Core
 		public static void StreamToMySaveGameData( Stream stream, GameConfig saveGameData )
 		{
 			#if LOGGING_TRACE
-			Log.Trace( "Begin StreamToSaveGame( Stream stream, MySaveGameData saveGameData )" );
+			Log.Trace( "Begin void StreamToMySaveGameData( Stream stream, GameConfig saveGameData )" );
 			#endif
 			
 			if( stream == null )
@@ -97,7 +113,7 @@ namespace LunarGrin.Core
 			reader.Close();
 			
 			#if LOGGING_TRACE
-			Log.Trace( "End StreamToSaveGame( Stream stream, MySaveGameData saveGameData )" );
+			Log.Trace( "End void StreamToMySaveGameData( Stream stream, GameConfig saveGameData )" );
 			#endif
 		}
 		
@@ -162,7 +178,7 @@ namespace LunarGrin.Core
 			}
 			
 			#if LOGGING_TRACE
-			Log.Trace( "E Dictionary<string,object> WriteJson( Type type, object value )" );
+			Log.Trace( "End Dictionary<string,object> WriteJson( Type type, object value )" );
 			#endif
 			
 			return propertyNameToValueMap;

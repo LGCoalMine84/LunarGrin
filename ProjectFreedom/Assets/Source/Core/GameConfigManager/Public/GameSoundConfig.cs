@@ -1,4 +1,5 @@
 ﻿#region File Header
+
 // File Name:		GameSoundConfig.cs
 // Author:			John Whitsell
 // Creation Date:	2014/09/06
@@ -6,19 +7,29 @@
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
 //					All rights reserved.
+
 #endregion
 
 #region Using Directives
+
+using Logging;
+
 using System;
+
 #endregion
 
 namespace LunarGrin.Core
 {
 	/// <summary>
-	/// The GameSoundConfig manages the currently used sound settings as well as the previously saved sound settings.  This allows the user to change various sound settings and still revert back to a previous setting at a later time.
+	/// The GameSoundConfig manages the currently used sound settings as well as the previously saved sound settings.
+	/// This allows the user to change various sound settings and still revert back to a previous setting at a later time.
 	/// </summary>
 	public class GameSoundConfig
 	{
+		#if LOGGING
+		private static ILogger Log = LogFactory.CreateLogger( typeof( GameSoundConfig ) );
+		#endif
+
 		public Action OnSoundSettingsSave;
 	
 		/// <summary>
@@ -73,12 +84,20 @@ namespace LunarGrin.Core
 		/// <param name="value">The value to set the effect volume to.</param>
 		public void SetEffectVolume( Single value )
 		{
+			#if LOGGING
+			Log.Trace( "Begin void SetEffectVolume( Single value )" );
+			#endif
+
 			if ( activeSettings.EffectVolume != value )
 			{
 				activeSettings.EffectVolume = value;
 				
 				//	TODO:	Set the effect channel to the new value.
 			}
+
+			#if LOGGING
+			Log.Trace( "End void SetEffectVolume( Single value )" );
+			#endif
 		}
 		
 		/// <summary>
@@ -87,12 +106,20 @@ namespace LunarGrin.Core
 		/// <param name="value">The value to set the music volume to.</param>
 		public void SetMusicVolume( Single value )
 		{
+			#if LOGGING
+			Log.Trace( "Begin void SetMusicVolume( Single value )" );
+			#endif
+
 			if ( activeSettings.MusicVolume != value )
 			{
 				activeSettings.MusicVolume = value;
 				
 				//	TODO:	Set the music channel to the new value.
 			}
+
+			#if LOGGING
+			Log.Trace( "End void SetMusicVolume( Single value )" );
+			#endif
 		}
 		
 		/// <summary>
@@ -101,12 +128,20 @@ namespace LunarGrin.Core
 		/// <param name="value">The value to set the speech volume to.</param>
 		public void SetSpeechVolume( Single value )
 		{
+			#if LOGGING
+			Log.Trace( "Begin void SetSpeechVolume( Single value )" );
+			#endif
+
 			if ( activeSettings.SpeechVolume != value )
 			{
 				activeSettings.SpeechVolume = value;
 				
 				//	TODO:	Set the speech channel to the new value.
 			}
+
+			#if LOGGING
+			Log.Trace( "End void SetSpeechVolume( Single value )" );
+			#endif
 		}
 		
 		/// <summary>
@@ -115,9 +150,24 @@ namespace LunarGrin.Core
 		/// <param name="soundSettings">Sound settings.</param>
 		public void Load( SoundSettings soundSettings )
 		{
+			#if LOGGING
+			Log.Trace( "Begin void Load( SoundSettings soundSettings )" );
+			#endif
+
+			#if PARAM_CHECKING
+			if( soundSettings == null )
+			{
+				throw new ArgumentException( "parameter soundSettings is required" );
+			}
+			#endif
+
 			savedSettings = soundSettings;
 			
 			Revert();
+
+			#if LOGGING
+			Log.Trace( "End void Load( SoundSettings soundSettings )" );
+			#endif
 		}
 		
 		/// <summary>
@@ -125,6 +175,10 @@ namespace LunarGrin.Core
 		/// </summary>
 		public void Revert()
 		{
+			#if LOGGING
+			Log.Trace( "Begin void Revert()" );
+			#endif
+
 			if ( activeSettings.EffectVolume != savedSettings.EffectVolume )
 			{
 				SetEffectVolume( savedSettings.EffectVolume );
@@ -139,6 +193,10 @@ namespace LunarGrin.Core
 			{
 				SetSpeechVolume( savedSettings.SpeechVolume );
 			}
+
+			#if LOGGING
+			Log.Trace( "End void Revert()" );
+			#endif
 		}
 		
 		/// <summary>
@@ -146,6 +204,10 @@ namespace LunarGrin.Core
 		/// </summary>
 		public void Save()
 		{
+			#if LOGGING
+			Log.Trace( "Begin void Save()" );
+			#endif
+
 			savedSettings.EffectVolume = activeSettings.EffectVolume;
 			savedSettings.MusicVolume = activeSettings.MusicVolume;
 			savedSettings.SpeechVolume = activeSettings.SpeechVolume;
@@ -154,6 +216,10 @@ namespace LunarGrin.Core
 			{
 				OnSoundSettingsSave();
 			}
+
+			#if LOGGING
+			Log.Trace( "End void Save()" );
+			#endif
 		}
 	}
 }

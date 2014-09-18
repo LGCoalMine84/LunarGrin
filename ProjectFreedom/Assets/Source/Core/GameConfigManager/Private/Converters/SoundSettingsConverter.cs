@@ -1,3 +1,17 @@
+#region File Header
+
+// File Name:           SoundSettingsConverter.cs
+// Author:              Chris Mraovich
+// Creation Date:       8/26/2014   9:54 PM
+//
+// Copyrights:          Copyright 2014
+//                      Lunar Grin, LLC.
+//                      All rights reserved.
+
+#endregion
+
+#region Using Directives
+
 using Logging;
 
 using Pathfinding.Serialization.JsonFx;
@@ -6,8 +20,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+#endregion
+
 namespace LunarGrin.Core
 {
+	/// <summary>
+	/// This class is responsible for defining how the
+	/// SoundSettings type is serialized/deserialized 
+	/// to/from JSON/object forms.
+	/// </summary>
 	public class SoundSettingsConverter : JsonConverter
 	{
 		#if LOGGING
@@ -17,7 +38,7 @@ namespace LunarGrin.Core
 		public static SoundSettings DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )
 		{
 			#if LOGGING_TRACE
-			Log.Trace( "Begin DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )" );
+			Log.Trace( "Begin SoundSettings DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )" );
 			#endif
 
 			SoundSettings soundSaveGameData = new SoundSettings();
@@ -55,7 +76,7 @@ namespace LunarGrin.Core
 			}
 
 			#if LOGGING_TRACE
-			Log.Trace( "End DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )" );
+			Log.Trace( "End SoundSettings DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )" );
 			#endif
 
 			return soundSaveGameData;
@@ -64,7 +85,7 @@ namespace LunarGrin.Core
 		public static Dictionary<string, object> SoundToDictionary( SoundSettings sound )
 		{
 			#if LOGGING_TRACE
-			Log.Trace( "Begin SoundToDictionary( Sound sound )" );
+			Log.Trace( "Begin Dictionary<string, object> SoundToDictionary( SoundSettings sound )" );
 			#endif
 
 			Dictionary<string, object> propertyNameToValueMap = new Dictionary<string, object>();
@@ -79,7 +100,7 @@ namespace LunarGrin.Core
 			propertyNameToValueMap.Add( SoundSettings.Properties.SpeechVolume, sound.SpeechVolume );
 
 			#if LOGGING_TRACE
-			Log.Trace( "End SoundToDictionary( Sound sound )" );
+			Log.Trace( "End Dictionary<string, object> SoundToDictionary( SoundSettings sound )" );
 			#endif
 
 			return propertyNameToValueMap;
@@ -93,7 +114,7 @@ namespace LunarGrin.Core
 		public static void SoundToStream( SoundSettings soundSaveGameData, Stream stream )
 		{
 			#if LOGGING_TRACE
-			Log.Trace( "Begin SoundToStream( Sound soundSaveGameData, Stream stream )" );
+			Log.Trace( "Begin void SoundToStream( SoundSettings soundSaveGameData, Stream stream )" );
 			#endif
 			
 			if( soundSaveGameData == null )
@@ -115,7 +136,7 @@ namespace LunarGrin.Core
 			writer.Close();
 			
 			#if LOGGING_TRACE
-			Log.Trace( "End SoundToStream( Sound soundSaveGameData, Stream stream )" );
+			Log.Trace( "End void SoundToStream( SoundSettings soundSaveGameData, Stream stream )" );
 			#endif
 		}
 
@@ -127,7 +148,7 @@ namespace LunarGrin.Core
 		public static void StreamToSound( Stream stream, SoundSettings soundSaveGameData )
 		{
 			#if LOGGING_TRACE
-			Log.Trace( "Begin treamToSound( Stream stream, Sound soundSaveGameData )" );
+			Log.Trace( "Begin void StreamToSound( Stream stream, SoundSettings soundSaveGameData )" );
 			#endif
 			
 			if( stream == null )
@@ -149,7 +170,7 @@ namespace LunarGrin.Core
 			reader.Close();
 			
 			#if LOGGING_TRACE
-			Log.Trace( "End treamToSound( Stream stream, Sound soundSaveGameData )" );
+			Log.Trace( "End void StreamToSound( Stream stream, SoundSettings soundSaveGameData )" );
 			#endif
 		}
 

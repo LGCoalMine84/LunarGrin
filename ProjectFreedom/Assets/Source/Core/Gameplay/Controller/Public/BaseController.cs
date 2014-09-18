@@ -1,4 +1,5 @@
 ﻿#region File Header
+
 // File Name:		BaseController.cs
 // Author:			John Whitsell
 // Creation Date:	2014/09/07
@@ -6,21 +7,32 @@
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
 //					All rights reserved.
+
 #endregion
 
 #region Using Directives
-using UnityEngine;
+
+using Logging;
+
 using System;
 using System.Collections.Generic;
+
+using UnityEngine;
+
 #endregion
 
 namespace LunarGrin.Core
 {
     /// <summary>
-    /// The Base controller defines the basic functionality of a controller.  A controller is able to "Possess" and "Unpossess" a <see cref="Pawn"/>.  The controller uses an <see cref="IControls"/> to control the Pawn it possesses.
+    /// The Base controller defines the basic functionality of a controller.  A controller is 
+	/// able to "Possess" and "Unpossess" a <see cref="Pawn"/>.  The controller uses an <see cref="IControls"/> to control the Pawn it possesses.
     /// </summary>
     public class BaseController
     {
+		#if LOGGING
+		private static ILogger Log = LogFactory.CreateLogger( typeof( BaseController ) );
+		#endif
+
         /// <summary>
         /// The pawn the controller is possessing.
         /// </summary>
@@ -49,10 +61,18 @@ namespace LunarGrin.Core
         /// <param name="target">Target.</param>
         public void Possess( GameObject target )
         {
+			#if LOGGING
+			Log.Trace( "Begin void Possess( GameObject target )" );
+			#endif
+
             if ( target != null )
             {
                 Possess( target.GetComponent<Pawn>() );
             }
+
+			#if LOGGING
+			Log.Trace( "End void Possess( GameObject target )" );
+			#endif
         }
         
         /// <summary>
@@ -61,17 +81,28 @@ namespace LunarGrin.Core
         /// <param name="target">Target.</param>
         public void Possess( Pawn target )
         {
+			#if LOGGING
+			Log.Trace( "Begin void Possess( Pawn target )" );
+			#endif
+
+			#if PARAM_CHECKING
+			if( target == null )
+			{
+				throw new ArgumentException( "parameter target is required" );
+			}
+			#endif
+
             if ( pawn != null )
             {
                 pawn.OnUnPossess();
             }
             
             pawn = target;
-            
-            if ( pawn != null )
-            {
-                pawn.OnPossess( this );
-            }
+			pawn.OnPossess( this );
+
+			#if LOGGING
+			Log.Trace( "End void Possess( Pawn target )" );
+			#endif
         }
 
         /// <summary>
@@ -79,11 +110,20 @@ namespace LunarGrin.Core
         /// </summary>
         public void UnPossess()
         {
+			#if LOGGING
+			Log.Trace( "Begin void UnPossess()" );
+			#endif
+
             if ( pawn != null )
             {
                 pawn.OnUnPossess();
+
                 pawn = null;
             }
+
+			#if LOGGING
+			Log.Trace( "End void UnPossess()" );
+			#endif
         }
         
         /// <summary>
@@ -91,12 +131,20 @@ namespace LunarGrin.Core
         /// </summary>
         public void Update()
         {
+			#if LOGGING
+			Log.Trace( "Begin void Update()" );
+			#endif
+
             IControls activeControls = GetControls();
             
             if ( activeControls != null )
             {
                 activeControls.Update();
             }
+
+			#if LOGGING
+			Log.Trace( "End void Update()" );
+			#endif
         }
 
         /// <summary>
@@ -105,12 +153,22 @@ namespace LunarGrin.Core
         /// <returns>The controls.</returns>
         protected IControls GetControls()
         {
+			#if LOGGING
+			Log.Trace( "Begin IControls GetControls()" );
+			#endif
+
+			IControls controls = null;
+
             if ( controlsStack.Count > 0 )
             {
-                return controlsStack.Peek();
+				controls = controlsStack.Peek();
             }
             
-            return null;
+			#if LOGGING
+			Log.Trace( "End IControls GetControls()" );
+			#endif
+
+			return controls;
         }
 
         /// <summary>
@@ -118,11 +176,13 @@ namespace LunarGrin.Core
         /// </summary>
         protected void PopControls()
         {
-            IControls activeControls = null;
+			#if LOGGING
+			Log.Trace( "Begin void PopControls()" );
+			#endif
             
             if ( controlsStack.Count > 0 )
             {
-                activeControls = controlsStack.Pop();
+				IControls activeControls = controlsStack.Pop();
                 
                 activeControls.OnShutdown();
                 
@@ -131,27 +191,44 @@ namespace LunarGrin.Core
                     activeControls.OnResume();
                 }
             }
+
+			#if LOGGING
+			Log.Trace( "End void PopControls()" );
+			#endif
         }
         
         /// <summary>
-        /// Pushes the controls to the top of the stack.  OnSuspend will be called on the active controls before the new controls will be added to the stack.  OnStartup will be called on the new controls.
+        /// Pushes the controls to the top of the stack.  OnSuspend will be called on the active controls before 
+		/// the new controls will be added to the stack.  OnStartup will be called on the new controls.
         /// </summary>
         /// <param name="controls">Controls.</param>
         protected void PushControls( IControls controls )
         {
-            if ( controls != null )
-            {
-                IControls activeControls = GetControls();
-                
-                if ( activeControls != null )
-                {
-                    activeControls.OnSuspend();
-                }
-                
-                controlsStack.Push( controls );
-                
-                controls.OnStartup();
-            }
+			#if LOGGING
+			Log.Trace( "Begin void PushControls( IControls controls )" );
+			#endif
+
+			#if PARAM_CHECKING
+			if( controls == null )
+			{
+				throw new ArgumentException( "parameter controls is required" );
+			}
+			#endif
+
+			IControls activeControls = GetControls();
+			
+			if ( activeControls != null )
+			{
+				activeControls.OnSuspend();
+			}
+			
+			controlsStack.Push( controls );
+			
+			controls.OnStartup();
+
+			#if LOGGING
+			Log.Trace( "End void PushControls( IControls controls )" );
+			#endif
         }
     }
 }
