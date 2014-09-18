@@ -26,27 +26,27 @@ namespace LunarGrin.Core
 		#region Public Methods
 
 		/// <summary>
-		/// Registers a game state changing handler to the game state manager.
+		/// Registers an event handler for when the game state manager broadcasts a game state changing event.
 		/// </summary>
-		/// <param name="handler">The game state changing event handler to add.</param>
+		/// <param name="handler">The event handler to register.</param>
 		void RegisterStateChangingEvent( EventHandler<GameStateChangingEventArgs> handler );
 		
 		/// <summary>
-		/// Unregisters a game state changing handler to the game state manager.
+		/// Unregisters an event handler from when the game state manager broadcasts a game state changing event.
 		/// </summary>
-		/// <param name="handler">The game state changing event handler to remove.</param>
+		/// <param name="handler">The event handler to unregister.</param>
 		void UnregisterStateChangingEvent( EventHandler<GameStateChangingEventArgs> handler );
 
 		/// <summary>
-		/// Registers a game state changed handler to the game state manager.
+		/// Registers an event handler for when the game state manager broadcasts a game state changed event.
 		/// </summary>
-		/// <param name="handler">The game state changed event handler to register.</param>
+		/// <param name="handler">The event handler to register.</param>
 		void RegisterStateChangedEvent( EventHandler<GameStateChangedEventArgs> handler );
 		
 		/// <summary>
-		/// Unregisters a game state changed handler to the game state manager.
+		/// Unregisters an event handler from when the game state manager broadcasts a game state changed event.
 		/// </summary>
-		/// <param name="handler">The game state changed event handler to unregister.</param>
+		/// <param name="handler">The event handler to unregister.</param>
 		void UnregisterStateChangedEvent( EventHandler<GameStateChangedEventArgs> handler );
 
 		/// <summary>
