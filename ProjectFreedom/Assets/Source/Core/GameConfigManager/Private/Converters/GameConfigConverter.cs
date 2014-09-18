@@ -13,12 +13,12 @@ using UnityEngine;
 /// MySaveGameData type is serialized/deserialized 
 /// to/from JSON/object forms.
 /// </summary>
-namespace SaveGame
+namespace LunarGrin.Core
 {
-	public class SaveGameDataConverter : JsonConverter
+	public class GameConfigConverter : JsonConverter
 	{
 		#if LOGGING
-		private static ILogger Log = LogFactory.CreateLogger( typeof( SaveGameDataConverter ) );
+		private static ILogger Log = LogFactory.CreateLogger( typeof( GameConfigConverter ) );
 		#endif
 		
 		/// <summary>
@@ -50,9 +50,9 @@ namespace SaveGame
 			BinaryWriter writer = new BinaryWriter( stream );
 			
 			//TODO: as we add more save game data fields, they will need to be added here
-			writer.Write( saveGameData.Sound.EffectVolume );
-			writer.Write( saveGameData.Sound.MusicVolume );
-			writer.Write( saveGameData.Sound.SpeechVolume );
+			writer.Write( saveGameData.SoundSettings.EffectVolume );
+			writer.Write( saveGameData.SoundSettings.MusicVolume );
+			writer.Write( saveGameData.SoundSettings.SpeechVolume );
 
 			writer.Close();
 			
@@ -82,17 +82,17 @@ namespace SaveGame
 				throw new ArgumentException( "parameter saveGameData is required" );
 			}
 
-			if( saveGameData.Sound == null )
+			if( saveGameData.SoundSettings == null )
 			{
-				saveGameData.Sound = new SoundSettings();
+				saveGameData.SoundSettings = new SoundSettings();
 			}
 
 			BinaryReader reader = new BinaryReader( stream );
 			
 			//TODO: as we add more save game data fields, they will need to be added here
-			saveGameData.Sound.EffectVolume = reader.ReadSingle();
-			saveGameData.Sound.MusicVolume = reader.ReadSingle();
-			saveGameData.Sound.SpeechVolume = reader.ReadSingle();
+			saveGameData.SoundSettings.EffectVolume = reader.ReadSingle();
+			saveGameData.SoundSettings.MusicVolume = reader.ReadSingle();
+			saveGameData.SoundSettings.SpeechVolume = reader.ReadSingle();
 
 			reader.Close();
 			
@@ -147,13 +147,13 @@ namespace SaveGame
 				GameConfig mySaveGameData = (GameConfig)value;
 				propertyNameToValueMap = new Dictionary<string, object>();
 
-				if( mySaveGameData.Sound == null )
+				if( mySaveGameData.SoundSettings == null )
 				{
 					throw new InvalidOperationException( typeof( GameConfig ).ToString() +  "." + 
-					                                     GameConfig.Properties.Sound + " is required" );
+					                                    GameConfig.Properties.Sound + " is required" );
 				}
 
-				Dictionary<string,object> soundPropertyNameToValueMap = SoundConverter.SoundToDictionary( mySaveGameData.Sound );
+				Dictionary<string,object> soundPropertyNameToValueMap = SoundSettingsConverter.SoundToDictionary( mySaveGameData.SoundSettings );
 				propertyNameToValueMap[GameConfig.Properties.Sound] = soundPropertyNameToValueMap;
 			}
 			catch( Exception e )
@@ -194,7 +194,7 @@ namespace SaveGame
 					Dictionary<string, object> soundSaveGameDataMap = 
 						(Dictionary<string, object>)propertyNameToValueMap[GameConfig.Properties.Sound];
 
-					mySaveGameData.Sound = SoundConverter.DictoinaryToSound( soundSaveGameDataMap );
+					mySaveGameData.SoundSettings = SoundSettingsConverter.DictoinaryToSound( soundSaveGameDataMap );
 				}
 			}
 			catch( Exception e )

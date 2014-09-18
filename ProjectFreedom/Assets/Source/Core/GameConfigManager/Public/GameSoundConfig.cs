@@ -39,7 +39,7 @@ namespace LunarGrin.Core
 		{
 			get
 			{
-				return activeSettings.effectVolume;
+				return activeSettings.EffectVolume;
 			}
 		}
 		
@@ -51,7 +51,7 @@ namespace LunarGrin.Core
 		{
 			get
 			{
-				return activeSettings.musicVolume;
+				return activeSettings.MusicVolume;
 			}
 		}
 		
@@ -63,7 +63,7 @@ namespace LunarGrin.Core
 		{
 			get
 			{
-				return activeSettings.speechVolume;
+				return activeSettings.SpeechVolume;
 			}
 		}
 		
@@ -73,9 +73,9 @@ namespace LunarGrin.Core
 		/// <param name="value">The value to set the effect volume to.</param>
 		public void SetEffectVolume( Single value )
 		{
-			if ( activeSettings.effectVolume != value )
+			if ( activeSettings.EffectVolume != value )
 			{
-				activeSettings.effectVolume = value;
+				activeSettings.EffectVolume = value;
 				
 				//	TODO:	Set the effect channel to the new value.
 			}
@@ -87,9 +87,9 @@ namespace LunarGrin.Core
 		/// <param name="value">The value to set the music volume to.</param>
 		public void SetMusicVolume( Single value )
 		{
-			if ( activeSettings.musicVolume != value )
+			if ( activeSettings.MusicVolume != value )
 			{
-				activeSettings.musicVolume = value;
+				activeSettings.MusicVolume = value;
 				
 				//	TODO:	Set the music channel to the new value.
 			}
@@ -101,9 +101,9 @@ namespace LunarGrin.Core
 		/// <param name="value">The value to set the speech volume to.</param>
 		public void SetSpeechVolume( Single value )
 		{
-			if ( activeSettings.speechVolume != value )
+			if ( activeSettings.SpeechVolume != value )
 			{
-				activeSettings.speechVolume = value;
+				activeSettings.SpeechVolume = value;
 				
 				//	TODO:	Set the speech channel to the new value.
 			}
@@ -113,7 +113,7 @@ namespace LunarGrin.Core
 		/// Load the specified soundSettings.  This will also apply the sound settings.
 		/// </summary>
 		/// <param name="soundSettings">Sound settings.</param>
-		public void Load( ref SoundSettings soundSettings )
+		public void Load( SoundSettings soundSettings )
 		{
 			savedSettings = soundSettings;
 			
@@ -125,19 +125,19 @@ namespace LunarGrin.Core
 		/// </summary>
 		public void Revert()
 		{
-			if ( activeSettings.effectVolume != savedSettings.effectVolume )
+			if ( activeSettings.EffectVolume != savedSettings.EffectVolume )
 			{
-				SetEffectVolume( savedSettings.effectVolume );
+				SetEffectVolume( savedSettings.EffectVolume );
 			}
 			
-			if ( activeSettings.musicVolume != savedSettings.effectVolume )
+			if ( activeSettings.MusicVolume != savedSettings.EffectVolume )
 			{
-				SetMusicVolume( savedSettings.musicVolume );
+				SetMusicVolume( savedSettings.MusicVolume );
 			}
 			
-			if ( activeSettings.speechVolume != savedSettings.speechVolume )
+			if ( activeSettings.SpeechVolume != savedSettings.SpeechVolume )
 			{
-				SetSpeechVolume( savedSettings.speechVolume );
+				SetSpeechVolume( savedSettings.SpeechVolume );
 			}
 		}
 		
@@ -146,9 +146,9 @@ namespace LunarGrin.Core
 		/// </summary>
 		public void Save()
 		{
-			savedSettings.effectVolume = activeSettings.effectVolume;
-			savedSettings.musicVolume = activeSettings.musicVolume;
-			savedSettings.speechVolume = activeSettings.speechVolume;
+			savedSettings.EffectVolume = activeSettings.EffectVolume;
+			savedSettings.MusicVolume = activeSettings.MusicVolume;
+			savedSettings.SpeechVolume = activeSettings.SpeechVolume;
 			
 			if ( OnSoundSettingsSave != null )
 			{

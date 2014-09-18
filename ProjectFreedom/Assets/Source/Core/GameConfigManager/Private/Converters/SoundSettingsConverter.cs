@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace SaveGame
+namespace LunarGrin.Core
 {
-	public class SoundConverter : JsonConverter
+	public class SoundSettingsConverter : JsonConverter
 	{
 		#if LOGGING
-		private static ILogger Log = LogFactory.CreateLogger( typeof( SoundConverter ) );
+		private static ILogger Log = LogFactory.CreateLogger( typeof( SoundSettingsConverter ) );
 		#endif
 
 		public static SoundSettings DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )

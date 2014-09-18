@@ -1,21 +1,44 @@
-﻿#region File Header
-// File Name:		GameConfig.cs
-// Author:			John Whitsell
-// Creation Date:	
-//
-// Copyrights:		Copyright 2014
-//					Lunar Grin, LLC.
-//					All rights reserved.
-#endregion
-
-#region Using Directives
-using UnityEngine;
+﻿
+using Logging;
 using System;
-#endregion
 
-public class GameConfig
+namespace LunarGrin.Core
 {
-	public SoundSettings soundSettings = null;
-	
-	//public VideoSettings videoSettings = null;
+	/// <summary>
+	/// This is a data centric class that stores the save game data.
+	/// </summary>
+	public class GameConfig
+	{
+		#if LOGGING
+		private ILogger Log = LogFactory.CreateLogger( typeof( GameConfig ) );
+		#endif
+
+		public static class Properties
+		{
+			public static readonly String Sound = "Sound";
+		}
+
+		private SoundSettings soundSettings;
+		
+		public GameConfig()
+		{
+			#if LOGGING_TRACE
+			Log.Trace( "Begin MySaveGameData()" );
+			Log.Trace( "End MySaveGameData()" );
+			#endif
+		}
+
+		public SoundSettings SoundSettings
+		{
+			get
+			{
+				return soundSettings;
+			}
+			
+			set
+			{
+				soundSettings = value;
+			}
+		}
+	}
 }
