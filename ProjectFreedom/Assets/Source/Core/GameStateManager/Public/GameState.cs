@@ -115,29 +115,40 @@ namespace LunarGrin.Core
 		#region IGameState
 		
 		/// <summary>
-		/// Event handler for when the game state is changing.
+		/// Event handler for when the game state manager throws a game state changing event.
 		/// </summary>
 		/// <param name="sender">The sender object.</param>
-		/// <param name="e">The game state changing event arguments.</param>
+		/// <param name="e">The event arguments with the information about the game states that are changing.</param>
+		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public virtual void OnGameStateChanging( System.Object sender, GameStateChangingEventArgs e )
 		{
 			
 		}
 		
 		/// <summary>
-		/// Event handler for when the game state has been changed.
+		/// Event handler for when the game state manager thrown a game state changed event.
 		/// </summary>
 		/// <param name="sender">The sender object.</param>
-		/// <param name="e">The game state changed event arguments.</param>
+		/// <param name="e">The event arguments with the information about the game states that changed.</param>
+		/// <exception cref="InvalidOperationException">Unable to get the current game state from the game state manager.</exception>
+		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public virtual void OnGameStateChanged( System.Object sender, GameStateChangedEventArgs e )
 		{
       		if( sender is IGameStateManager )
       		{
       			IGameStateManager stateManager = (IGameStateManager)sender;
-				if( stateManager.GetCurrentState() != null )
+      			
+      			try
+      			{
+					if( stateManager.GetCurrentState() != null )
+					{
+	      				isEnabled = ( stateManager.GetCurrentState() == this );
+	      				isVisible = isEnabled;
+					}
+				}
+				catch( Exception ex )
 				{
-      				isEnabled = ( stateManager.GetCurrentState() == this );
-      				isVisible = isEnabled;
+					throw new InvalidOperationException( "Unable to get the current game state from the game state manager.", ex );
 				}
       		}
     	}
@@ -145,6 +156,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Raised when the game state has been pushed to the top of the stack.
 		/// </summary>
+		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public virtual void OnEnter()
 		{
 		
@@ -153,6 +165,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Raised when the game state has been popped from the top of the stack.
 		/// </summary>
+		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public virtual void OnExit()
 		{
 		
@@ -169,6 +182,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Raised when the game state has been disabled by a new game state being pushed to the stack.
 		/// </summary>
+		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public virtual void OnDisabled()
 		{
 		
@@ -178,6 +192,7 @@ namespace LunarGrin.Core
 		/// Updates the game state logic.
 		/// </summary>
 		/// <param name="time">The delta time.</param>
+		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public virtual void Update( Single deltaTime )
 		{
 		

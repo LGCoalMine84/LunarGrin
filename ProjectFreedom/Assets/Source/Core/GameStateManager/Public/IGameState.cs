@@ -57,17 +57,17 @@ namespace LunarGrin.Core
 		#region Public Methods
 		
 		/// <summary>
-		/// Event handler for when the game state is changing.
+		/// Event handler for when the game state manager throws a game state changing event.
 		/// </summary>
 		/// <param name="sender">The sender object.</param>
-		/// <param name="e">The game state changing event arguments.</param>
+		/// <param name="e">The event arguments with the information about the game states that are changing.</param>
 		void OnGameStateChanging( System.Object sender, GameStateChangingEventArgs e );
 		
 		/// <summary>
-		/// Event handler for when the game state has been changed.
+		/// Event handler for when the game state manager thrown a game state changed event.
 		/// </summary>
 		/// <param name="sender">The sender object.</param>
-		/// <param name="e">The game state changed event arguments.</param>
+		/// <param name="e">The event arguments with the information about the game states that changed.</param>
 		void OnGameStateChanged( System.Object sender, GameStateChangedEventArgs e );
 		
 		/// <summary>

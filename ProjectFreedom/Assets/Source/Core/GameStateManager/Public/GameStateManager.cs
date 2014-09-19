@@ -175,25 +175,25 @@ namespace LunarGrin.Core
 		/// Pushes a game state to the game state stack.
 		/// </summary>
 		/// <param name="state">The state to push.</param>
+		/// <exception cref="ArgumentNullException">Unable to push the game state because the game state is invalid.</exception>
 		/// <exception cref="NullReferenceException">Unable to push the game state because the stack is invalid.</exception>
 		/// <exception cref="InvalidOperationException">Unable to push the game state because failed to add the state to the stack.</exception>
 		/// <seealso cref="LunarGrin.Core.IGameStateManager"/>
 		public void PushState( IGameState state )
 		{
+			if( state == null )
+			{
+				throw new ArgumentNullException( "Unable to push the game state because the game state is invalid." );
+			}
+		
 			if( gameStates == null )
 			{
 				throw new NullReferenceException( "Unable to push the game state because the stack is invalid." );
 			}
-		
-			if( currentState != null && state != null )
+			
+			if( onStateChanging != null )
 			{
-				previousState = currentState;
-				previousState.OnDisabled();
-				
-				if( onStateChanging != null )
-				{
-					onStateChanging( this, new GameStateChangingEventArgs( currentState.Name, state.Name ) );
-				}
+				onStateChanging( this, new GameStateChangingEventArgs( ( currentState != null ) ? currentState.Name : null, state.Name ) );
 			}
 
 			try
@@ -205,6 +205,12 @@ namespace LunarGrin.Core
 				currentState = previousState;
 			
 				throw new InvalidOperationException( "Unable to push the game state because failed to add the state to the stack.", ex );
+			}
+			
+			if( currentState != null )
+			{
+				previousState = currentState;
+				previousState.OnDisabled();
 			}
 			
 			currentState = state;
@@ -240,14 +246,13 @@ namespace LunarGrin.Core
 			{
 				throw new NullReferenceException( "Unable to pop the current game state because the current game state reference is invalid." );
 			}
-		
-			IGameState stateToRemove = currentState;
-			stateToRemove.OnExit();
 			
 			if( onStateChanging != null )
 			{
 				onStateChanging( this, new GameStateChangingEventArgs( currentState.Name, previousState.Name ) );
       		}
+      		
+			IGameState stateToRemove = currentState;
       
       		try
 			{
@@ -258,7 +263,9 @@ namespace LunarGrin.Core
 				currentState = stateToRemove;
 			
 				throw new InvalidOperationException( "Unable to pop the current game state because failed to remove the game state from the stack.", ex );
-			}	
+			}
+			
+			stateToRemove.OnExit();
 
 			currentState = previousState;
 			currentState.OnEnabled();

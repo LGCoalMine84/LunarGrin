@@ -59,7 +59,7 @@ namespace LunarGrin.Core
 		/// <param name="deltaTime"></param>
 		public virtual void Update( Single deltaTime )
 		{
-			
+			GameServices.StateManager.Update( deltaTime );
 		}
 		
 		/// <summary>
