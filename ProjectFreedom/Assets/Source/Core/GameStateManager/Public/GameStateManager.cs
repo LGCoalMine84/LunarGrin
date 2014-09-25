@@ -301,9 +301,11 @@ namespace LunarGrin.Core
 		
 			try
 			{
+				IGameState removedState = null;
 				while( gameStates.Count > 0 )
 				{
-					RemoveGameStateFromStackTop();
+					removedState = RemoveGameStateFromStackTop();
+					removedState.OnExit();
 				}
 				
 				PushState( state );
@@ -425,8 +427,9 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Removes the game state from the top of the stack.
 		/// </summary>
+		/// <returns>The game state that is being removed from the stack.</returns>
 		/// <exception cref="NullReferenceException">Unable to remove the topmost game state in the stack because the state in the stack is invalid.</exception>
-		private void RemoveGameStateFromStackTop()
+		private IGameState RemoveGameStateFromStackTop()
 		{
 			IGameState stateToRemove = null;
 			
@@ -448,6 +451,8 @@ namespace LunarGrin.Core
 			{
 				onStateChanged -= stateToRemove.OnGameStateChanged;
 			}
+			
+			return stateToRemove;
 		}
 		
 		/// <summary>
