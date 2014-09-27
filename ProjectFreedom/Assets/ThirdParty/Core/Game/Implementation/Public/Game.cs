@@ -22,20 +22,15 @@ namespace LunarGrin.Core
 	/// The main game class.
 	/// </summary>
 	/// <remarks>
-	/// All game classes must derive from this base class.
+	/// The game class specific to the application must derived from this class.
 	/// </remarks>
 	public abstract class Game
-	{
-		#region Protected Fields
-			
-		#endregion
-		
-		#region Properties
-		
-		#endregion
-		
+	{	
 		#region Constructors
 		
+		/// <summary>
+		/// Default constructor initializes a new instance of the <see cref="LunarGrin.Core.Game"/> class.
+		/// </summary>
 		protected Game()
 		{
 			
