@@ -96,6 +96,11 @@ namespace LunarGrin.Core
 			//	TODO:	Update the coroutine manager
 		}
 		
+		private void BeginLoading()
+		{
+			
+		}
+		
 		private void FinishLoading()
 		{
 			GameServices.StateManager.ChangeState( new MainMenuState( "MainMenuState" ) );
