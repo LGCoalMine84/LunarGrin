@@ -1,6 +1,6 @@
 #region File Header
 
-// File Name:           Main.cs
+// File Name:           FreedomMain.cs
 // Author:              Andy Sanchez
 // Creation Date:       8/26/2014   9:54 PM
 //
@@ -23,25 +23,16 @@ using LunarGrin.Core;
 namespace Freedom
 {
 	/// <summary>
-	/// Main entry point to the game.
+	/// Main entry point to the freedom game.
 	/// </summary>
-	public sealed class Main : MonoBehaviour
-	{
-		#region Private Fields
-		
-		/// <summary>
-		/// The game reference.
-		/// </summary>
-		private FreedomGame theGame = null;
-		
-		#endregion
-		
+	public sealed class FreedomMain : Main
+	{	
 		#region Constructors
 		
 		/// <summary>
 		/// Default constructor initializes a new instance of the <see cref="LunarGrin.Main"/> class.
 		/// </summary>
-		public Main()
+		public FreedomMain()
 		{
 			theGame = new FreedomGame();
 		}
@@ -55,7 +46,7 @@ namespace Freedom
 		/// <summary>
 		/// Called after all the scene components have been created.
 		/// </summary>
-		private void Start()
+		/*private void Start()
 		{
 			theGame.Initialize();
 		}
@@ -74,7 +65,7 @@ namespace Freedom
 		private void OnDestroy()
 		{
 			theGame.Destroy();
-		}
+		}*/
 		
 		#endregion
 		
