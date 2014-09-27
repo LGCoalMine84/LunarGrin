@@ -41,6 +41,8 @@ namespace LunarGrin.Core
 		/// </summary>
 		public override void OnEnter()
 		{
+			base.OnEnter();
+			
 			Object optionsMenuPrefab = Resources.Load( "Prefabs/UI/OptionsMenu/OptionsMenu" );
 			
 			if ( optionsMenuPrefab != null )
@@ -54,6 +56,8 @@ namespace LunarGrin.Core
 		/// </summary>
 		public override void OnEnabled()
 		{
+			base.OnEnabled();
+			
 			if ( optionsMenu != null )
 			{
 				optionsMenu.SetActive( true );
@@ -65,6 +69,8 @@ namespace LunarGrin.Core
 		/// </summary>
 		public override void OnDisabled()
 		{
+			base.OnDisabled();
+			
 			if ( optionsMenu != null )
 			{
 				optionsMenu.SetActive( false );
@@ -76,6 +82,8 @@ namespace LunarGrin.Core
 		/// </summary>
 		public override void OnExit()
 		{
+			base.OnExit();
+		
 			GameObject.Destroy( optionsMenu );
 		}
 	}

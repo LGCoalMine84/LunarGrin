@@ -134,23 +134,7 @@ namespace LunarGrin.Core
 		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public virtual void OnGameStateChanged( System.Object sender, GameStateChangedEventArgs e )
 		{
-      		if( sender is IGameStateManager )
-      		{
-      			IGameStateManager stateManager = (IGameStateManager)sender;
-      			
-      			try
-      			{
-					if( stateManager.GetCurrentState() != null )
-					{
-	      				isEnabled = ( stateManager.GetCurrentState() == this );
-	      				isVisible = isEnabled;
-					}
-				}
-				catch( Exception ex )
-				{
-					throw new InvalidOperationException( "Unable to get the current game state from the game state manager.", ex );
-				}
-      		}
+
     	}
     	
 		/// <summary>
@@ -176,7 +160,8 @@ namespace LunarGrin.Core
 		/// </summary>
 		public virtual void OnEnabled()
 		{
-		
+			isEnabled = true;
+			isVisible = true;
 		}
 		
 		/// <summary>
@@ -185,7 +170,8 @@ namespace LunarGrin.Core
 		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public virtual void OnDisabled()
 		{
-		
+			isEnabled = false;
+			isVisible = false;
 		}
 		
 		/// <summary>

@@ -49,9 +49,7 @@ namespace Freedom
 		{
 			base.Initialize();
 			
-			MainMenuState mainMenuState = new MainMenuState( "MainMenuState" );
-			
-			GameServices.StateManager.PushState( mainMenuState );
+			GameServices.StateManager.PushState( new LoadingState( "LoadingState" ) );
 		}
 		
 		/// <summary>
