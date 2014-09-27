@@ -25,6 +25,9 @@ namespace Freedom
 	/// <summary>
 	/// Main entry point to the game.
 	/// </summary>
+	/// <remarks>
+	/// The main object specific to the application must derive from this class.
+	/// </remarks>
 	public abstract class Main : MonoBehaviour
 	{
 		#region Private Fields
@@ -57,7 +60,10 @@ namespace Freedom
 		/// </summary>
 		protected virtual void Start()
 		{
-			theGame.Initialize();
+			if( theGame != null )
+			{
+				theGame.Initialize();
+			}
 		}
 
 		/// <summary>
@@ -65,7 +71,10 @@ namespace Freedom
 		/// </summary>
 		protected virtual void Update()
 		{
-			theGame.Update( Time.deltaTime );
+			if( theGame != null )
+			{
+				theGame.Update( Time.deltaTime );
+			}
 		}
 		
 		/// <summary>
@@ -73,7 +82,10 @@ namespace Freedom
 		/// </summary>
 		protected virtual void OnDestroy()
 		{
-			theGame.Destroy();
+			if( theGame != null )
+			{
+				theGame.Destroy();
+			}
 		}
 		
 		#endregion
