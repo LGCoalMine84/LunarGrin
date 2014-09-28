@@ -117,8 +117,6 @@ namespace LunarGrin.Core.Tools
 				
 				activeGUI.OnGUI();
 			}
-			
-			
 		}
 		
 		#endregion		

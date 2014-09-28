@@ -16,11 +16,9 @@ using System;
 
 using UnityEngine;
 
-using LunarGrin.Core;
-
 #endregion
 
-namespace Freedom
+namespace LunarGrin.Core
 {
 	/// <summary>
 	/// Main entry point to the game.
