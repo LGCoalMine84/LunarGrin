@@ -19,8 +19,7 @@ namespace LunarGrin.Core
 	{
 		Invalid = 0,
 		
-		Player,
+		Base,
 		AIBrain,
-		Waypoint,
 	}
 }

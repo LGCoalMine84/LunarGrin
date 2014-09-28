@@ -32,7 +32,7 @@ namespace LunarGrin.Core.Tools
 		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.Tools.LaunchpointAIBrainGUI"/> class.
 		/// </summary>
 		/// <param name="lpBrain"></param>
-		public LaunchpointAIBrainGUI( Launchpoint lpBrain ) : base( lpBrain )
+		public LaunchpointAIBrainGUI( ILaunchpoint lpBrain ) : base( lpBrain )
 		{
 			brainType = ((LaunchpointAIBrain)lpBrain).BrainType;
 		}
@@ -44,11 +44,16 @@ namespace LunarGrin.Core.Tools
 		{
 			base.OnGUI();
 			
-			if( baseLaunchpoint.Type == LaunchpointType.AIBrain )
+			/*if( baseLaunchpoint.Type == LaunchpointType.AIBrain )
 			{
 				LaunchpointAIBrain brain = (LaunchpointAIBrain)baseLaunchpoint;
 				
 				brain.BrainType = EditorGUILayout.IntField( "Brain Type", brain.BrainType );
+			}*/
+			
+			if( currentType == LaunchpointType.AIBrain )
+			{
+				brainType = EditorGUILayout.IntField( "Brain Type", brainType );
 			}
 		}
 	}

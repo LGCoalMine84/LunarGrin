@@ -31,53 +31,82 @@ namespace LunarGrin.Core.Tools
 		#region Private Fields
 		
 		/// <summary>
-		/// The launchpoint object correspnding to this GUI.
-		/// </summary>
-		protected Launchpoint baseLaunchpoint = null;
-		
-		/// <summary>
 		/// The type of the current launchpoint object.
 		/// </summary>
-		protected LaunchpointType currentType = LaunchpointType.Invalid;
+		protected LaunchpointType currentType = LaunchpointType.Base;
 		
-		public String name = null;
-		public LaunchpointType type = LaunchpointType.Invalid;
+		/// <summary>
+		/// The name of the current.
+		/// </summary>
+		protected String currentName = null;
+		
+		/// <summary>
+		/// The type of the changed.
+		/// </summary>
+		protected Boolean changedType = false;
 		
 		#endregion
-		public Boolean changedType = false;
+		
+		#region Properties
+		
+		public String CurrentName
+		{
+			get
+			{
+				return currentName;
+			}
+		}
+		
+		public LaunchpointType CurrentType
+		{
+			get
+			{
+				return currentType;
+			}
+		}
+		
+		public Boolean isTypeChange
+		{
+			get
+			{
+				return changedType;
+			}
+		}
+		
+		#endregion
+		
+		#region Constructors
 	
 		/// <summary>
 		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.Tools.LaunchpointBaseGUI"/> class.
 		/// </summary>
 		/// <param name="baseLp">Base lp</param>
-		public LaunchpointBaseGUI( Launchpoint baseLp )
+		public LaunchpointBaseGUI( ILaunchpoint baseLp )
 		{
-			baseLaunchpoint = baseLp;
-			
-			name = baseLp.Name;
-			type = baseLp.Type;
+			currentName = baseLp.Name;
+			currentType = baseLp.Type;
 		}
+		
+		#endregion
+		
+		#region Public Methods
 		
 		/// <summary>
 		/// 
 		/// </summary>
 		public virtual void OnGUI()
 		{
-			if( baseLaunchpoint == null )
+			currentName = EditorGUILayout.TextField( "Name", currentName );
+			
+			LaunchpointType newType = (LaunchpointType)EditorGUILayout.EnumPopup( "Type", currentType );
+			
+			if( newType != currentType )
 			{
-				// log.
-				return;
-			}
-			
-			//baseLaunchpoint.Name = EditorGUILayout.TextField( "Name", baseLaunchpoint.Name );
-			
-			//baseLaunchpoint.Type = (LaunchpointType)EditorGUILayout.EnumPopup( "Type", baseLaunchpoint.Type );
-			
-			if( baseLaunchpoint.Type != currentType )
-			{
-				currentType = baseLaunchpoint.Type;
+				currentType = newType;
 				changedType = true;
 			}
 		}
+		
+		#endregion
 	}
 }

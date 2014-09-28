@@ -24,7 +24,7 @@ namespace LunarGrin.Core
 	/// <summary>
 	/// Launchpoint AI brain.
 	/// </summary>
-	public sealed class LaunchpointAIBrain : Launchpoint
+	public sealed class LaunchpointAIBrain : LaunchpointBase
 	{
 		#region Private Fields
 		

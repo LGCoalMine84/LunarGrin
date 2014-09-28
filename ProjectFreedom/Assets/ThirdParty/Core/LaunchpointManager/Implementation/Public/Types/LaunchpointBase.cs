@@ -1,6 +1,6 @@
 #region File Header
 
-// File Name:           Launchpoint.cs
+// File Name:           LaunchpointBase.cs
 // Author:              Andy Sanchez
 // Creation Date:       9/13/2014   5:41 PM
 //
@@ -22,11 +22,11 @@ using UnityEngine;
 namespace LunarGrin.Core
 {
 	/// <summary>
-	/// Default information of a launchpoint.
+	/// Default information of a launchpoint. Holds common data that is shared across all launchpoints.
 	/// </summary>
 	/// <seealso cref="LunarGrin.Core.ILaunchpoint"/>
 	[Serializable]
-	public class Launchpoint : ILaunchpoint
+	public class LaunchpointBase : ILaunchpoint
 	{
 		#region Private Fields
 		
@@ -34,7 +34,7 @@ namespace LunarGrin.Core
 		/// The type of the launchpoint.
 		/// </summary>
 		[SerializeField]
-		private LaunchpointType type = LaunchpointType.Invalid;
+		private LaunchpointType type = LaunchpointType.Base;
 		
 		/// <summary>
 		/// The name of the launchpoint.
@@ -131,35 +131,35 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// Default constructor initializes a new instance of the <see cref="LunarGrin.Core.BaseLaunchpoint"/> class.
 		/// </summary>
-		public Launchpoint()
+		public LaunchpointBase()
 		{
 		
 		}
 		
 		/// <summary>
-		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.Launchpoint"/> class.
+		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.BaseLaunchpoint"/> class.
 		/// </summary>
 		/// <param name="lpType">The type of launchpoint to create.</param>
-		/// <exception cref="ArgumentException">Unable to create the launchpoint because the launchpoint type provided is invalid.</exception>
-		public Launchpoint( LaunchpointType lpType )
+		/// <exception cref="ArgumentException">Unable to create the base launchpoint because the launchpoint type provided is invalid.</exception>
+		public LaunchpointBase( LaunchpointType lpType )
 		{
 			type = lpType;
 		}
 		
 		/// <summary>
-		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.Launchpoint"/> class.
+		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.BaseLaunchpoint"/> class.
 		/// </summary>
-		/// <param name="lpType">Lp type.</param>
-		/// <param name="lpName">Lp name.</param>
-		/// <param name="lpPosition">Lp position.</param>
-		/// <param name="lpRotation">Lp rotation.</param>
-		/// <param name="lpScale">Lp scale.</param>
-		/// <exception cref="ArgumentNullException">Unable to create the launchpoint because the name is invalid.</exception>
-		public Launchpoint( LaunchpointType lpType, String lpName, Vector3 lpPosition, Quaternion lpRotation, Vector3 lpScale )
+		/// <param name="lpType">The type of the launchpoint.</param>
+		/// <param name="lpName">The name of the launchpoint.</param>
+		/// <param name="lpPosition">The position of the launchpoint.</param>
+		/// <param name="lpRotation">The rotation of the launchpoint.</param>
+		/// <param name="lpScale">The scale of the launchpoint.</param>
+		/// <exception cref="ArgumentNullException">Unable to create the base launchpoint because the name is invalid.</exception>
+		public LaunchpointBase( LaunchpointType lpType, String lpName, Vector3 lpPosition, Quaternion lpRotation, Vector3 lpScale )
 		{
 			if( String.IsNullOrEmpty( lpName ) )
 			{
-				throw new ArgumentNullException( "Unable to create the launchpoint because the name is invalid." );
+				throw new ArgumentNullException( "Unable to create the base launchpoint because the name is invalid." );
 			}
 			
 			type = lpType;
@@ -171,21 +171,21 @@ namespace LunarGrin.Core
 		}
 		
 		/// <summary>
-		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.Launchpoint"/> class.
+		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.BaseLaunchpoint"/> class.
 		/// </summary>
 		/// <param name="launchpointObj">The launchpoint to copy from.</param>
-		/// <exception cref="ArgumentNullException">Unable to create the launchpoint because the launchpoint to copy from is invalid.</exception>
-		/// <exception cref="NullReferenceException">Unable to create the launchpoint because the name is invalid.</exception>
-		public Launchpoint( ILaunchpoint launchpointObj )
+		/// <exception cref="ArgumentNullException">Unable to create the base launchpoint because the launchpoint to copy from is invalid.</exception>
+		/// <exception cref="NullReferenceException">Unable to create the base launchpoint because the name is invalid.</exception>
+		public LaunchpointBase( ILaunchpoint launchpointObj )
 		{
 			if( launchpointObj == null )
 			{
-				throw new ArgumentNullException( "Unable to create the launchpoint because the launchpoint to copy from is invalid." );
+				throw new ArgumentNullException( "Unable to create the base launchpoint because the launchpoint to copy from is invalid." );
 			}
 			
 			if( String.IsNullOrEmpty( launchpointObj.Name ) )
 			{
-				throw new NullReferenceException( "Unable to create the launchpoint because the name is invalid." );
+				throw new NullReferenceException( "Unable to create the base launchpoint because the name is invalid." );
 			}
 			
 			type = launchpointObj.Type;
@@ -203,15 +203,15 @@ namespace LunarGrin.Core
 		#region IEquatable<T>
 		
 		/// <summary>
-		/// Determines whether the specified <see cref="LunarGrin.Core.Launchpoint"/> is equal to the current <see cref="LunarGrin.Core.Launchpoint"/>.
+		/// Determines whether the specified <see cref="LunarGrin.Core.BaseLaunchpoint"/> is equal to the current <see cref="LunarGrin.Core.BaseLaunchpoint"/>.
 		/// </summary>
-		/// <param name="launchpointObj">The <see cref="LunarGrin.Core.Launchpoint"/> to compare with the current <see cref="LunarGrin.Core.Launchpoint"/>.</param>
-		/// <returns><c>true</c> if the specified <see cref="LunarGrin.Core.Launchpoint"/> is equal to the current
+		/// <param name="launchpointObj">The <see cref="LunarGrin.Core.BaseLaunchpoint"/> to compare with the current <see cref="LunarGrin.Core.BaseLaunchpoint"/>.</param>
+		/// <returns><c>true</c> if the specified <see cref="LunarGrin.Core.BaseLaunchpoint"/> is equal to the current
 		/// <see cref="LunarGrin.Core.Launchpoint"/>; otherwise, <c>false</c>.</returns>
 		/// <seealso cref="System.IEquatable&lt;T&gt;"/>
 		public Boolean Equals( ILaunchpoint launchpointObj )
 		{
-			if( launchpointObj == null )
+			if( ReferenceEquals( launchpointObj, null ) )
 			{
 				return false;
 			}
@@ -232,6 +232,12 @@ namespace LunarGrin.Core
 		
 		#region System.Object
 		
+		/// <summary>
+		/// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="LunarGrin.Core.BaseLaunchpoint"/>.
+		/// </summary>
+		/// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="LunarGrin.Core.BaseLaunchpoint"/> object.</param>
+		/// <returns><c>True</c> if the specified <see cref="System.Object"/> is equal to the current <see cref="LunarGrin.Core.BaseLaunchpoint"/>.</returns>
+		/// <seealso cref="System.Object"/>
 		public override Boolean Equals( System.Object obj )
 		{
 			if( obj == null )
@@ -247,6 +253,11 @@ namespace LunarGrin.Core
 			return Equals( (ILaunchpoint)obj );
 		}
 		
+		/// <summary>
+		/// Serves as a hash function for the <see cref="LunarGrin.Core.BaseLaunchpoint"/> class.
+		/// </summary>
+		/// <returns>The hash code of the launchpoint.</returns>
+		/// <seealso cref="System.Object"/>
 		public override Int32 GetHashCode()
 		{
 			return type.ToString().GetHashCode() ^
@@ -263,9 +274,9 @@ namespace LunarGrin.Core
 		}
 		
 		/// <summary>
-		/// Gets information about the <see cref="LunarGrin.Core.Launchpoint"/> class.
+		/// Gets information about the <see cref="LunarGrin.Core.BaseLaunchpoint"/> class.
 		/// </summary>
-		/// <returns>The information about the <see cref="LunarGrin.Core.Launchpoint"/> class.</returns>
+		/// <returns>The information about the <see cref="LunarGrin.Core.BaseLaunchpoint"/> class.</returns>
 		/// <seealso cref="System.Object"/>
 		public override String ToString ()
 		{

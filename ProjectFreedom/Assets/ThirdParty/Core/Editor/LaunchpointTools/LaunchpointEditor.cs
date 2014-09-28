@@ -43,7 +43,7 @@ namespace LunarGrin.Core.Tools
 		private GameObject selectedObject = null;
 		private Boolean selectionDirty = false;
 		
-		Dictionary<LaunchpointType, Launchpoint> launchpoints = null;
+		Dictionary<LaunchpointType, LaunchpointBase> launchpoints = null;
 		
 		#endregion
 	
@@ -54,7 +54,7 @@ namespace LunarGrin.Core.Tools
 		/// </summary>
 		public LaunchpointEditor()
 		{
-			launchpoints = new Dictionary<LaunchpointType, Launchpoint>();
+			launchpoints = new Dictionary<LaunchpointType, LaunchpointBase>();
 			
 			//GameObject lp = (GameObject)Selection.activeObject;
 			//LaunchpointComponent lpComp = lp.GetComponent<LaunchpointComponent>();
@@ -88,6 +88,11 @@ namespace LunarGrin.Core.Tools
 				RemoveSelectedLaunchpoints();
       		}
       		
+			if( GUILayout.Button( "Apply Changes" ) )
+			{
+				
+			}
+      		
       		EditorGUILayout.EndHorizontal();
 			
 			if( Selection.activeGameObject != selectedObject )
@@ -98,7 +103,7 @@ namespace LunarGrin.Core.Tools
 			
 			if( activeGUI != null )
 			{	
-				if( activeGUI.changedType )
+				if( activeGUI.isTypeChange )
 				{
 					ChangeGUI();
 				}
@@ -112,6 +117,8 @@ namespace LunarGrin.Core.Tools
 				
 				activeGUI.OnGUI();
 			}
+			
+			
 		}
 		
 		#endregion		
@@ -168,15 +175,20 @@ namespace LunarGrin.Core.Tools
 		{
 			if( selectionDirty )
 			{
+				if( Selection.objects.Length > 1 )
+				{
+					return;
+				}
+				
 				if( Selection.activeGameObject != null )
 				{
-					LaunchpointComponent lpTag = Selection.activeGameObject.GetComponent<LaunchpointComponent>();
-					
+					// Check the selected game object for launchpoint information.
+					LaunchpointComponent lpTag = Selection.activeGameObject.GetComponent<LaunchpointComponent>();	
 					if( lpTag != null )
 					{
 						selectedObject = Selection.activeGameObject;
-						SetLaunchpointGUI( lpTag.LaunchpointObj );
-						selectionDirty = false;
+
+						activeGUI = LaunchpointGUIFactory.CreateLaunchpointGUI( lpTag.LaunchpointObj );
 					}
 				}
 				else
@@ -184,39 +196,31 @@ namespace LunarGrin.Core.Tools
 					selectedObject = null;
 					activeGUI = null;
 				}
+				
+				selectionDirty = false;
 			}
-		}
-		
-		private void SetLaunchpointGUI( Launchpoint lp )
-		{
-			activeGUI = new LaunchpointBaseGUI( lp );
 		}
 		
 		private void ChangeGUI()
 		{
-			if( activeGUI != null )
-			{
-				activeGUI = null;
-			}
-		
 			LaunchpointComponent lpTag = Selection.activeGameObject.GetComponent<LaunchpointComponent>();
 
 			String theName = lpTag.LaunchpointObj.Name;
 			LaunchpointType theType = lpTag.LaunchpointObj.Type;
 			
-			//if( lpTag.LaunchpointObj.Type == LaunchpointType.AIBrain )
-			//{
-				lpTag.UpdateLaunchpoint();
+			if( activeGUI.CurrentType == LaunchpointType.AIBrain )
+			{
+				lpTag.UpdateLaunchpoint( new LaunchpointAIBrain() );
 				//lpTag.AssignLaunchpoint( new LaunchpointAIBrain() );
 				//lpTag.LaunchpointObj.Name = theName;
 				//lpTag.LaunchpointObj.Type = theType;
-				
+				activeGUI = null;
 				activeGUI = new LaunchpointAIBrainGUI( lpTag.LaunchpointObj );
-			//}
-			//else
-	    	//{
+			}
+			else
+	    	{
 	    		// No good Jim!
-	    	//}
+	    	}
     	}
     	
     	#endregion

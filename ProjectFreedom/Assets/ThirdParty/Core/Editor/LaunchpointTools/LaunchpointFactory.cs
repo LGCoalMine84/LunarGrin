@@ -22,12 +22,12 @@ namespace LunarGrin.Core
 {
 	public static class LaunchpointFactory
 	{
-		public static Launchpoint CreateLaunchpoint( LaunchpointType typeOfLaunchpoint, ILaunchpoint baseLaunchpoint )
+		public static LaunchpointBase CreateLaunchpoint( LaunchpointType typeOfLaunchpoint, ILaunchpoint baseLaunchpoint )
 		{
 			switch( typeOfLaunchpoint )
 			{
-				case LaunchpointType.Invalid:
-					return new Launchpoint();
+				case LaunchpointType.Base:
+					return new LaunchpointBase();
 					
 				case LaunchpointType.AIBrain:
 					return new LaunchpointAIBrain();	
