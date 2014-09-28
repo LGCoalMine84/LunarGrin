@@ -48,11 +48,6 @@ namespace LunarGrin.Core
 			{
 				return brainType;
 			}
-			
-			set
-			{
-				brainType = value;
-			}
 		}
 		
 		#endregion

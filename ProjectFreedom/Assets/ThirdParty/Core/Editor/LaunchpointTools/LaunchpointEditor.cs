@@ -38,7 +38,7 @@ namespace LunarGrin.Core.Tools
 		
 		#endregion
 		
-		private LaunchpointBaseGUI activeGUI = null;
+		private LaunchpointGUI activeGUI = null;
 		
 		private GameObject selectedObject = null;
 		private Boolean selectionDirty = false;
@@ -55,11 +55,6 @@ namespace LunarGrin.Core.Tools
 		public LaunchpointEditor()
 		{
 			launchpoints = new Dictionary<LaunchpointType, Launchpoint>();
-			
-			//GameObject lp = (GameObject)Selection.activeObject;
-			//LaunchpointComponent lpComp = lp.GetComponent<LaunchpointComponent>();
-			
-			//int y = 0;
 		}
 		
 		#endregion
@@ -103,17 +98,10 @@ namespace LunarGrin.Core.Tools
 			
 			if( activeGUI != null )
 			{	
-				if( activeGUI.isTypeChange )
+				if( activeGUI.isTypeChanged )
 				{
 					ChangeGUI();
 				}
-				
-				/*LaunchpointComponent lpTag = Selection.activeGameObject.GetComponent<LaunchpointComponent>();
-				if( lpTag != null )
-				{
-					lpTag.LaunchpointObj.Name = activeGUI.name;
-					lpTag.LaunchpointObj.Type = activeGUI.type;
-				}*/
 				
 				activeGUI.OnGUI();
 			}
@@ -151,11 +139,17 @@ namespace LunarGrin.Core.Tools
 		{
 			if( Selection.transforms.Length > 0 )
 			{
+				LaunchpointComponent tempComp = null;
+				
 				for( Int32 i = 0; i < Selection.transforms.Length; ++i )
 				{
 					if( Selection.transforms[i].gameObject != null )
 					{
-						GameObject.DestroyImmediate( Selection.transforms[i].gameObject.GetComponent<LaunchpointComponent>() );
+						tempComp = Selection.transforms[i].gameObject.GetComponent<LaunchpointComponent>();
+						if( tempComp != null )
+						{
+							GameObject.DestroyImmediate( tempComp );
+						}
 					}
 				}
 			}
@@ -209,7 +203,7 @@ namespace LunarGrin.Core.Tools
 			if( activeGUI.CurrentType == LaunchpointType.AIBrain )
 			{
 				lpTag.UpdateLaunchpoint( new LaunchpointAIBrain() );
-
+				
 				activeGUI = null;
 				activeGUI = new LaunchpointAIBrainGUI( lpTag.LaunchpointObj );
 			}

@@ -30,7 +30,7 @@ namespace LunarGrin.Core.Tools
 		/// </summary>
 		/// <returns></returns>
 		/// <param name="launchpointObj"></param>
-		public static LaunchpointBaseGUI CreateLaunchpointGUI( ILaunchpoint launchpointObj )
+		public static LaunchpointGUI CreateLaunchpointGUI( ILaunchpoint launchpointObj )
 		{
 			if( launchpointObj == null )
 			{
