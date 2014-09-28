@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Logging
+namespace LunarGrin.Utilities
 {
 	/// <summary>
 	/// This is a factory class that creates instances

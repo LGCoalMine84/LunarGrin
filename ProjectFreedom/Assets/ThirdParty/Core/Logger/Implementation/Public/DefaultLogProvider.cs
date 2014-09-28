@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Logging
+namespace LunarGrin.Utilities
 {
 	/// <summary>
 	/// This is the default log provider.  This class forwards

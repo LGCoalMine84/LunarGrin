@@ -5,7 +5,7 @@
 
 #region Using Directives
 
-using Logging;
+using  LunarGrin.Utilities;
 
 using LunarGrin.Core;
 
