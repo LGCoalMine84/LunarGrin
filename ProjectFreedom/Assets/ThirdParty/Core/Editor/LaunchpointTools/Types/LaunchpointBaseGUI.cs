@@ -1,6 +1,6 @@
 #region File Header
 
-// File Name:           BaseLaunchpoint.cs
+// File Name:           LaunchpointBaseGUI.cs
 // Author:              Andy Sanchez
 // Creation Date:       9/14/2014   9:04 PM
 //
@@ -12,11 +12,6 @@
 
 #region Using Directives
 
-using System;
-
-using UnityEngine;
-using UnityEditor;
-
 using LunarGrin.Core;
 
 #endregion
@@ -24,60 +19,23 @@ using LunarGrin.Core;
 namespace LunarGrin.Core.Tools
 {
 	/// <summary>
-	/// Base launchpoint.
+	/// Displays information of a base launchpoint. Holds common data that is shared across all launchpoint GUIs.
 	/// </summary>
-	public class LaunchpointBaseGUI
+	/// <seealso cref="LunarGrin.Core.Tools.LaunchpointGUI"/>
+	public sealed class LaunchpointBaseGUI : LaunchpointGUI
 	{
-		#region Private Fields
-		
-		/// <summary>
-		/// The launchpoint object correspnding to this GUI.
-		/// </summary>
-		protected Launchpoint baseLaunchpoint = null;
-		
-		/// <summary>
-		/// The type of the current launchpoint object.
-		/// </summary>
-		protected LaunchpointType currentType = LaunchpointType.Invalid;
-		
-		public String name = null;
-		public LaunchpointType type = LaunchpointType.Invalid;
-		
-		#endregion
-		public Boolean changedType = false;
+		#region Constructors
 	
 		/// <summary>
 		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.Core.Tools.LaunchpointBaseGUI"/> class.
 		/// </summary>
-		/// <param name="baseLp">Base lp</param>
-		public LaunchpointBaseGUI( Launchpoint baseLp )
+		/// <param name="launchpointObj">The launchpoint object to query the data from.</param>
+		public LaunchpointBaseGUI( ILaunchpoint launchpointObj ) :
+			base( launchpointObj )
 		{
-			baseLaunchpoint = baseLp;
 			
-			name = baseLp.Name;
-			type = baseLp.Type;
 		}
 		
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void OnGUI()
-		{
-			if( baseLaunchpoint == null )
-			{
-				// log.
-				return;
-			}
-			
-			//baseLaunchpoint.Name = EditorGUILayout.TextField( "Name", baseLaunchpoint.Name );
-			
-			//baseLaunchpoint.Type = (LaunchpointType)EditorGUILayout.EnumPopup( "Type", baseLaunchpoint.Type );
-			
-			if( baseLaunchpoint.Type != currentType )
-			{
-				currentType = baseLaunchpoint.Type;
-				changedType = true;
-			}
-		}
+		#endregion
 	}
 }

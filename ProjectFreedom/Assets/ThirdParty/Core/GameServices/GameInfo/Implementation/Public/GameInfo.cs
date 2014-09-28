@@ -1,7 +1,7 @@
 ﻿#region File Header
 // File Name:		GameInfo.cs
 // Author:			John Whitsell
-// Creation Date:	
+// Creation Date:	2014/09/28
 //
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
@@ -12,6 +12,8 @@
 using System;
 
 using UnityEngine;
+
+using LunarGrin.Utilities;
 #endregion
 
 namespace LunarGrin.Core
@@ -21,6 +23,10 @@ namespace LunarGrin.Core
 	/// </summary>
 	public class GameInfo : IGameInfo, IGameService
 	{
+		#if LOGGING
+		private static ILogger Log = LogFactory.CreateLogger( typeof( GameInfo ) );
+		#endif
+		
 		/// <summary>
 		/// The type of game service.
 		/// </summary>
@@ -106,7 +112,9 @@ namespace LunarGrin.Core
 			}
 			else
 			{
-				//	TODO:	Logger, no controller exists
+				#if LOGGING
+				Log.Warning( "GameInfo.DestroyPlayerController - Could not destroy the player controller, no player controller exists." );
+				#endif
 			}
 		}
 	}

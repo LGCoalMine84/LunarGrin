@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Logging
+namespace LunarGrin.Utilities
 {
 	/// <summary>
 	/// A log provider interface.  Different classes can

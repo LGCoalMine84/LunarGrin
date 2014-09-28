@@ -11,7 +11,7 @@
 #region Using Directives
 using UnityEngine;
 using System;
-using Logging;
+using  LunarGrin.Utilities;
 #endregion
 
 namespace LunarGrin.Core

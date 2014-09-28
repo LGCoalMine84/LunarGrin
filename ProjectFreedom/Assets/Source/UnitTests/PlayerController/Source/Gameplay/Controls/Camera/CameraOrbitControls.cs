@@ -5,13 +5,12 @@
 
 #region Using Directives
 
-using Logging;
-
-using LunarGrin.Core;
-
 using System;
 
 using UnityEngine;
+
+using LunarGrin.Core;
+using LunarGrin.Utilities;
 
 #endregion
 

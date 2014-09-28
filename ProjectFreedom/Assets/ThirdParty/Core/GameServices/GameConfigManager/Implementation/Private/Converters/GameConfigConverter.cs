@@ -12,7 +12,7 @@
 
 #region Using Directives
 
-using Logging;
+using LunarGrin.Utilities;
 
 using Pathfinding.Serialization.JsonFx;
 

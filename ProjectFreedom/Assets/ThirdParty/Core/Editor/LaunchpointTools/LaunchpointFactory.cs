@@ -26,8 +26,8 @@ namespace LunarGrin.Core
 		{
 			switch( typeOfLaunchpoint )
 			{
-				case LaunchpointType.Invalid:
-					return new Launchpoint();
+				case LaunchpointType.Base:
+					return new LaunchpointBase();
 					
 				case LaunchpointType.AIBrain:
 					return new LaunchpointAIBrain();	

@@ -13,7 +13,6 @@
 #region Using Directives
 
 using System;
-using System.Collections;
 
 using UnityEngine;
 
@@ -22,29 +21,36 @@ using UnityEngine;
 namespace LunarGrin.Core
 {
 	/// <summary>
-	/// Launchpoint AI brain.
+	/// Contains data for an AI brain launchpoint.
 	/// </summary>
+	/// <seealso cref="LunarGrin.Core.Launchpoint"/>
 	public sealed class LaunchpointAIBrain : Launchpoint
 	{
 		#region Private Fields
 		
+		/// <summary>
+		/// The type of the AI brain.
+		/// </summary>
 		[SerializeField]
 		private Int32 brainType = 0;
 		
 		#endregion
 		
+		#region Properties
+		
+		/// <summary>
+		/// Gets the type of the AI brain.
+		/// </summary>
+		/// <value>The type of the AI brain.</value>
 		public Int32 BrainType
 		{
 			get
 			{
 				return brainType;
 			}
-			
-			set
-			{
-				brainType = value;
-			}
 		}
+		
+		#endregion
 	
 		#region Constructors
 		

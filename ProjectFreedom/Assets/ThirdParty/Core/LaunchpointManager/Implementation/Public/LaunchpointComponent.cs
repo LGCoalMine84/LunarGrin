@@ -13,8 +13,10 @@
 #region Using Directives
 
 using System;
+using System.Text;
 
 using UnityEngine;
+using UnityEditor;
 
 #endregion
 
@@ -38,24 +40,17 @@ namespace LunarGrin.Core
 		/// </summary>
 		[HideInInspector]
 		[SerializeField]
-		private Launchpoint launchpointObj = null;
-		
-		/// <summary>
-		/// The current launchpoint type corresponding to this component.
-		/// </summary>
-		[HideInInspector]
-		[SerializeField]
-		private LaunchpointType currentType = LaunchpointType.Invalid;
+		private ILaunchpoint launchpointObj = null;
 		
 		#endregion
 		
 		#region Properties
 		
 		/// <summary>
-		/// Gets or sets the launchpoint data object.
+		/// Gets the <see cref="LunarGrin.Core.ILaunchpoint"/> data object.
 		/// </summary>
-		/// <value>The launchpoint data object.</value>
-		public Launchpoint LaunchpointObj
+		/// <value>The <see cref="LunarGrin.Core.ILaunchpoint"/> data object.</value>
+		public ILaunchpoint LaunchpointObj
 		{
 			get
 			{
@@ -72,7 +67,7 @@ namespace LunarGrin.Core
 		/// </summary>
 		public LaunchpointComponent()
 		{
-			launchpointObj = new Launchpoint();
+			launchpointObj = new LaunchpointBase();
 		}
 		
 		#endregion
@@ -80,33 +75,65 @@ namespace LunarGrin.Core
 		#region Public Methods
 		
 		/// <summary>
-		/// Updates the launchpoint component.
+		/// Updates the launchpoint data object within the <see cref="LunarGrin.Core.LaunchpointComponent"/> component.
 		/// </summary>
+		/// <param name="newLaunchpointObj">The new launchpoint data object.</param>
+		/// <exception cref="InvalidOperationException">Updating a launchpoint is not permitted while the editor is in play mode.</exception>
+		/// <exception cref="ArgumentNullException">Unable to update the launchpoint data object because the new launchpoint data object is invalid.</exception>
 		/// <exception cref="NullReferenceException">Unable to update the launchpoint data object because the internal launchpoint object is invalid.</exception>
-		/// <exception cref="NullReferenceException">Unable to update the launchpoint data object because</exception>
+		/// <exception cref="InvalidOperationException">Updating a launchpoint is not permitted during runtime.</exception>
 		/// <remarks>
-		/// This method updated the internal launchpoint object reference only if it has been changed
-		/// by the launchpoint editor tool.
+		/// This method can only be called by the editor to update the internal launchpoint data object. If it is called anywhere else, it will throw exceptions.
 		/// </remarks>
-		public void UpdateLaunchpoint()
+		public void UpdateLaunchpoint( ILaunchpoint newLaunchpointObj )
 		{
-			if( launchpointObj == null )
+			if( Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.LinuxPlayer )
 			{
-				throw new NullReferenceException( "Unable to update the launchpoint data object because the internal launchpoint object is invalid." );
-			}
-		
-			if( currentType != launchpointObj.Type )
-			{
-				launchpointObj = LaunchpointFactory.CreateLaunchpoint( launchpointObj.Type, launchpointObj );
-				
-				if( launchpointObj == null || launchpointObj.Type == LaunchpointType.Invalid )
+				if( EditorApplication.isPlaying )
 				{
-					throw new NullReferenceException( "Unable to update the launchpoint data object because......" );
+					throw new InvalidOperationException( "Updating a launchpoint is not permitted while the editor is in play mode." );
+				}
+
+				if( newLaunchpointObj == null )
+				{
+					throw new ArgumentNullException( "Unable to update the launchpoint data object because the new launchpoint data object is invalid." );
+				}
+			
+				if( launchpointObj == null )
+				{
+					throw new NullReferenceException( "Unable to update the launchpoint data object because the internal launchpoint object is invalid." );
 				}
 				
-				currentType = launchpointObj.Type;
+				if( launchpointObj.Type != newLaunchpointObj.Type )
+				{
+					launchpointObj = null;
+					launchpointObj = newLaunchpointObj;
+				}
+			}
+			else
+			{
+				throw new InvalidOperationException( "Updating a launchpoint is not permitted during runtime." );
 			}
 		}
+		
+		#region System.Object
+		
+		/// <summary>
+		/// Gets information about the <see cref="LunarGrin.Core.LaunchpointComponent"/> class.
+		/// </summary>
+		/// <returns>The information about the launchpoint component class.</returns>
+		/// <seealso cref="System.Object"/>
+		public override string ToString ()
+		{
+			StringBuilder strBuilder = new StringBuilder();
+			
+			strBuilder.AppendLine( "Launchpoint component: " );
+			strBuilder.Append( ( launchpointObj != null ) ? launchpointObj.ToString() : String.Empty );
+			
+			return strBuilder.ToString();
+		}
+		
+		#endregion
 		
 		#endregion
 		
@@ -117,6 +144,10 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// This method is called by Unity after the <see cref="LunarGrin.Core.LaunchpointComponent"/> object has been constructed and initialized.
 		/// </summary>
+		/// <remarks>
+		/// During editor mode, this method is called when the component has been created and initialized. It checks that no more than one launchpoint
+		/// component can be added to the parent game object.
+		/// </remarks>
 		private void Start()
 		{
 			// There can only be one launchpoint component in any given game object.
@@ -132,10 +163,12 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// This method is called by Unity when the <see cref="LunarGrin.Core.LaunchpointComponent"/> object is being destroyed.
 		/// </summary>
+		/// <remarks>
+		/// During editor mode, this method is called when the launchpoint component has been deleted.
+		/// </remarks>
 		private void OnDestroy()
 		{
 			launchpointObj = null;
-			currentType = LaunchpointType.Invalid;
 		}
 		
 		#endregion

@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Logging
+namespace LunarGrin.Utilities
 {
 	/// <summary>
 	/// The main logging interface used by classes.  This
