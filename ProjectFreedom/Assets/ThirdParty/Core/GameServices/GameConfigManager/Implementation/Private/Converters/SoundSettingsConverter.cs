@@ -43,8 +43,6 @@ namespace LunarGrin.Core
 
 			SoundSettings soundSaveGameData = new SoundSettings();
 
-			String type = propertyNameToValueMap [SoundSettings.Properties.EffectVolume].GetType ().ToString();
-
 			if( propertyNameToValueMap[SoundSettings.Properties.EffectVolume] is Double )
 			{
 				soundSaveGameData.EffectVolume = Convert.ToSingle( propertyNameToValueMap[SoundSettings.Properties.EffectVolume] );

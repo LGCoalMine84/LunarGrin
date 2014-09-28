@@ -32,6 +32,7 @@ namespace LunarGrin.Core
 		Invalid = 0,
 		
 		GameConfigManager,
+		GameInfo,
 		GameStateManager,
 	}
 	
@@ -62,6 +63,18 @@ namespace LunarGrin.Core
 			get
 			{
 				return (IGameConfigManager)servicesManager.GetService( ServiceType.GameConfigManager );
+			}
+		}
+		
+		/// <summary>
+		/// Gets the game info.
+		/// </summary>
+		/// <value>The game info.</value>
+		public static IGameInfo GameInfo
+		{
+			get
+			{
+				return (IGameInfo)servicesManager.GetService( ServiceType.GameInfo );
 			}
 		}
 		
@@ -190,6 +203,8 @@ namespace LunarGrin.Core
 			try
 			{
 				servicesManager.AddService( ServiceType.GameConfigManager, new GameConfigManager() );
+				
+				servicesManager.AddService( ServiceType.GameInfo, new GameInfo() );
 				
 				servicesManager.AddService( ServiceType.GameStateManager, new GameStateManager() );
 			}
