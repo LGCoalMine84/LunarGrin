@@ -13,6 +13,7 @@
 #region Using Directives
 
 using System;
+using System.Text;
 
 using UnityEngine;
 using UnityEditor;
@@ -22,7 +23,7 @@ using UnityEditor;
 namespace LunarGrin.Core
 {
 	/// <summary>
-	/// Component that is set on a level object to mark it as a <see cref="LunarGrin.Core.ILaunchpoint"/>.
+	/// Component that is set on a level object to mark it as a launchpoint.
 	/// </summary>
 	/// <remarks>
 	/// This class is tagged with the <see cref="UnityEngine.AddComponentMenu"/> attribute with an empty string to hide it from
@@ -114,6 +115,25 @@ namespace LunarGrin.Core
 				throw new InvalidOperationException( "Updating a launchpoint is not permitted during runtime." );
 			}
 		}
+		
+		#region System.Object
+		
+		/// <summary>
+		/// Gets information about the <see cref="LunarGrin.Core.LaunchpointComponent"/> class.
+		/// </summary>
+		/// <returns>The information about the launchpoint component class.</returns>
+		/// <seealso cref="System.Object"/>
+		public override string ToString ()
+		{
+			StringBuilder strBuilder = new StringBuilder();
+			
+			strBuilder.AppendLine( "Launchpoint component: " );
+			strBuilder.Append( ( launchpointObj != null ) ? launchpointObj.ToString() : String.Empty );
+			
+			return strBuilder.ToString();
+		}
+		
+		#endregion
 		
 		#endregion
 		
