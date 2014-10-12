@@ -43,7 +43,7 @@ namespace LunarGrin.Core.Tools
 		private GameObject selectedObject = null;
 		private Boolean selectionDirty = false;
 		
-		Dictionary<Int32, LaunchpointComponent> launchpoints = null;
+		//Dictionary<Int32, LaunchpointComponent> launchpoints = null;
 		
 		#endregion
 	
@@ -54,7 +54,7 @@ namespace LunarGrin.Core.Tools
 		/// </summary>
 		public LaunchpointEditor()
 		{
-			launchpoints = new Dictionary<Int32, LaunchpointComponent>();
+			//launchpoints = new Dictionary<Int32, LaunchpointComponent>();
 		}
 		
 		#endregion
