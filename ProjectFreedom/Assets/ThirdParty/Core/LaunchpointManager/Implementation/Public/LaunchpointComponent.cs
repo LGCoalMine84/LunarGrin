@@ -38,6 +38,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// The launchpoint data object corresponding to this component.
 		/// </summary>
+		/// <seealso cref="LunarGrin.Core.ILaunchpoint"/>
 		[HideInInspector]
 		[SerializeField]
 		private ILaunchpoint launchpointObj = null;
@@ -67,7 +68,7 @@ namespace LunarGrin.Core
 		/// </summary>
 		public LaunchpointComponent()
 		{
-			launchpointObj = new LaunchpointBase();
+			
 		}
 		
 		#endregion
@@ -80,7 +81,6 @@ namespace LunarGrin.Core
 		/// <param name="newLaunchpointObj">The new launchpoint data object.</param>
 		/// <exception cref="InvalidOperationException">Updating a launchpoint is not permitted while the editor is in play mode.</exception>
 		/// <exception cref="ArgumentNullException">Unable to update the launchpoint data object because the new launchpoint data object is invalid.</exception>
-		/// <exception cref="NullReferenceException">Unable to update the launchpoint data object because the internal launchpoint object is invalid.</exception>
 		/// <exception cref="InvalidOperationException">Updating a launchpoint is not permitted during runtime.</exception>
 		/// <remarks>
 		/// This method can only be called by the editor to update the internal launchpoint data object. If it is called anywhere else, it will throw exceptions.
@@ -97,11 +97,6 @@ namespace LunarGrin.Core
 				if( newLaunchpointObj == null )
 				{
 					throw new ArgumentNullException( "Unable to update the launchpoint data object because the new launchpoint data object is invalid." );
-				}
-			
-				if( launchpointObj == null )
-				{
-					throw new NullReferenceException( "Unable to update the launchpoint data object because the internal launchpoint object is invalid." );
 				}
 				
 				if( launchpointObj.Type != newLaunchpointObj.Type )
@@ -142,6 +137,14 @@ namespace LunarGrin.Core
 		#region Unity Components
 		
 		/// <summary>
+		/// This method is called by Unity when the <see cref="LunarGrin.Core.LaunchpointComponent"/> object has been created.
+		/// </summary>
+		private void Awake()
+		{
+			launchpointObj = new LaunchpointBase( name, transform.position, transform.rotation, transform.localScale );
+		}
+		
+		/// <summary>
 		/// This method is called by Unity after the <see cref="LunarGrin.Core.LaunchpointComponent"/> object has been constructed and initialized.
 		/// </summary>
 		/// <remarks>
@@ -157,6 +160,22 @@ namespace LunarGrin.Core
 				GameObject.DestroyImmediate( this );
 				
 				return;
+			}
+		}
+		
+		/// <summary>
+		/// This method is called by Unity when the <see cref="LunarGrin.Core.LaunchpointComponent"/> object is being updated every frame.
+		/// </summary>
+		/// <remarks>
+		/// During editor mode, this method is called every frame only when something in the scene has changed.
+		/// </remarks>
+		private void Update()
+		{
+			if( launchpointObj != null )
+			{
+				launchpointObj.Position = transform.position;
+				launchpointObj.Rotation = transform.rotation;
+				launchpointObj.Scale = transform.localScale;
 			}
 		}
 		

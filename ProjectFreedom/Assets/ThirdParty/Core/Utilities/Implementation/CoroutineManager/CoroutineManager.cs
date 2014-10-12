@@ -164,11 +164,6 @@ namespace LunarGrin.Utilities
 
         #region Private Fields
 
-        // <summary>
-        /// The current logging interface.
-        /// </summary>
-        private static readonly ILogger log = LogFactory.CreateLogger( typeof( CoroutineManager ) );
-
         /// <summary>
         /// Holds all the coroutines and their corresponding id.
         /// </summary>

@@ -86,6 +86,14 @@ namespace LunarGrin.Core.Tools
 			brainType = EditorGUILayout.IntField( "Brain Type", brainType );
 		}
 		
+		public override ILaunchpoint GetLaunchpoint()
+		{
+			LaunchpointAIBrain.LaunchpointAIBrainData data = new LaunchpointAIBrain.LaunchpointAIBrainData();
+			data.brainType = brainType;
+			return null;
+			//return new LaunchpointAIBrain( currentName, );
+    	}
+		
 		#endregion
 	}
 }

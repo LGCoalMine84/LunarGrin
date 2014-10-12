@@ -37,5 +37,11 @@ namespace LunarGrin.Core.Tools
 		}
 		
 		#endregion
+		
+		public override ILaunchpoint GetLaunchpoint()
+		{
+			// new to create new launchpoint base with the data from the GUI element.
+			return new LaunchpointBase( currentName );
+		}
 	}
 }

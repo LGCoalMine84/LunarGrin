@@ -47,30 +47,33 @@ namespace LunarGrin.Core
 		}
 		
 		/// <summary>
-		/// Gets the position of the launchpoint.
+		/// Gets or sets the position of the launchpoint.
 		/// </summary>
 		/// <value>The position of the launchpoint.</value>
 		Vector3 Position
 		{
 			get;
+			set;
 		}
 		
 		/// <summary>
-		/// Gets the rotation of the launchpoint.
+		/// Gets or sets the rotation of the launchpoint.
 		/// </summary>
 		/// <value>The rotation of the launchpoint.</value>
 		Quaternion Rotation
 		{
 			get;
+			set;
 		}
 		
 		/// <summary>
-		/// Gets the scale of the launchpoint.
+		/// Gets or sets the scale of the launchpoint.
 		/// </summary>
 		/// <value>The scale of the launchpoint.</value>
 		Vector3 Scale
 		{
 			get;
+			set;
 		}
 		
 		#endregion

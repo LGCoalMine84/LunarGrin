@@ -43,18 +43,18 @@ namespace LunarGrin.Core.Tools
 		private GameObject selectedObject = null;
 		private Boolean selectionDirty = false;
 		
-		Dictionary<LaunchpointType, Launchpoint> launchpoints = null;
+		Dictionary<Int32, LaunchpointComponent> launchpoints = null;
 		
 		#endregion
 	
 		#region Constructors
 		
 		/// <summary>
-		/// Default constructor initializes a new instance of the <see cref="LunarGrin.Core.Editor.LaunchpointEditor"/> class.
+		/// Default constructor initializes a new instance of the <see cref="LunarGrin.Core.Tools.LaunchpointEditor"/> class.
 		/// </summary>
 		public LaunchpointEditor()
 		{
-			launchpoints = new Dictionary<LaunchpointType, Launchpoint>();
+			launchpoints = new Dictionary<Int32, LaunchpointComponent>();
 		}
 		
 		#endregion
@@ -85,7 +85,7 @@ namespace LunarGrin.Core.Tools
       		
 			if( GUILayout.Button( "Apply Changes" ) )
 			{
-				
+				ApplyChanges();
 			}
       		
       		EditorGUILayout.EndHorizontal();
@@ -100,6 +100,8 @@ namespace LunarGrin.Core.Tools
 			{	
 				if( activeGUI.isTypeChanged )
 				{
+					ApplyChanges();
+					
 					ChangeGUI();
 				}
 				
@@ -167,6 +169,7 @@ namespace LunarGrin.Core.Tools
 		{
 			if( selectionDirty )
 			{
+				// Can only select one launchpoint game object at a time.
 				if( Selection.objects.Length > 1 )
 				{
 					return;
@@ -175,7 +178,7 @@ namespace LunarGrin.Core.Tools
 				if( Selection.activeGameObject != null )
 				{
 					// Check the selected game object for launchpoint information.
-					LaunchpointComponent lpTag = Selection.activeGameObject.GetComponent<LaunchpointComponent>();	
+					LaunchpointComponent lpTag = Selection.activeGameObject.GetComponent<LaunchpointComponent>();
 					if( lpTag != null )
 					{
 						selectedObject = Selection.activeGameObject;
@@ -193,16 +196,14 @@ namespace LunarGrin.Core.Tools
 			}
 		}
 		
+		
 		private void ChangeGUI()
 		{
 			LaunchpointComponent lpTag = Selection.activeGameObject.GetComponent<LaunchpointComponent>();
-
-			String theName = lpTag.LaunchpointObj.Name;
-			LaunchpointType theType = lpTag.LaunchpointObj.Type;
 			
 			if( activeGUI.CurrentType == LaunchpointType.AIBrain )
 			{
-				lpTag.UpdateLaunchpoint( new LaunchpointAIBrain() );
+				lpTag.UpdateLaunchpoint( new LaunchpointAIBrain( lpTag.LaunchpointObj, null ) );
 				
 				activeGUI = null;
 				activeGUI = new LaunchpointAIBrainGUI( lpTag.LaunchpointObj );
@@ -211,6 +212,15 @@ namespace LunarGrin.Core.Tools
 	    	{
 	    		// No good Jim!
 	    	}
+    	}
+    	
+    	private void ApplyChanges()
+    	{
+			LaunchpointComponent lpComp = Selection.activeGameObject.GetComponent<LaunchpointComponent>();
+			if( lpComp != null )
+			{
+				//lpComp.UpdateLaunchpoint( activeGUI.LaunchpointData );
+			}
     	}
     	
     	#endregion
@@ -229,8 +239,8 @@ namespace LunarGrin.Core.Tools
 		/// <summary>
 		/// Creates and displays the launchpoint editor window.
 		/// </summary>
-		/// <exception cref="InvalidOperationException">Unable to open the Launchpoint editor tool because the handle to the window is invalid.</exception>
-		[MenuItem( "LunarGrin/Lauchpoint Editor")]
+		/// <exception cref="InvalidOperationException">Unable to open the launchpoint editor tool because the handle to the window is invalid.</exception>
+		[MenuItem( "LunarGrin/Lauchpoint Editor" )]
 		private static void ShowWindow()
 		{
 			if( windowHandle != null )

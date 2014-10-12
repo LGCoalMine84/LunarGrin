@@ -117,6 +117,8 @@ namespace LunarGrin.Core.Tools
 		/// </remarks>
 		public virtual void OnGUI()
 		{
+			changedType = false;
+			
 			currentName = EditorGUILayout.TextField( "Name", currentName );
 			
 			LaunchpointType newType = (LaunchpointType)EditorGUILayout.EnumPopup( "Type", currentType );
@@ -127,6 +129,8 @@ namespace LunarGrin.Core.Tools
 				changedType = true;
 			}
 		}
+		
+		public abstract ILaunchpoint GetLaunchpoint();
 		
 		#endregion
 	}
