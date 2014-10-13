@@ -49,7 +49,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		{
 			base.Initialize();
 			
-			GameServices.StateManager.PushState( new GameplayState( "TODO: Change this state to the unit test one!" ) );
+			GameServices.StateManager.PushState( new PlayerFlightControlsState( "PlayerFlightControlsState" ) );
 		}
 		
 		/// <summary>
