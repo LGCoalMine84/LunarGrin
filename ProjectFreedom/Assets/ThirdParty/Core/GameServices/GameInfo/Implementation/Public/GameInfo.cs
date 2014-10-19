@@ -23,9 +23,7 @@ namespace LunarGrin.Core
 	/// </summary>
 	public class GameInfo : IGameInfo, IGameService
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( GameInfo ) );
-		#endif
 		
 		/// <summary>
 		/// The type of game service.
@@ -112,9 +110,7 @@ namespace LunarGrin.Core
 			}
 			else
 			{
-				#if LOGGING
 				Log.Warning( "GameInfo.DestroyPlayerController - Could not destroy the player controller, no player controller exists." );
-				#endif
 			}
 		}
 	}

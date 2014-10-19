@@ -25,9 +25,7 @@ namespace LunarGrin.Core
 	/// </summary>
 	public class GameConfig
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( GameConfig ) );
-		#endif
 
 		public static class Properties
 		{
@@ -38,12 +36,10 @@ namespace LunarGrin.Core
 		
 		public GameConfig()
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin GameConfig()" );
 			Log.Trace( "End GameConfig()" );
-			#endif
 		}
-
+			
 		/// <summary>
 		/// Gets or sets the sound settings.
 		/// </summary>

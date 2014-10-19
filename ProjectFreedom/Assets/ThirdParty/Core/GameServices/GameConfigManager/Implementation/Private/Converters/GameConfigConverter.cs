@@ -33,9 +33,7 @@ namespace LunarGrin.Core
 	/// </summary>
 	public class GameConfigConverter : JsonConverter
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( GameConfigConverter ) );
-		#endif
 		
 		/// <summary>
 		/// Writes the save game data to the stream.
@@ -44,9 +42,7 @@ namespace LunarGrin.Core
 		/// <param name="stream">The stream to which the save game data will be written.</param>
 		public static void MySaveGameDataToStream( GameConfig saveGameData, Stream stream )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin void MySaveGameDataToStream( GameConfig saveGameData, Stream stream )" );
-			#endif
 			
 			if( saveGameData == null )
 			{
@@ -71,10 +67,8 @@ namespace LunarGrin.Core
 			writer.Write( saveGameData.SoundSettings.SpeechVolume );
 
 			writer.Close();
-			
-			#if LOGGING_TRACE
+
 			Log.Trace( "End void MySaveGameDataToStream( GameConfig saveGameData, Stream stream )" );
-			#endif
 		}
 		
 		/// <summary>
@@ -84,9 +78,7 @@ namespace LunarGrin.Core
 		/// <param name="saveGameData">The save game data.</param>
 		public static void StreamToMySaveGameData( Stream stream, GameConfig saveGameData )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin void StreamToMySaveGameData( Stream stream, GameConfig saveGameData )" );
-			#endif
 			
 			if( stream == null )
 			{
@@ -112,9 +104,7 @@ namespace LunarGrin.Core
 
 			reader.Close();
 			
-			#if LOGGING_TRACE
 			Log.Trace( "End void StreamToMySaveGameData( Stream stream, GameConfig saveGameData )" );
-			#endif
 		}
 		
 		/// <summary>
@@ -124,15 +114,11 @@ namespace LunarGrin.Core
 		/// <param name="t">T.</param>
 		public override bool CanConvert( Type t )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin bool CanConvert( Type t )" );
-			#endif
 			
 			Boolean result = t == typeof( GameConfig );
 			
-			#if LOGGING_TRACE
 			Log.Trace( "End bool CanConvert( Type t )" );
-			#endif
 			
 			return result;
 		}
@@ -146,9 +132,7 @@ namespace LunarGrin.Core
 		/// <param name="value">A Value parameter passed in from the JSONFX library.</param>
 		public override Dictionary<string,object> WriteJson( Type type, object value )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin Dictionary<string,object> WriteJson( Type type, object value )" );
-			#endif
 			
 			Dictionary<string,object> propertyNameToValueMap = null;
 			
@@ -177,9 +161,7 @@ namespace LunarGrin.Core
 				Debug.Log( "Unable to serialize type " + typeof( GameConfig ).ToString() + " to JSON" + " " + e.Message );
 			}
 			
-			#if LOGGING_TRACE
 			Log.Trace( "End Dictionary<string,object> WriteJson( Type type, object value )" );
-			#endif
 			
 			return propertyNameToValueMap;
 		}
@@ -195,9 +177,7 @@ namespace LunarGrin.Core
 		/// that contains the data to be set on the MySaveGameData instance.</param>
 		public override object ReadJson( Type type, Dictionary<string,object> propertyNameToValueMap )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin object ReadJson( Type type, Dictionary<string,object> propertyNameToValueMap )" );
-			#endif
 			
 			GameConfig mySaveGameData = null;
 			
@@ -217,10 +197,8 @@ namespace LunarGrin.Core
 			{
 				Debug.Log( "Unable to deserialize JSON into type " + typeof( GameConfig ).ToString() + " " + e.Message );
 			}
-			
-			#if LOGGING_TRACE
+
 			Log.Trace( "End object ReadJson( Type type, Dictionary<string,object> propertyNameToValueMap )" );
-			#endif
 			
 			return mySaveGameData;
 		}

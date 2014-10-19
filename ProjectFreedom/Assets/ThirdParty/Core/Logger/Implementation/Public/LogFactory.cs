@@ -18,12 +18,10 @@ namespace LunarGrin.Utilities
 		/// <param name="type">The type of the class that is creating a logger.</param>
 		public static ILogger CreateLogger( Type type )
 		{
-			#if PARAM_CHECKING
 			if( type == null )
 			{
 				throw new ArgumentException( "parameter type is required" );
 			}
-			#endif
 			
 			return provider.CreateLogger( type );
 		}

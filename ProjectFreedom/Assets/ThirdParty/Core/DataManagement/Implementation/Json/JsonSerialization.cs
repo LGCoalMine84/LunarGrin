@@ -35,9 +35,7 @@ namespace LunarGrin.Core
 	/// </summary>
 	public class JsonSerialization
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( JsonSerialization ) );
-		#endif
 		
 		private JsonReaderSettings jsonReaderSettings;
 		private JsonReader jsonReader;
@@ -52,9 +50,7 @@ namespace LunarGrin.Core
 		/// <param name="prettyPrint">If set to <c>true</c>, created Json is formatted/indented.</param>
 		public JsonSerialization( Boolean prettyPrint = false )
 		{
-			#if LOGGING
 			Log.Trace( "Begin JsonSerialization( Boolean prettyPrint = " + prettyPrint + " )" );
-			#endif
 			
 			//reader handles Json to object instance conversions
 			jsonReaderSettings = new JsonReaderSettings();
@@ -67,9 +63,7 @@ namespace LunarGrin.Core
 			StringWriter stringWriter = new StringWriter( writtenJson );
 			jsonWriter = new JsonWriter( stringWriter, jsonWriterSettings );
 			
-			#if LOGGING
 			Log.Trace( "End JsonSerialization( Boolean prettyPrint = " + prettyPrint + " )" );
-			#endif
 		}
 		
 		/// <summary>
@@ -78,23 +72,17 @@ namespace LunarGrin.Core
 		/// <param name="converter">A converter for a particular type, as required by the JSONFX API.</param>
 		public void RegisterConverter( JsonConverter converter )
 		{
-			#if LOGGING
 			Log.Trace( "Begin void RegisterConverter( JsonConverter converter )" );
-			#endif
 			
-			#if PARAM_CHECKING
 			if( converter == null )
 			{
 				throw new ArgumentException( "parameter converter is required" );
 			}
-			#endif
 			
 			jsonWriterSettings.AddTypeConverter( converter );
 			jsonReaderSettings.AddTypeConverter( converter );
 			
-			#if LOGGING
 			Log.Trace( "End void RegisterConverter( JsonConverter converter )" );
-			#endif
 		}
 		
 		/// <summary>
@@ -104,24 +92,18 @@ namespace LunarGrin.Core
 		/// <param name="instance">The object instance to be converted into Json.</param>
 		public String ToJson( Object instance )
 		{
-			#if LOGGING
 			Log.Trace( "Begin String ToJson( Object instance )" );
-			#endif
 			
-			#if PARAM_CHECKING
 			if( instance == null )
 			{
 				throw new ArgumentException( "parameter instance is required" );
 			}
-			#endif
 			
 			jsonWriter.Write( instance );
 			String json = writtenJson.ToString();
 			writtenJson.Length = 0;
 			
-			#if LOGGING
 			Log.Trace( "End String ToJson( Object instance )" );
-			#endif
 			
 			return json;
 		}
@@ -134,11 +116,8 @@ namespace LunarGrin.Core
 		/// <param name="json">The Json data that is to be converted into an instance.</param>
 		public Object FromJson( Type type, String json )
 		{
-			#if LOGGING
 			Log.Trace( "Begin Object FromJson( Type type, String json )" );
-			#endif
 			
-			#if PARAM_CHECKING
 			if( type == null )
 			{
 				throw new ArgumentException( "parameter type is required" );
@@ -148,14 +127,11 @@ namespace LunarGrin.Core
 			{
 				throw new ArgumentException( "parameter json is required" );
 			}
-			#endif
 			
 			JsonReader jsonReader = new JsonReader( json, jsonReaderSettings );
 			Object instance = jsonReader.Deserialize( type );
 			
-			#if LOGGING
 			Log.Trace( "End Object FromJson( Type type, String json )" );
-			#endif
 			
 			return instance;
 		}

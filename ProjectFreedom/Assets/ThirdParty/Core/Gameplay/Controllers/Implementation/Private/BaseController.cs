@@ -29,9 +29,7 @@ namespace LunarGrin.Core
     /// </summary>
     public class BaseController : MonoBehaviour
     {
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( BaseController ) );
-		#endif
 
         /// <summary>
         /// The pawn the controller is possessing.
@@ -61,18 +59,14 @@ namespace LunarGrin.Core
         /// <param name="target">Target.</param>
         public void Possess( GameObject target )
         {
-			#if LOGGING
 			Log.Trace( "Begin void Possess( GameObject target )" );
-			#endif
 
             if ( target != null )
             {
                 Possess( target.GetComponent<Pawn>() );
             }
 
-			#if LOGGING
 			Log.Trace( "End void Possess( GameObject target )" );
-			#endif
         }
         
         /// <summary>
@@ -81,16 +75,12 @@ namespace LunarGrin.Core
         /// <param name="target">Target.</param>
         public void Possess( Pawn target )
         {
-			#if LOGGING
 			Log.Trace( "Begin void Possess( Pawn target )" );
-			#endif
 
-			#if PARAM_CHECKING
 			if( target == null )
 			{
 				throw new ArgumentException( "parameter target is required" );
 			}
-			#endif
 
             if ( pawn != null )
             {
@@ -100,9 +90,7 @@ namespace LunarGrin.Core
             pawn = target;
 			pawn.OnPossess( this );
 
-			#if LOGGING
 			Log.Trace( "End void Possess( Pawn target )" );
-			#endif
         }
 
         /// <summary>
@@ -110,9 +98,7 @@ namespace LunarGrin.Core
         /// </summary>
         public void UnPossess()
         {
-			#if LOGGING
 			Log.Trace( "Begin void UnPossess()" );
-			#endif
 
             if ( pawn != null )
             {
@@ -121,9 +107,7 @@ namespace LunarGrin.Core
                 pawn = null;
             }
 
-			#if LOGGING
 			Log.Trace( "End void UnPossess()" );
-			#endif
         }
         
         /// <summary>
@@ -131,20 +115,12 @@ namespace LunarGrin.Core
         /// </summary>
         protected void Update()
         {
-			#if LOGGING
-			Log.Trace( "Begin void Update()" );
-			#endif
-
             IControls activeControls = GetControls();
             
             if ( activeControls != null )
             {
                 activeControls.Update();
             }
-
-			#if LOGGING
-			Log.Trace( "End void Update()" );
-			#endif
         }
 
         /// <summary>
@@ -153,20 +129,12 @@ namespace LunarGrin.Core
         /// <returns>The controls.</returns>
         protected IControls GetControls()
         {
-			#if LOGGING
-			Log.Trace( "Begin IControls GetControls()" );
-			#endif
-
 			IControls controls = null;
 
             if ( controlsStack.Count > 0 )
             {
 				controls = controlsStack.Peek();
             }
-            
-			#if LOGGING
-			Log.Trace( "End IControls GetControls()" );
-			#endif
 
 			return controls;
         }
@@ -176,9 +144,7 @@ namespace LunarGrin.Core
         /// </summary>
 		public void PopControls()
         {
-			#if LOGGING
 			Log.Trace( "Begin void PopControls()" );
-			#endif
             
             if ( controlsStack.Count > 0 )
             {
@@ -192,9 +158,7 @@ namespace LunarGrin.Core
                 }
             }
 
-			#if LOGGING
 			Log.Trace( "End void PopControls()" );
-			#endif
         }
         
         /// <summary>
@@ -204,16 +168,12 @@ namespace LunarGrin.Core
         /// <param name="controls">Controls.</param>
         public void PushControls( IControls controls )
         {
-			#if LOGGING
 			Log.Trace( "Begin void PushControls( IControls controls )" );
-			#endif
 
-			#if PARAM_CHECKING
 			if( controls == null )
 			{
 				throw new ArgumentException( "parameter controls is required" );
 			}
-			#endif
 
 			IControls activeControls = GetControls();
 			
@@ -226,9 +186,7 @@ namespace LunarGrin.Core
 			
 			controls.OnStartup();
 
-			#if LOGGING
 			Log.Trace( "End void PushControls( IControls controls )" );
-			#endif
         }
     }
 }

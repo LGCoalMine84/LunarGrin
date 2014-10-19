@@ -31,29 +31,23 @@ namespace LunarGrin.UnitTests.PlayerControllerUnitTest
     /// </summary>
     public class ExamplePlayer : PlayerController
     {
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( ExamplePlayer ) );
-		#endif
 
         /// <summary>
         /// Sets the player move controls.
         /// </summary>
         public void SetPlayerMoveControls()
         {
-			#if LOGGING
 			Log.Trace( "Begin void SetPlayerMoveControls()" );
-			#endif
 
             if ( Pawn != null )
             {
                 PlayerMoveControls moveControls = new PlayerMoveControls( this );
-                
+               
                 PushControls( moveControls );
             }
 
-			#if LOGGING
 			Log.Trace( "End void SetPlayerMoveControls()" );
-			#endif
         }
     }
 }

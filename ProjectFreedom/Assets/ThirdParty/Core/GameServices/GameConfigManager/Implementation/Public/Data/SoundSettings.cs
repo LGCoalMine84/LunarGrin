@@ -22,9 +22,7 @@ namespace LunarGrin.Core
 {
 	public class SoundSettings
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( SoundSettings ) );
-		#endif
 
 		/// <summary>
 		/// This is a data centric class that stores the sound save game data.
@@ -42,10 +40,8 @@ namespace LunarGrin.Core
 
 		public SoundSettings()
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin SoundSettings()" );
 			Log.Trace( "End SoundSettings()" );
-			#endif
 		}
 
 		/// <summary>

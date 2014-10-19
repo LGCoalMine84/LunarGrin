@@ -18,9 +18,7 @@ namespace LunarGrin.Core
 {
 	public class LoadingState : GameState
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( JsonSerialization ) );
-		#endif
 		
 		private Boolean isLoadingComplete = false;
 	
@@ -33,9 +31,7 @@ namespace LunarGrin.Core
 		/// </summary>
 		public override void OnEnter()
 		{
-			#if LOGGING
 			Log.Trace( "LoadingState.OnEnter" );
-			#endif
 			
 			base.OnEnter();
 			
@@ -79,9 +75,7 @@ namespace LunarGrin.Core
 		/// </summary>
 		public override void OnExit()
 		{
-			#if LOGGING
 			Log.Trace( "LoadingState.OnExit" );
-			#endif
 			
 			base.OnExit();
 		}

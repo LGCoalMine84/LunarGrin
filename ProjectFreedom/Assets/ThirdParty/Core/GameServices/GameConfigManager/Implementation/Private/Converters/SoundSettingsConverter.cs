@@ -31,15 +31,11 @@ namespace LunarGrin.Core
 	/// </summary>
 	public class SoundSettingsConverter : JsonConverter
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( SoundSettingsConverter ) );
-		#endif
 
 		public static SoundSettings DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin SoundSettings DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )" );
-			#endif
 
 			SoundSettings soundSaveGameData = new SoundSettings();
 
@@ -73,18 +69,14 @@ namespace LunarGrin.Core
 				                                    "." + SoundSettings.Properties.SpeechVolume );
 			}
 
-			#if LOGGING_TRACE
 			Log.Trace( "End SoundSettings DictoinaryToSound( Dictionary<string, object> propertyNameToValueMap )" );
-			#endif
 
 			return soundSaveGameData;
 		}
 
 		public static Dictionary<string, object> SoundToDictionary( SoundSettings sound )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin Dictionary<string, object> SoundToDictionary( SoundSettings sound )" );
-			#endif
 
 			Dictionary<string, object> propertyNameToValueMap = new Dictionary<string, object>();
 			
@@ -97,9 +89,7 @@ namespace LunarGrin.Core
 			propertyNameToValueMap.Add( SoundSettings.Properties.MusicVolume, sound.MusicVolume );
 			propertyNameToValueMap.Add( SoundSettings.Properties.SpeechVolume, sound.SpeechVolume );
 
-			#if LOGGING_TRACE
 			Log.Trace( "End Dictionary<string, object> SoundToDictionary( SoundSettings sound )" );
-			#endif
 
 			return propertyNameToValueMap;
 		}
@@ -111,9 +101,7 @@ namespace LunarGrin.Core
 		/// <param name="stream">The stream to which the save game data will be written.</param>
 		public static void SoundToStream( SoundSettings soundSaveGameData, Stream stream )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin void SoundToStream( SoundSettings soundSaveGameData, Stream stream )" );
-			#endif
 			
 			if( soundSaveGameData == null )
 			{
@@ -133,9 +121,7 @@ namespace LunarGrin.Core
 			
 			writer.Close();
 			
-			#if LOGGING_TRACE
 			Log.Trace( "End void SoundToStream( SoundSettings soundSaveGameData, Stream stream )" );
-			#endif
 		}
 
 		/// <summary>
@@ -145,9 +131,7 @@ namespace LunarGrin.Core
 		/// <param name="saveGameData">The save game data.</param>
 		public static void StreamToSound( Stream stream, SoundSettings soundSaveGameData )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin void StreamToSound( Stream stream, SoundSettings soundSaveGameData )" );
-			#endif
 			
 			if( stream == null )
 			{
@@ -167,9 +151,7 @@ namespace LunarGrin.Core
 			
 			reader.Close();
 			
-			#if LOGGING_TRACE
 			Log.Trace( "End void StreamToSound( Stream stream, SoundSettings soundSaveGameData )" );
-			#endif
 		}
 
 		/// <summary>
@@ -179,15 +161,11 @@ namespace LunarGrin.Core
 		/// <param name="t">T.</param>
 		public override bool CanConvert( Type type )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin bool CanConvert( Type type )" );
-			#endif
 			
 			Boolean result = type == typeof( SoundSettings );
 			
-			#if LOGGING_TRACE
 			Log.Trace( "End bool CanConvert( Type type )" );
-			#endif
 			
 			return result;
 		}
@@ -201,9 +179,7 @@ namespace LunarGrin.Core
 		/// <param name="value">A Value parameter passed in from the JSONFX library.</param>
 		public override Dictionary<string,object> WriteJson( Type type, object value )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin Dictionary<string,object> WriteJson( Type type, object value )" );
-			#endif
 			
 			Dictionary<string,object> propertyNameToValueMap = null;
 			
@@ -224,9 +200,7 @@ namespace LunarGrin.Core
 				Log.Error( "Unable to serialize type " + typeof( GameConfig ).ToString() + " to JSON" + " " + e.Message );
 			}
 			
-			#if LOGGING_TRACE
 			Log.Trace( "End Dictionary<string,object> WriteJson( Type type, object value )" );
-			#endif
 			
 			return propertyNameToValueMap;
 		}
@@ -242,9 +216,7 @@ namespace LunarGrin.Core
 		/// that contains the data to be set on the Sound instance.</param>
 		public override object ReadJson( Type type, Dictionary<string,object> propertyNameToValueMap )
 		{
-			#if LOGGING_TRACE
 			Log.Trace( "Begin object ReadJson( Type type, Dictionary<string,object> propertyNameToValueMap )" );
-			#endif
 			
 			SoundSettings soundSaveGameData = null;
 			
@@ -257,9 +229,7 @@ namespace LunarGrin.Core
 				Log.Error( "Unable to deserialize JSON into type " + typeof( GameConfig ).ToString() + " " + e.Message );
 			}
 			
-			#if LOGGING_TRACE
 			Log.Trace( "End object ReadJson( Type type, Dictionary<string,object> propertyNameToValueMap )" );
-			#endif
 			
 			return soundSaveGameData;
 		}

@@ -21,9 +21,7 @@ namespace LunarGrin.UnitTests.PlayerControllerUnitTest
 	/// </summary>
 	public class CameraOrbitControls : IControls
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( CameraOrbitControls ) );
-		#endif
 	
 	    /// <summary>
 	    /// The game camera.
@@ -82,26 +80,20 @@ namespace LunarGrin.UnitTests.PlayerControllerUnitTest
 	    /// <param name="target">Target.</param>
 	    public CameraOrbitControls( GameCamera camera )
 	    {
-			#if LOGGING
 			Log.Trace( "Begin CameraOrbitControls( GameCamera camera )" );
-			#endif
 	
-			#if PARAM_CHECKING
 			if( camera == null )
 			{
 				throw new ArgumentException( "parameter camera is required" );
 			}
-			#endif
 	
 	        gameCamera = camera;
 	        
 	        Vector3 angles = camera.transform.eulerAngles;
 	        x = angles.y;
 	        y = angles.x;
-	
-			#if LOGGING
+
 			Log.Trace( "End CameraOrbitControls( GameCamera camera )" );
-			#endif
 	    }
 	    
 		/// <summary>
@@ -176,9 +168,7 @@ namespace LunarGrin.UnitTests.PlayerControllerUnitTest
 		/// <param name="max">Max.</param>
 		public static float ClampAngle( float angle, float min, float max )
 		{
-			#if LOGGING
 			Log.Trace( "Begin float ClampAngle( float angle, float min, float max )" );
-			#endif
 			
 			if (angle < -360F)
 			{
@@ -192,9 +182,7 @@ namespace LunarGrin.UnitTests.PlayerControllerUnitTest
 			
 			float result = Mathf.Clamp(angle, min, max);
 			
-			#if LOGGING
 			Log.Trace( "End float ClampAngle( float angle, float min, float max )" );
-			#endif
 			
 			return result;
 		}

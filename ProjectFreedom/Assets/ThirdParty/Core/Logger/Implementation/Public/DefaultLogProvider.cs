@@ -25,12 +25,10 @@ namespace LunarGrin.Utilities
 		/// <param name="type">The type of the class that is creating a logger.</param>
 		public ILogger CreateLogger( Type type )
 		{
-			#if PARAM_CHECKING
 			if( type == null )
 			{
 				throw new ArgumentException( "parameter type is required" );
 			}
-			#endif
 			
 			return new DefaultLogProvider( type );
 		}
@@ -42,7 +40,9 @@ namespace LunarGrin.Utilities
 		/// <param name="context">An object that is associated with the context in which the error occurred.</param>
 		public void Error( String message = null, object context = null )
 		{
+			#if LOGGING
 			Debug.LogError( type.ToString() + ": " + message );
+			#endif
 		}
 		
 		/// <summary>
@@ -52,7 +52,9 @@ namespace LunarGrin.Utilities
 		/// <param name="context">An object that is associated with the context in which the trace occurred.</param>
 		public void Trace( String message = null, object context = null )
 		{
+			#if LOGGING
 			Debug.Log( type.ToString() + ": " + message );
+			#endif
 		}
 		
 		/// <summary>
@@ -62,22 +64,21 @@ namespace LunarGrin.Utilities
 		/// <param name="context">An object that is associated with the context in which the warning occurred.</param>
 		public void Warning( String message = null, object context = null )
 		{
+			#if LOGGING
 			Debug.LogWarning( type.ToString() + ": " + message );
+			#endif
 		}
-		
-		
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DefaultLogProvider"/> class.
 		/// </summary>
 		/// <param name="type">The type of the class that is creating a logger.</param>
 		private DefaultLogProvider( Type type )
 		{
-			#if PARAM_CHECKING
 			if( type == null )
 			{
 				throw new ArgumentException( "parameter type is required" );
 			}
-			#endif
 			
 			this.type = type;
 		}

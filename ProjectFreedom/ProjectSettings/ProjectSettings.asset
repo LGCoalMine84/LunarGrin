@@ -150,7 +150,7 @@ PlayerSettings:
   flashStrippingLevel: 2
   spritePackerPolicy: 
   scriptingDefineSymbols:
-    1: LOGGING;LOGGING_TRACE;PARAM_CHECKING
+    1: LOGGING
   metroPackageName: ProjectFreedom
   metroPackageLogo: 
   metroPackageLogo140: 

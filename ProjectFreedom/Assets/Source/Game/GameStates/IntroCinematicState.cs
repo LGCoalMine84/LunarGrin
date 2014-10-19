@@ -1,4 +1,5 @@
 ﻿#region File Header
+
 // File Name:		IntroCinematicState.cs
 // Author:			John Whitsell
 // Creation Date:	2014/09/24
@@ -6,6 +7,7 @@
 // Copyrights:		Copyright 2014
 //					Lunar Grin, LLC.
 //					All rights reserved.
+
 #endregion
 
 #region Using Directives
@@ -18,9 +20,7 @@ namespace LunarGrin.Core
 {
 	public class IntroCinematicState : GameState
 	{
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( IntroCinematicState ) );
-		#endif
 	
 		//	TODO:	Look into passing a video into this state so that it can just be made generic
 		public IntroCinematicState( String stateName ) : base( stateName )
@@ -32,9 +32,7 @@ namespace LunarGrin.Core
 		/// </summary>
 		public override void OnEnter()
 		{
-			#if LOGGING
 			Log.Trace( "IntroCinematicState.OnEnter" );
-			#endif
 			
 			base.OnEnter();
 			
@@ -64,9 +62,7 @@ namespace LunarGrin.Core
 		/// </summary>
 		public override void OnExit()
 		{
-			#if LOGGING
 			Log.Trace( "IntroCinematicState.OnExit" );
-			#endif
 			
 			base.OnExit();
 		}

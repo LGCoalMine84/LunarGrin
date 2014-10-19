@@ -14,6 +14,8 @@
 
 using System;
 
+using LunarGrin.Utilities;
+
 #endregion
 
 namespace LunarGrin.Core
@@ -45,6 +47,11 @@ namespace LunarGrin.Core
 	{
 		#region Private Fields
 	
+		/// <summary>
+		/// The logger.
+		/// </summary>
+		private static readonly ILogger Log = LogFactory.CreateLogger( typeof( GameServices ) );
+		
 		/// <summary>
 		/// Provides the game services registration and unregistration functionality.
 		/// </summary>
@@ -119,9 +126,9 @@ namespace LunarGrin.Core
 			{
 				servicesManager.AddService( serviceType, service );
 			}
-			catch( Exception )
+			catch( Exception ex )
 			{
-				// LOG
+				Log.Error( "Game Services: " + ex.Message );
 			}
 		}
 
@@ -135,9 +142,9 @@ namespace LunarGrin.Core
 			{
 				servicesManager.RemoveService( serviceType );
 			}
-			catch( Exception )
+			catch( Exception ex )
 			{
-				// LOG
+				Log.Error( "Game Services: " + ex.Message );
 			}
 		}
 		
@@ -151,9 +158,9 @@ namespace LunarGrin.Core
 			{
 				servicesManager.RemoveService( service );
 			}
-			catch( Exception )
+			catch( Exception ex )
 			{
-				// LOG
+				Log.Error( "Game Services: " + ex.Message );
 			}
 		}
 		
@@ -166,9 +173,9 @@ namespace LunarGrin.Core
 			{
 				servicesManager.RemoveAllServices();
 			}
-			catch( Exception )
+			catch( Exception ex )
 			{
-				// LOG
+				Log.Error( "Game Services: " + ex.Message );
 			}
 		}
 		
@@ -183,9 +190,9 @@ namespace LunarGrin.Core
 			{
 				return servicesManager.GetService( serviceType );
 			}
-			catch( Exception )
+			catch( Exception ex )
 			{
-				// LOG
+				Log.Error( "Game Services: " + ex.Message );
 			}
 			
 			return null;
@@ -208,9 +215,9 @@ namespace LunarGrin.Core
 				
 				servicesManager.AddService( ServiceType.GameStateManager, new GameStateManager() );
 			}
-			catch( Exception )
+			catch( Exception ex )
 			{
-				// LOG
+				Log.Error( "Game Services: " + ex.Message );
 			}
 		}
 		

@@ -28,9 +28,7 @@ namespace LunarGrin.Core
     /// </summary>
     public class Pawn : MonoBehaviour
     {
-		#if LOGGING
 		private static ILogger Log = LogFactory.CreateLogger( typeof( Pawn ) );
-		#endif
 
         /// <summary>
         /// The Pawn's controller.
@@ -45,16 +43,12 @@ namespace LunarGrin.Core
         /// <param name="controller">The <see cref="BaseController"/> controlling the Pawn.</param>
         public virtual void OnPossess( BaseController controller )
         {
-			#if LOGGING
 			Log.Trace( "Begin void OnPossess( BaseController controller )" );
-			#endif
 
-			#if PARAM_CHECKING
 			if( controller == null )
 			{
 				throw new ArgumentException( "parameter controller is required" );
 			}
-			#endif
 
             this.controller = controller;
             
@@ -64,9 +58,7 @@ namespace LunarGrin.Core
 			//	Parent the Pawn to the controller that is possessing it.
 			transform.parent = controller.transform;
 
-			#if LOGGING
 			Log.Trace( "End void OnPossess( BaseController controller )" );
-			#endif
         }
 
         /// <summary>
@@ -74,18 +66,14 @@ namespace LunarGrin.Core
         /// </summary>
         public virtual void OnUnPossess()
         {
-			#if LOGGING
 			Log.Trace( "Begin void OnUnPossess()" );
-			#endif
 			
 			//	Revert the Pawn's parent back to the parent it had before it was possessed.
 			transform.parent = parent;
 
             controller = null;
 
-			#if LOGGING
 			Log.Trace( "End void OnUnPossess()" );
-			#endif
         }
     }
 }
