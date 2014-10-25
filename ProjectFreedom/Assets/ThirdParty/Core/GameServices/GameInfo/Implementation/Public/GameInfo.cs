@@ -88,8 +88,6 @@ namespace LunarGrin.Core
 			{
 				throw new InvalidOperationException( "GameInfo.CreatePlayerController - The player controller has already been initialized." );
 			}
-			
-			return null;
 		}
 
 		/// <summary>

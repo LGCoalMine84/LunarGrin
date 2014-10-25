@@ -81,8 +81,6 @@ namespace LunarGrin.Core
 			{
 				throw new InvalidOperationException( "PlayerController.CreatePlayerCamera - Unable to find the camera prefab." );
 			}
-			
-			return null;
         }
     }
 }
