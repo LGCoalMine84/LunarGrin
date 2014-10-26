@@ -27,8 +27,6 @@ public class Sensor : MonoBehaviour
 	[HideInInspector]
 	[SerializeField]
 	private SphereCollider sensor = null;
-	
-	private Boolean sensorRadiusChanged = false;
 
 	private void Awake()
 	{

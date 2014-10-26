@@ -27,12 +27,7 @@ namespace LunarGrin.Core
     /// </summary>
     public class GameCamera : MonoBehaviour
     {
-		private static ILogger Log = LogFactory.CreateLogger( typeof( GameCamera ) );
-
-		/// <summary>
-		/// The camera.
-		/// </summary>
-		public Camera camera = null;
+		//private static ILogger Log = LogFactory.CreateLogger( typeof( GameCamera ) );
 
         /// <summary>
         /// The camera's controls.

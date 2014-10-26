@@ -33,8 +33,10 @@ namespace LunarGrin.Core
         /// <summary>
         /// The Pawn's controller.
         /// </summary>
+		#pragma warning disable 0414
         private BaseController controller = null;
-        
+		#pragma warning restore 0414
+		
         private Transform parent = null;
         
         /// <summary>
