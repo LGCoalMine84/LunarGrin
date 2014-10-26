@@ -32,7 +32,7 @@ namespace LunarGrin.Core
 		/// <summary>
 		/// The camera.
 		/// </summary>
-		private Camera camera = null;
+		public Camera camera = null;
 
         /// <summary>
         /// The camera's controls.
@@ -48,22 +48,6 @@ namespace LunarGrin.Core
         /// A value indicating whether this camera is active.  If the camera is not active it will not update its controls.
         /// </summary>
         private Boolean isActive = false;
-        
-        /// <summary>
-        /// Gets or sets the camera.
-        /// </summary>
-        /// <value>The camera.</value>
-        public Camera Camera
-        {
-        	get
-        	{
-        		return camera;
-        	}
-        	set
-        	{
-        		camera = value;
-        	}
-        }
         
         /// <summary>
         /// Gets or sets the camera's controls.
