@@ -59,17 +59,28 @@ namespace LunarGrin.Core
 				
 				if ( goPlayerCamera != null )
 				{
-					playerCamera = goPlayerCamera.AddComponent<T>();
+					Camera camera = goPlayerCamera.GetComponent<Camera>();
 					
-					if ( PlayerCamera != null )
+					if ( camera )
 					{
-						PlayerCamera.transform.parent = transform;
+						playerCamera = goPlayerCamera.AddComponent<T>();
 						
-						return (T)playerCamera;
+						if ( PlayerCamera != null )
+						{
+							PlayerCamera.transform.parent = transform;
+							
+							PlayerCamera.camera = camera;
+							
+							return (T)playerCamera;
+						}
+						else
+						{
+							throw new InvalidOperationException( "PlayerController.CreatePlayerCamera - Unable to instantiate the specified camera controller script." );
+						}
 					}
 					else
 					{
-						throw new InvalidOperationException( "PlayerController.CreatePlayerCamera - Unable to instantiate the specified camera controller script." );
+						throw new InvalidOperationException( "PlayerController.CreatePlayerCamera - The camera prefab does not conain a Camera." );
 					}
 				}
 				else
