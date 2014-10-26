@@ -13,6 +13,7 @@
 #region Using Directives
 
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEditor;
@@ -27,6 +28,22 @@ public class Sensor : MonoBehaviour
 	[HideInInspector]
 	[SerializeField]
 	private SphereCollider sensor = null;
+	
+	private List<Collider> trackedTargets = new List<Collider>();
+	
+	public delegate void OnTargetDetected( Collider target );
+	public delegate void OnTargetLost( Collider target );
+	
+	public OnTargetDetected onTargetDetected;
+	public OnTargetLost onTargetLost;
+	
+	public List<Collider> TrackedTargets
+	{
+		get
+		{
+			return trackedTargets;
+		}
+	}
 
 	private void Awake()
 	{
@@ -35,6 +52,7 @@ public class Sensor : MonoBehaviour
 			sensor = gameObject.AddComponent<SphereCollider>();
 			sensor.center = Vector3.zero;
 			sensor.radius = sensorRadius;
+			sensor.isTrigger = true;
 		}
 	}
 
@@ -63,6 +81,21 @@ public class Sensor : MonoBehaviour
 	
 	private void OnTriggerEnter( Collider obj )
 	{
-		Debug.Log( "Sensor.OnTriggerEnter - " + obj.name );
+		trackedTargets.Add( obj );
+	
+		if ( onTargetDetected != null )
+		{
+			onTargetDetected( obj );
+		}
+	}
+	
+	private void OnTriggerExit( Collider obj )
+	{
+		trackedTargets.Remove( obj );
+	
+		if ( onTargetLost != null )
+		{
+			onTargetLost( obj );
+		}
 	}
 }

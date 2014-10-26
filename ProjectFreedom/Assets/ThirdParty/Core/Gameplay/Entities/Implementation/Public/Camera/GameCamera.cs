@@ -28,6 +28,11 @@ namespace LunarGrin.Core
     public class GameCamera : MonoBehaviour
     {
 		//private static ILogger Log = LogFactory.CreateLogger( typeof( GameCamera ) );
+		
+		/// <summary>
+		/// A flag that determines whether or not the camera is physics based.  A camera should be physics based if its target uses the physics engine to change its position or rotation.
+		/// </summary>
+		public Boolean isPhysicsCamera = false;
 
         /// <summary>
         /// The camera's controls.
@@ -117,14 +122,25 @@ namespace LunarGrin.Core
         }
         
         /// <summary>
-        /// Updates the camera's controls.  This must be performed in LateUpdate to make sure the simulation phase in the game's Update is complete.
+        /// Updates the camera's controls.  This update will only occur if the camera is physics based.
         /// </summary>
-        void LateUpdate()
-        {
-            if ( controls != null )
-            {
-                controls.Update();
-            }
-        }
+		void FixedUpdate()
+		{
+			if ( isPhysicsCamera && controls != null )
+			{
+				controls.Update();
+			}
+		}
+        
+        /// <summary>
+        /// Updates the camera's controls.  This update will only occur if the camear is not physics based.
+        /// </summary>
+		void LateUpdate()
+		{
+			if ( !isPhysicsCamera && controls != null )
+			{
+				controls.Update();
+			}
+		}
     }
 }
