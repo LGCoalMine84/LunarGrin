@@ -26,7 +26,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 	/// <summary>
 	/// Handles the player flight controls game state of the unit test. 
 	/// </summary>
-	public class PlayerFlightControlsState : GameState
+	public sealed class PlayerFlightControlsState : GameState
 	{
 		#region Private Fields
 		
@@ -34,6 +34,8 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// The logger.
 		/// </summary>
 		private static readonly ILogger Log = LogFactory.CreateLogger( typeof( GameplayState ) );
+		
+		private GameObject cam = null;
 		
 		#endregion
 		
@@ -51,6 +53,15 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		
 		#endregion
 		
+		private void CreatePlayerCamera()
+		{
+			PlayerController playerController = GameServices.GameInfo.Player;
+			
+			GameCamera playerCamera = playerController.CreatePlayerCamera<GameCamera>();
+			playerCamera.transform.position = new Vector3( 0, 1f, -10f );
+			//playerCamera.Controls = new CameraOrbitControls( playerCamera );
+		}
+		
 		#region Public Methods
 		
 		/// <summary>
@@ -61,6 +72,18 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			Log.Trace( "PlayerFlightControlsState.OnEnter" );
 			
 			base.OnEnter();
+			
+			PlayerController playerController = GameServices.GameInfo.CreatePlayerController<Player>( "Player" );
+			
+			GameObject pawn = GameObject.Find( "MantisShip" );
+			playerController.Possess( pawn );
+			
+			//cam = GameObject.FindGameObjectWithTag( "MainCamera" );
+			//cam.transform.parent = playerController.transform;
+			//cam.transform.localPosition = Vector3.zero;
+			//cam.transform.localScale = Vector3.one;
+			
+			//CreatePlayerCamera();
 		}
 		
 		/// <summary>
@@ -94,7 +117,12 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public override void Update( Single deltaTime )
 		{
-			
+			if( cam != null )
+			{
+				//PlayerController player = GameServices.GameInfo.Player;
+				//Vector3 newVec = new Vector3( player.transform.localPosition.x, player.transform.localPosition.y + 25.0f, player.transform.localPosition.z - 30.0f );
+				//cam.transform.position = Vector3.Lerp( cam.transform.position, newVec, Time.deltaTime );
+			}
 		}
 		
 		#endregion
