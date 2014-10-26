@@ -35,8 +35,6 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// </summary>
 		private static readonly ILogger Log = LogFactory.CreateLogger( typeof( GameplayState ) );
 		
-		private GameObject cam = null;
-		
 		#endregion
 		
 		#region Constructors
@@ -53,37 +51,19 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		
 		#endregion
 		
-		private void CreatePlayerCamera()
-		{
-			PlayerController playerController = GameServices.GameInfo.Player;
-			
-			GameCamera playerCamera = playerController.CreatePlayerCamera<GameCamera>();
-			playerCamera.transform.position = new Vector3( 0, 1f, -10f );
-			//playerCamera.Controls = new CameraOrbitControls( playerCamera );
-		}
-		
 		#region Public Methods
+		
+		#region GameState
 		
 		/// <summary>
 		/// Raised when the game state has been pushed to the top of the stack.
 		/// </summary>
 		public override void OnEnter()
 		{
-			Log.Trace( "PlayerFlightControlsState.OnEnter" );
-			
 			base.OnEnter();
-			
-			PlayerController playerController = GameServices.GameInfo.CreatePlayerController<Player>( "Player" );
-			
-			GameObject pawn = GameObject.Find( "MantisShip" );
-			playerController.Possess( pawn );
-			
-			//cam = GameObject.FindGameObjectWithTag( "MainCamera" );
-			//cam.transform.parent = playerController.transform;
-			//cam.transform.localPosition = Vector3.zero;
-			//cam.transform.localScale = Vector3.one;
-			
-			//CreatePlayerCamera();
+
+			CreatePlayerController();
+			CreatePlayerCamera();
 		}
 		
 		/// <summary>
@@ -117,12 +97,51 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <seealso cref="LunarGrin.Core.IGameState"/>
 		public override void Update( Single deltaTime )
 		{
-			if( cam != null )
+			
+		}
+		
+		#endregion
+		
+		#endregion
+		
+		#region Private Methods
+		
+		/// <summary>
+		/// Creates the player controller.
+		/// </summary>
+		private void CreatePlayerController()
+		{
+			PlayerController playerController = null;
+			
+			try
 			{
-				//PlayerController player = GameServices.GameInfo.Player;
-				//Vector3 newVec = new Vector3( player.transform.localPosition.x, player.transform.localPosition.y + 25.0f, player.transform.localPosition.z - 30.0f );
-				//cam.transform.position = Vector3.Lerp( cam.transform.position, newVec, Time.deltaTime );
+				playerController = GameServices.GameInfo.CreatePlayerController<Player>( "Player" );
+				
+				
 			}
+			catch( Exception ex )
+			{
+				Log.Error( ex.Message );
+			}
+			
+			if( playerController != null )
+			{
+				GameObject pawn = GameObject.Find( "MantisShip" );
+				playerController.Possess( pawn );
+			}
+		}
+		
+		/// <summary>
+		/// Creates the player camera.
+		/// </summary>
+		private void CreatePlayerCamera()
+		{
+			PlayerController playerController = GameServices.GameInfo.Player;
+			GameCamera playerCamera = playerController.CreatePlayerCamera<GameCamera>();
+			playerCamera.Controls = new PlayerShipCamera( playerCamera );
+			playerCamera.Target = playerController.Pawn.transform;
+			playerCamera.isPhysicsCamera = true;
+			playerCamera.camera.farClipPlane = 1000000;
 		}
 		
 		#endregion

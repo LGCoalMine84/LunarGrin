@@ -60,7 +60,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		#region IControls
 		
 		/// <summary>
-		/// Raises the resume event.  OnResume is called every time the owner of the controls is set.
+		/// Raises the resume event. This method is called every time the owner of the controls is set.
 		/// </summary>
 		public void OnResume()
 		{
@@ -68,7 +68,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		}
 		
 		/// <summary>
-		/// Raises the shutdown event.  OnShutdown is called once on destruction.
+		/// Raises the shutdown event. This method is called once on destruction.
 		/// </summary>
 		public void OnShutdown()
 		{
@@ -76,7 +76,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		}
 		
 		/// <summary>
-		/// Raises the startup event.  OnStartup is called once on initialization.
+		/// Raises the startup event. This method is called once on initialization.
 		/// </summary>
 		public void OnStartup()
 		{
@@ -84,7 +84,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		}
 		
 		/// <summary>
-		/// Raises the suspend event.  OnSuspend is called every time the owner of the controls is cleared.
+		/// Raises the suspend event. This method is called every time the owner of the controls is cleared.
 		/// </summary>
 		public void OnSuspend()
 		{

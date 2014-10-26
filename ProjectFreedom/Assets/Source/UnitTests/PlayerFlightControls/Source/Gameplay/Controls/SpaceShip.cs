@@ -42,7 +42,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// </summary>
 		private Single totalMass = 0.0f;
 		
-		private BaseController owner = null;
+		private PlayerController owner = null;
 		
 		#endregion
 		
@@ -67,7 +67,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// Default constructor initializes a new instance of the <see cref="LunarGrin.UnitTests.PlayerFlightControlsUnitTest.SpaceShip"/> class.
 		/// </summary>
-		public SpaceShip( BaseController controller, Rigidbody playerRigidBody )
+		public SpaceShip( PlayerController controller, Rigidbody playerRigidBody )
 		{
 			rigidBody = playerRigidBody;
 			int y = 0;
@@ -75,6 +75,8 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			rigidBody.drag = 0.75f;
 			rigidBody.angularDrag = 0.5f;
 			rigidBody.mass = 500.0f;
+			
+			//rigidBody.interpolation = RigidbodyInterpolation.Extrapolate;
 			
 			GameObject thrusterPoint = GameObject.Find( "ThrusterPoint" );
 			
@@ -107,12 +109,14 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		private Ray worldSpaceRay;
     	public void Update()
     	{
-    		RaycastHit hitInfo;
+    		// research the camera screentoworldpoint function for better performance?
     	
-    		worldSpaceRay = Camera.main.ScreenPointToRay( Input.mousePosition );
+    		RaycastHit hitInfo;
+    		
+			worldSpaceRay = owner.PlayerCamera.camera.ScreenPointToRay( Input.mousePosition );
 			if( Physics.Raycast( worldSpaceRay, out hitInfo, 100000, 1 << 2 ) )
     		{
-				Debug.Log( "Hit something...hahahahahahahaha!" );
+				//Debug.Log( "Hit something...hahahahahahahaha!" );
     			Debug.DrawLine( worldSpaceRay.origin, hitInfo.point );
     		}
     		else
@@ -133,10 +137,10 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			
 			if( rigidBody != null )
 			{
-				Vector3 endPoint = worldSpaceRay.GetPoint( 10000 );
+				Vector3 endPoint = worldSpaceRay.GetPoint( 100 );
 				endPoint.Normalize();
 				
-				Vector3 rotationVector = Vector3.RotateTowards( owner.transform.forward, endPoint, 1.0f * Time.deltaTime, 0.0f );
+				Vector3 rotationVector = Vector3.RotateTowards( owner.Pawn.transform.forward, endPoint, 1.0f * Time.deltaTime, 0.0f );
 			
 				//rigidBody.AddRelativeTorque( new Vector3( Input.GetAxis( "Vertical" ) * 10 * rigidBody.mass,
 				//                                          Input.GetAxis( "Horizontal" ) * 3 * rigidBody.mass,
@@ -146,7 +150,8 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 				//rigidBody.AddRelativeTorque( new Vector3( 0, 0, Input.GetAxis( "Mouse X" ) * 30 * rigidBody.mass ), ForceMode.Force );
 				
 				Vector3 finalVector = new Vector3( -Input.GetAxis( "Mouse Y" ) * 100 * rigidBody.mass, Input.GetAxis( "Mouse X" ) * 100 * rigidBody.mass,
-				                                   -Input.GetAxis( "Mouse X" ) * rigidBody.mass * 30 * Time.deltaTime );
+				                                   -Input.GetAxis( "Mouse X" ) * rigidBody.mass * 30 );                              
+				                                   
 				finalVector = rotationVector + finalVector;
 
 				//finalVector.z = 0.0f;
