@@ -21,9 +21,11 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Dragonfly : MonoBehaviour
 {
+	private NavComputer navComputer = null;
+	
 	private Sensor sensor = null;
 	
-	private void Start()
+	private void Awake()
 	{
 		sensor = GetComponentInChildren<Sensor>();
 		
@@ -31,6 +33,13 @@ public class Dragonfly : MonoBehaviour
 		{
 			sensor.onTargetDetected += OnTargetDetected;
 			sensor.onTargetLost += OnTargetLost;
+		}
+		
+		navComputer = GetComponentInChildren<NavComputer>();
+		
+		if ( navComputer )
+		{
+			navComputer.owner = transform;
 		}
 	}
 	
@@ -50,7 +59,7 @@ public class Dragonfly : MonoBehaviour
 		
 		if ( sensor )
 		{
-			Debug.Log( "Dragonfly.OnTargetLost - Now tracking " + sensor.TrackedTargets.Count + " targets." );
+			Debug.Log( "Dragonfly.OnTargetDetected - Now tracking " + sensor.TrackedTargets.Count + " targets." );
 		}
 	}
 }
