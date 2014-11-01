@@ -25,18 +25,29 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 	/// <summary>
 	/// The local player controller.
 	/// </summary>
+	/// <seealso cref="LunarGrin.Core.PlayerController"/>
 	public sealed class Player : PlayerController
 	{
 		#region Private Fields
 		
+		/// <summary>
+		/// The player ship.
+		/// </summary>
 		private SpaceShip playerShip = null;
 		
+		/// <summary>
+		/// The player rigid body.
+		/// </summary>
 		private Rigidbody playerRigidBody = null;
 		
 		#endregion
 		
 		#region Properties
 		
+		/// <summary>
+		/// Gets the player ship.
+		/// </summary>
+		/// <value>The player ship.</value>
 		public SpaceShip Ship
 		{
 			get
@@ -59,40 +70,85 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		
 		#endregion
 		
-		#region Private Methods
+		#region Public Methods
 		
-		#region Setup
+		#region Base Controller
 		
-		private Rigidbody myRigidBody = null;
-		
-		private void Initialization()
+		/// <summary>
+		/// Possesses the specified pawn or model object.
+		/// </summary>
+		/// <param name="pawn">The pawn or model object being possessed by the player.</param>
+		public override void Possess( Pawn pawn )
 		{
-			// TODO: Investigate this rigid body stuff through prefabs vs. building it dynamically.
+			try
+			{
+				base.Possess( pawn );
+				
+				PawnInitialization( pawn );
+			}
+			catch( Exception ex )
+			{
+				
+			}
 		}
 		
 		#endregion
 		
-		#region Unity Components
+		#endregion
 		
-		public override void Possess( Pawn pawn )
+		#region Private Methods
+
+		#region Setup
+		
+		private Rigidbody myRigidBody = null;
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="pawn">The pawn or model object to initialize.</param>
+		/// <exception cref="ArgumentNullException">Unable to initialize the pawn because the pawn object is invalid.</exception>
+		private void PawnInitialization( Pawn pawn )
 		{
-			base.Possess( pawn );
+			if( pawn == null )
+			{
+				throw new ArgumentNullException( "Unable to initialize the pawn because the pawn object is invalid." );
+			}
 			
+			if( pawn.gameObject.GetComponent<Rigidbody>() != null )
+			{
+				// 
+			}
+		
 			myRigidBody = pawn.gameObject.AddComponent<Rigidbody>();
-			//gameObject.AddComponent<Rigidbody>();
 			
 			playerShip = new SpaceShip( this, myRigidBody );	
 			
 			PushControls( new PlayerShipControls( this ) );
 		}
 		
+		#endregion
+		
+		#region Unity Components
+		
+		/// <summary>
+		/// Called by Unity when this object has been created.
+		/// </summary>
 		private void Awake()
 		{
-			// No more than one rigid body.
-		
-			Initialization();
+
 		}
 		
+		/// <summary>
+		/// Called by Unity when this object has been started.
+		/// </summary>
+		private void Start()
+		{
+		
+		}
+		
+		/// <summary>
+		/// Called by Unity to update this object every frame.
+		/// </summary>
 		private void Update()
 		{
 			base.Update();
@@ -104,7 +160,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		}
 		
 		/// <summary>
-		/// 
+		/// Called by Unity to update the physics functionality of this object.
 		/// </summary>
 		private void FixedUpdate()
 		{

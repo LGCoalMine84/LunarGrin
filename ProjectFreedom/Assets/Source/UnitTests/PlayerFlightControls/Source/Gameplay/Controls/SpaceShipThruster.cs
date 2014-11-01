@@ -129,6 +129,8 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 					//rigidBody.AddRelativeForce( Vector3.forward * thrusterForce );
 					rigidBody.AddRelativeForce( thrusterPoint * thrusterForce, ForceMode.Force );
 					//rigidBody.AddForceAtPosition( rigidBody.gameObject.transform.up * thrusterForce, rigidBody.gameObject.transform.localPosition, ForceMode.Force );
+					
+					Debug.Log( rigidBody.velocity.magnitude );
 				}
 			}
 			else

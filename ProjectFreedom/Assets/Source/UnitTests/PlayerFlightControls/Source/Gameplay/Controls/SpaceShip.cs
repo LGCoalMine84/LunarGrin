@@ -72,9 +72,10 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			rigidBody = playerRigidBody;
 			int y = 0;
 			rigidBody.useGravity = false;
-			rigidBody.drag = 0.75f;
+			rigidBody.drag = 0.0f;// 0.75f;
 			rigidBody.angularDrag = 0.5f;
-			rigidBody.mass = 500.0f;
+			rigidBody.SetDensity( 1.0f ); // this is mass.
+			rigidBody.isKinematic = false;
 			
 			//rigidBody.interpolation = RigidbodyInterpolation.Extrapolate;
 			
@@ -142,25 +143,12 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 				
 				Vector3 rotationVector = Vector3.RotateTowards( owner.Pawn.transform.forward, endPoint, 1.0f * Time.deltaTime, 0.0f );
 			
-				//rigidBody.AddRelativeTorque( new Vector3( Input.GetAxis( "Vertical" ) * 10 * rigidBody.mass,
-				//                                          Input.GetAxis( "Horizontal" ) * 3 * rigidBody.mass,
-				//										  -Input.GetAxis( "Horizontal" ) * 10 * rigidBody.mass ), ForceMode.Force );
-				//rigidBody.AddRelativeTorque( new Vector3( 0, Input.GetAxis( "Mouse X" ) * 30 * rigidBody.mass, 0 ), ForceMode.Force );
-				//rigidBody.AddRelativeTorque( new Vector3( -Input.GetAxis( "Mouse Y" ) * 30 * rigidBody.mass, 0, 0 ), ForceMode.Force );
-				//rigidBody.AddRelativeTorque( new Vector3( 0, 0, Input.GetAxis( "Mouse X" ) * 30 * rigidBody.mass ), ForceMode.Force );
-				
 				Vector3 finalVector = new Vector3( -Input.GetAxis( "Mouse Y" ) * 100 * rigidBody.mass, Input.GetAxis( "Mouse X" ) * 100 * rigidBody.mass,
 				                                   -Input.GetAxis( "Mouse X" ) * rigidBody.mass * 30 );                              
 				                                   
 				finalVector = rotationVector + finalVector;
-
-				//finalVector.z = 0.0f;
-				rigidBody.AddRelativeTorque( finalVector, ForceMode.Force );
-				//rigidBody.AddRelativeTorque( new Vector3( 0, Input.GetAxis( "Mouse X" ) * rotationVector.x * 100 * rigidBody.mass, 0 ), ForceMode.Force );
-				//rigidBody.AddRelativeTorque( new Vector3( -Input.GetAxis( "Mouse Y" ) * rotationVector.y * 30 * rigidBody.mass, 0, 0 ), ForceMode.Force );
 				
-				//rotationVector.Normalize();
-				//owner.transform.localRotation = Quaternion.LookRotation( rotationVector, owner.transform.up );
+				rigidBody.AddRelativeTorque( finalVector, ForceMode.Force );
 			}
 		}
 		
