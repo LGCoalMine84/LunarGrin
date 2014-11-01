@@ -73,7 +73,7 @@ namespace LunarGrin.Core
         /// Possess the specified target.
         /// </summary>
         /// <param name="target">Target.</param>
-        public void Possess( Pawn target )
+        public virtual void Possess( Pawn target )
         {
 			Log.Trace( "Begin void Possess( Pawn target )" );
 

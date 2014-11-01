@@ -63,18 +63,28 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		
 		#region Setup
 		
+		private Rigidbody myRigidBody = null;
+		
 		private void Initialization()
 		{
-			gameObject.AddComponent<Rigidbody>();
-		
-			playerShip = new SpaceShip( this, rigidbody );	
-			
-			PushControls( new PlayerShipControls( this ) );
+			// TODO: Investigate this rigid body stuff through prefabs vs. building it dynamically.
 		}
 		
 		#endregion
 		
 		#region Unity Components
+		
+		public override void Possess( Pawn pawn )
+		{
+			base.Possess( pawn );
+			
+			myRigidBody = pawn.gameObject.AddComponent<Rigidbody>();
+			//gameObject.AddComponent<Rigidbody>();
+			
+			playerShip = new SpaceShip( this, myRigidBody );	
+			
+			PushControls( new PlayerShipControls( this ) );
+		}
 		
 		private void Awake()
 		{
