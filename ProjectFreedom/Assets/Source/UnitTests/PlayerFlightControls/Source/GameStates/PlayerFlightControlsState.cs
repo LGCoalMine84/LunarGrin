@@ -24,8 +24,9 @@ using LunarGrin.Utilities;
 namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 {
 	/// <summary>
-	/// Handles the player flight controls game state of the unit test. 
+	/// Handles the player flight controls game state.
 	/// </summary>
+	/// <seealso cref="LunarGrin.Core.GameState"/>
 	public sealed class PlayerFlightControlsState : GameState
 	{
 		#region Private Fields
@@ -58,6 +59,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// Raised when the game state has been pushed to the top of the stack.
 		/// </summary>
+		/// <seealso cref="LunarGrin.Core.GameState"/>
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -69,6 +71,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// Raised when the game state has been enabled by the current game state being popped from the stack.
 		/// </summary>
+		/// <seealso cref="LunarGrin.Core.GameState"/>
 		public override void OnEnabled()
 		{
 			base.OnEnabled();
@@ -77,6 +80,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// Raised when the game state has been disabled by a new game state being pushed to the stack.
 		/// </summary>
+		/// <seealso cref="LunarGrin.Core.GameState"/>
 		public override void OnDisabled()
 		{
 			base.OnDisabled();
@@ -85,6 +89,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// Raised when the game state has been popped from the top of the stack.
 		/// </summary>
+		/// <seealso cref="LunarGrin.Core.GameState"/>
 		public override void OnExit()
 		{			
 			base.OnExit();
@@ -94,7 +99,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// Updates the game state logic.
 		/// </summary>
 		/// <param name="time">The delta time.</param>
-		/// <seealso cref="LunarGrin.Core.IGameState"/>
+		/// <seealso cref="LunarGrin.Core.GameState"/>
 		public override void Update( Single deltaTime )
 		{
 			
@@ -116,8 +121,6 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			try
 			{
 				playerController = GameServices.GameInfo.CreatePlayerController<Player>( "Player" );
-				
-				
 			}
 			catch( Exception ex )
 			{
@@ -137,11 +140,24 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		private void CreatePlayerCamera()
 		{
 			PlayerController playerController = GameServices.GameInfo.Player;
-			GameCamera playerCamera = playerController.CreatePlayerCamera<GameCamera>();
-			playerCamera.Controls = new PlayerShipCamera( playerCamera );
-			playerCamera.Target = playerController.Pawn.transform;
-			playerCamera.isPhysicsCamera = true;
-			playerCamera.camera.farClipPlane = 1000000;
+			if( playerController )
+			{
+				GameCamera playerCamera = null;
+	
+				try
+				{
+					playerCamera = playerController.CreatePlayerCamera<GameCamera>();
+					playerCamera.Controls = new PlayerShipCamera( playerCamera );
+				}
+				catch( Exception ex )
+				{
+					Log.Error( ex.Message );
+				}
+
+				playerCamera.Target = playerController.Pawn.transform;
+				playerCamera.camera.farClipPlane = 1000000;
+				playerCamera.isPhysicsCamera = true;
+			}
 		}
 		
 		#endregion

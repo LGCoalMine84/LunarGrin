@@ -12,7 +12,7 @@
 
 #region Using Directives
 
-using System.Collections;
+using System;
 
 using UnityEngine;
 
@@ -27,22 +27,34 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 	/// </summary>
 	public sealed class PlayerShipCamera : IControls
 	{
-		private Pawn pawn = null;
-	
+		#region Private Fields
+		
+		/// <summary>
+		/// The game camera that owns this control.
+		/// </summary>
 		private GameCamera gameCam = null;
+		
+		/// <summary>
+		/// The pawn that this camera follows.
+		/// </summary>
+		private Pawn pawn = null;
+		
+		#endregion
 	
 		#region Constructors
 		
 		/// <summary>
 		/// Default constructor initializes a new instance of the <see cref="LunarGrin.UnitTests.PlayerFlightControlsUnitTest.PlayerShipCamera"/> class.
 		/// </summary>
+		/// <exception cref="ArgumentNullException">Unable to create the player ship camera because the game camera reference is invalid.</exception>
 		public PlayerShipCamera( GameCamera camera )
 		{
+			if( camera == null )
+			{
+				throw new ArgumentNullException( "Unable to create the player ship camera because the game camera reference is invalid." );
+			}
+		
 			gameCam = camera;
-			
-			gameCam.transform.position = new Vector3( gameCam.transform.position.x,
-			                                         gameCam.transform.position.y + 20.0f,
-			                                         gameCam.transform.position.z - 40.0f );
 			                                         
 			pawn = GameServices.GameInfo.Player.Pawn;
 		}
@@ -86,17 +98,18 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		}
 		
 		/// <summary>
-		/// Update this instance. Update gets called every frame by the control's owner.
+		/// Update this instance. Update gets called every frame by the owner of the control.
 		/// </summary>
 		public void Update()
 		{
+			// Camera offset.
 			Vector3 toVec = pawn.transform.TransformPoint( 0.0f, 10.0f, -30.0f );
-		
-			Vector3 vel = Vector3.zero;
-			if( gameCam != null )
+			
+			if( gameCam != null && pawn != null )
 			{
 				gameCam.transform.rotation = Quaternion.Slerp( gameCam.transform.rotation, pawn.transform.rotation, Time.deltaTime * 3.0f );
-				//gameCam.transform.position = Vector3.Lerp( gameCam.transform.position, toVec, Time.deltaTime );
+				
+				Vector3 vel = Vector3.zero;
 				gameCam.transform.position = Vector3.SmoothDamp( gameCam.transform.position, toVec, ref vel, 3.0f * Time.deltaTime );
 			}
 		}
