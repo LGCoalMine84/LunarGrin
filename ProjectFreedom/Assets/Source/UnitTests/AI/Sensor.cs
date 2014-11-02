@@ -18,10 +18,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+using LunarGrin.UnitTests.PlayerFlightControlsUnitTest;
+
 #endregion
 
 [ExecuteInEditMode]
-public class Sensor : MonoBehaviour
+public class Sensor : ShipComponent
 {
 	public Single sensorRadius = 100f;
 

@@ -13,8 +13,11 @@
 #region Using Directives
 
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
+
+using LunarGrin.UnitTests.PlayerFlightControlsUnitTest;
 
 #endregion
 
@@ -27,19 +30,23 @@ public class Dragonfly : MonoBehaviour
 	
 	private void Awake()
 	{
-		sensor = GetComponentInChildren<Sensor>();
+		ShipComponent[] shipComponents = GetComponentsInChildren<ShipComponent>( true );
 		
-		if ( sensor )
+		for ( Int32 i=0; i<shipComponents.Length; ++i )
 		{
-			sensor.onTargetDetected += OnTargetDetected;
-			sensor.onTargetLost += OnTargetLost;
-		}
-		
-		navComputer = GetComponentInChildren<NavComputer>();
-		
-		if ( navComputer )
-		{
-			navComputer.owner = transform;
+			ShipComponent shipComponent = shipComponents[i];
+			shipComponent.Owner = transform;
+			
+			if ( shipComponent is Sensor )
+			{
+				sensor = (Sensor)shipComponent;
+				sensor.onTargetDetected += OnTargetDetected;
+				sensor.onTargetLost += OnTargetLost;
+			}
+			else if ( shipComponent is NavComputer )
+			{
+				navComputer = (NavComputer)shipComponent;
+			}
 		}
 	}
 	

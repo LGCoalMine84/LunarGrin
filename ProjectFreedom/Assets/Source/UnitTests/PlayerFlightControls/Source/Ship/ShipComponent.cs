@@ -42,7 +42,10 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// </summary>
 		protected Int32 hitPoints = 0;
 		
-		//protected Collider componentCollider = null;
+		/// <summary>
+		/// The ship that owns the ship component.
+		/// </summary>
+		protected Transform owner = null;
 		
 		#endregion
 		
@@ -81,6 +84,29 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			get
 			{
 				return hitPoints;
+			}
+		}
+		
+		/// <summary>
+		/// Gets or sets the ship.
+		/// </summary>
+		/// <value>The ship.</value>
+		public Transform Owner
+		{
+			get
+			{
+				return owner;
+			}
+			set
+			{
+				if ( owner == null )
+				{
+					owner = value;
+				}
+				else
+				{
+					throw new InvalidOperationException( "ShipComponent - Ship cannot be modified after being initialized." );
+				}
 			}
 		}
 		

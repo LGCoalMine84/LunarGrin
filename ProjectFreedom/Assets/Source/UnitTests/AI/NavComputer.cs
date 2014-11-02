@@ -17,27 +17,29 @@ using System.Collections;
 
 using UnityEngine;
 
+using LunarGrin.UnitTests.PlayerFlightControlsUnitTest;
+
 using Random = UnityEngine.Random;
 
 #endregion
 
-public class NavComputer : MonoBehaviour
+public class NavComputer : ShipComponent
 {
 	//	The nav computer is not responsible for moving the ship, the engines do that.  The nav computer 
 	//	is responsible for calculating the route from where the ship is to where it needs to go, taking 
 	//	into consideration ship capabilities.  It then directs the engines to fire in a manner to 
 	//	achieve that route.
-	
-	//	This is the ship that owns the NavComputer
-	public Transform owner = null;
 
 	private Vector3 destination = Vector3.zero;
 	
-	private Single currentSpeed = 0f;
 	private Single maxSpeed = 20f;
-	private Single maxAcceleration = 0f;
 	
-	private PropulsionControlUnit pcu = null;
+	private PropulsionControlUnit PCU = null;
+	
+	private void Awake()
+	{
+		PCU = owner.GetComponent<PropulsionControlUnit>();
+	}
 	
 	private void Start()
 	{
