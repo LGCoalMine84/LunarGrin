@@ -30,7 +30,17 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// The name of the ship component.
 		/// </summary>
-		protected String name = null;
+		protected String componentName = null;
+		
+		/// <summary>
+		/// The mounting point of the ship component.
+		/// </summary>
+		protected Vector3 mountPoint = Vector3.zero;
+		
+		/// <summary>
+		/// The center of mass of the ship component.
+		/// </summary>
+		protected Vector3 centerOfMass = Vector3.zero;
 		
 		/// <summary>
 		/// The mass of the ship component.
@@ -42,26 +52,68 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// </summary>
 		protected Int32 hitPoints = 0;
 		
-		//protected Collider componentCollider = null;
+		/// <summary>
+		/// The transform of the owner ship.
+		/// </summary>
+		protected Transform ship = null;
 		
 		#endregion
 		
 		#region Properties
 		
 		/// <summary>
-		/// Gets the name of the ship component.
+		/// Gets or sets the name of the ship component.
 		/// </summary>
 		/// <value>The name of the ship component.</value>
-		public String Name
+		public String ComponentName
 		{
 			get
 			{
-				return name;
+				return componentName;
+			}
+			
+			set
+			{
+				componentName = value;
 			}
 		}
 		
 		/// <summary>
-		/// Gets the mass of the ship component.
+		/// Gets or sets the mounting point of the ship component.
+		/// </summary>
+		/// <value>The mounting point of the ship component.</value>
+		public Vector3 MountPoint
+		{
+			get
+			{
+				return mountPoint;
+			}
+			
+			set
+			{
+				mountPoint = value;
+			}
+		}
+		
+		/// <summary>
+		/// Gets or sets the center of mass of the ship component.
+		/// </summary>
+		/// <value>The center of mass of the ship component.</value>
+		public Vector3 CenterOfMass
+		{
+			get
+			{
+				return centerOfMass;
+			}
+			
+			set
+			{
+				centerOfMass = value;
+			}
+		}
+		
+		/// <summary>
+		/// Gets or sets the mass of the ship component.
 		/// </summary>
 		/// <value>The mass of the ship component.</value>
 		public Single Mass
@@ -70,10 +122,15 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			{
 				return mass;
 			}
+			
+			set
+			{
+				mass = value;
+			}
 		}
 		
 		/// <summary>
-		/// Gets the hit points of the ship component.
+		/// Gets or sets the hit points of the ship component.
 		/// </summary>
 		/// <value>The hit points of the ship component.</value>
 		public Int32 HitPoints
@@ -81,6 +138,35 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			get
 			{
 				return hitPoints;
+			}
+			
+			set
+			{
+				hitPoints = value;
+			}
+		}
+		
+		/// <summary>
+		/// Gets or sets the transforms of the ship class.
+		/// </summary>
+		/// <value>The transforms of the ship.</value>
+		public Transform Ship
+		{
+			get
+			{
+				return ship;
+			}
+			
+			set
+			{
+				if( ship == null )
+				{
+					ship = value;
+				}
+				else
+				{
+					throw new InvalidOperationException( "Unable to set the ship transform because it already exists within the ship engine component." );
+				}
 			}
 		}
 		
