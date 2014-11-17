@@ -77,8 +77,6 @@ public class Dragonfly : MonoBehaviour
 			
 			Single direction = Vector3.Dot( transform.forward, toTarget );
 			
-			Debug.Log( direction );
-			
 			//	90-60
 			if ( direction > 0.86 )
 			{
