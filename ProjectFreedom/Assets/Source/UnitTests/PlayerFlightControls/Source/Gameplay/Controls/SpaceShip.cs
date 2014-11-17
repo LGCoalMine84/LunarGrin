@@ -30,19 +30,30 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 	{
 		#region Private Fields
 		
+		/// <summary>
+		/// The player controller object that owns the space ship.
+		/// </summary>
+		private PlayerController player = null;
+		
+		/// <summary>
+		/// The rigid body component of the space ship.
+		/// </summary>
 		private Rigidbody rigidBody = null;
 		
 		/// <summary>
 		/// The thrusters currently attached to the space ship.
 		/// </summary>
-		private List<SpaceShipThruster> thrusters = null;
+		private List<ShipEngineComponent> thrusters = null;
 		
 		/// <summary>
-		/// The total space ship mass.
+		/// The world ray caster from the mouse position to a world position.
+		/// </summary>
+		//private Ray worldSpaceRay;
+		
+		/// <summary>
+		/// The total mass of the space ship.
 		/// </summary>
 		private Single totalMass = 0.0f;
-		
-		private PlayerController owner = null;
 		
 		#endregion
 		
@@ -65,84 +76,151 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		#region Constructors
 		
 		/// <summary>
-		/// Default constructor initializes a new instance of the <see cref="LunarGrin.UnitTests.PlayerFlightControlsUnitTest.SpaceShip"/> class.
+		/// Explicit constructor initializes a new instance of the <see cref="LunarGrin.UnitTests.PlayerFlightControlsUnitTest.SpaceShip"/> class.
 		/// </summary>
-		public SpaceShip( PlayerController controller, Rigidbody playerRigidBody )
+		/// <exception cref="ArgumentNullException">Unable to create the space ship because the player controller is invalid.</exception>
+		/// <exception cref="InvalidOperationException">Unable to create the space ship because failed to initialize the internal components of the ship.</exception>
+		public SpaceShip( Player controller )
 		{
-			rigidBody = playerRigidBody;
-			int y = 0;
-			rigidBody.useGravity = false;
-			rigidBody.drag = 0.0f;// 0.75f;
-			rigidBody.angularDrag = 0.5f;
-			rigidBody.SetDensity( 1.0f ); // this is mass.
-			rigidBody.isKinematic = false;
+			if( controller == null )
+			{
+				throw new ArgumentNullException( "Unable to create the space ship because the player controller is invalid." );
+			}
 			
-			//rigidBody.interpolation = RigidbodyInterpolation.Extrapolate;
+			player = controller;
 			
-			GameObject thrusterPoint = GameObject.Find( "ThrusterPoint" );
+			// Space ship control scheme.
+			player.PushControls( new PlayerShipControls( player ) );
 			
-			thrusters = new List<SpaceShipThruster>();	
-			thrusters.Add( new SpaceShipThruster( thrusterPoint.transform.forward, rigidBody ) );
-			
-			owner = controller;
+			try
+			{
+				InitializeRigidBody();
+				InitializeEngines();
+				CalculateCenterOfMass();
+			}
+			catch( Exception ex )
+			{
+				throw new InvalidOperationException( "Unable to create the space ship because failed to initialize the internal components of the ship.", ex );
+			}
 		}
 		
 		#endregion
 		
 		#region Public Methods
 		
-		public void StartThrusters()
+		/// <summary>
+		/// Starts the forward thrusting of the ship engine components.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Unable to start the forward thrusting of the space ship because no engines component was found.</exception>
+		public void StartForwardThrusters()
 		{
-			foreach( SpaceShipThruster thruster in thrusters )
+			if( thrusters == null || thrusters.Count <= 0 )
 			{
-				thruster.ThrustOn();
+				throw new InvalidOperationException( "Unable to start the forward thrusting of the space ship because no engines component was found." );
+			}
+		
+			foreach( ShipEngineComponent thruster in thrusters )
+			{
+				thruster.ForwardThrustOn();
 			}
 		}
 		
+		/// <summary>
+		/// Starts the reverse thrusting of the ship engine components.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Unable to start the reverse thrusting of the space ship because no engines component was found.</exception>
+		public void StartReverseThrusters()
+		{
+			if( thrusters == null || thrusters.Count <= 0 )
+			{
+				throw new InvalidOperationException( "Unable to start the reverse thrusting of the space ship because no engines component was found." );
+			}
+			
+			foreach( ShipEngineComponent thruster in thrusters )
+			{
+				thruster.ReverseThrustOn();
+			}
+		}
+		
+		/// <summary>
+		/// Toogles the boost thrusting of the ship engine components.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Unable to toggle the forward boost thrusting of the space ship because no engines component was found.</exception>
+		public void ToggleForwardBoostThrusters()
+		{
+			if( thrusters == null || thrusters.Count <= 0 )
+			{
+				throw new InvalidOperationException( "Unable to toggle the forward boost thrusting of the space ship because no engines component was found." );
+			}
+			
+			foreach( ShipEngineComponent thruster in thrusters )
+			{
+				if( !thruster.BoostForwardThrusting )
+				{
+					thruster.ForwardBoostThrustOn();
+				}
+				else
+				{
+					thruster.ForwardBoostThrustOff();
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Stops the thrusting of the ship engine components.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Unable to stop the thrusters of the space ship because no engine components was found.</exception>
 		public void StopThrusters()
 		{
-			foreach( SpaceShipThruster thruster in thrusters )
+			if( thrusters == null || thrusters.Count <= 0 )
+			{
+				throw new InvalidOperationException( "Unable to stop the thrusters of the space ship because no engine components was found." );
+			}
+		
+			foreach( ShipEngineComponent thruster in thrusters )
 			{
 				thruster.ThrustOff();
       		}
     	}
     	
-		private Ray worldSpaceRay;
+		Vector3 temp;
+		/// <summary>
+		/// 
+		/// </summary>
     	public void Update()
     	{
-    		// research the camera screentoworldpoint function for better performance?
-    	
-    		RaycastHit hitInfo;
+    		// TODO: Research the camera screentoworldpoint function for better performance?
+			//RaycastHit outHit;
+			//worldSpaceRay = player.PlayerCamera.camera.ScreenPointToRay( Input.mousePosition );
+			/*if( Physics.Raycast( worldSpaceRay, out outHit, Mathf.Infinity, 1 << 2 ) )
+    		{
+
+    		}*/
     		
-			worldSpaceRay = owner.PlayerCamera.camera.ScreenPointToRay( Input.mousePosition );
-			if( Physics.Raycast( worldSpaceRay, out hitInfo, 100000, 1 << 2 ) )
-    		{
-				//Debug.Log( "Hit something...hahahahahahahaha!" );
-    			Debug.DrawLine( worldSpaceRay.origin, hitInfo.point );
-    		}
-    		else
-    		{
-				Debug.DrawRay( worldSpaceRay.origin, worldSpaceRay.direction * 10, Color.red, 0, false );
-    		}
+			temp = player.PlayerCamera.camera.ScreenToWorldPoint( Input.mousePosition );
     	}
     	
+    	/// <summary>
+    	/// 
+    	/// </summary>
 		public void FixedUpdate()
 		{
+			// Update the thrusters.
 			if( thrusters != null )
 			{
-				foreach( SpaceShipThruster thruster in thrusters )
+				foreach( ShipEngineComponent thruster in thrusters )
 				{
-					thruster.FixedUpdate();
+					//thruster.FixedUpdate();
 				}
 			}
 			
 			if( rigidBody != null )
 			{
-				Vector3 endPoint = worldSpaceRay.GetPoint( 100 );
-				endPoint.Normalize();
+				Vector3 endPoint = temp;//worldSpaceRay.GetPoint( 9000000 );
+				//endPoint.Normalize();  // to or not to normalize...that is the question.
 				
-				Vector3 rotationVector = Vector3.RotateTowards( owner.Pawn.transform.forward, endPoint, 1.0f * Time.deltaTime, 0.0f );
-			
+				Vector3 rotationVector = Vector3.RotateTowards( player.Pawn.transform.forward, endPoint, 3.0f * Time.deltaTime, 0.0f );
+				
 				Vector3 finalVector = new Vector3( -Input.GetAxis( "Mouse Y" ) * 100 * rigidBody.mass, Input.GetAxis( "Mouse X" ) * 100 * rigidBody.mass,
 				                                   -Input.GetAxis( "Mouse X" ) * rigidBody.mass * 30 );                              
 				                                   
@@ -150,6 +228,126 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 				
 				rigidBody.AddRelativeTorque( finalVector, ForceMode.Force );
 			}
+		}
+		
+		#endregion
+		
+		#region Debug
+		
+		/// <summary>
+		/// Used to draw gizmos to the unity game scene.
+		/// </summary>
+		public void OnDrawGizmos()
+		{
+			
+		}
+		
+		#endregion
+		
+		#region Private Methods
+		
+		/// <summary>
+		/// Initializes the rigid body component of the space ship.
+		/// </summary>
+		/// <exception cref="NullReferenceException">Unable to initialize the rigid body component because the player controller is invalid.</exception>
+		/// <exception cref="NullReferenceException">Unable to initialize the rigid body component because the pawn object is invalid.</exception>
+		private void InitializeRigidBody()
+		{
+			if( player == null )
+			{
+				throw new NullReferenceException( "Unable to initialize the rigid body component because the player controller is invalid." );
+			}
+			
+			if( player.Pawn == null )
+			{
+				throw new NullReferenceException( "Unable to initialize the rigid body component because the pawn object is invalid." );
+			}
+		
+			// The rigid body component of the pawn of the space ship.
+			rigidBody = player.Pawn.gameObject.GetComponent<Rigidbody>();
+			if( rigidBody == null )
+			{
+				rigidBody = player.Pawn.gameObject.AddComponent<Rigidbody>();
+			}
+			
+			rigidBody.useGravity = false;
+			rigidBody.isKinematic = false;
+			rigidBody.drag = 0.75f;
+			rigidBody.angularDrag = 0.5f;
+			rigidBody.SetDensity( 1.0f );
+		}
+		
+		/// <summary>
+		/// Initializes the engines component of the space ship.
+		/// </summary>
+		/// <exception cref="NullReferenceException">Unable to initialize the engine component because the player controller is invalid.</exception>
+		/// <exception cref="NullReferenceException">Unable to initialize the engine component because the pawn object is invalid.</exception>
+		/// <exception cref="NullReferenceException">Unable to initialize the engine component because the engines component was not found.</exception>
+		private void InitializeEngines()
+		{
+			if( player == null )
+			{
+				throw new NullReferenceException( "Unable to initialize the engine component because the player controller is invalid." );
+			}
+			
+			if( player.Pawn == null || player.Pawn.gameObject == null )
+			{
+				throw new NullReferenceException( "Unable to initialize the engine component because the pawn object is invalid." );
+			}
+		
+			ShipEngineComponent[] engineComponents = player.Pawn.gameObject.GetComponentsInChildren<ShipEngineComponent>();
+			
+			if( engineComponents == null || engineComponents.Length <= 0 )
+			{
+				throw new NullReferenceException( "Unable to initialize the engine component because the engines component was not found." );
+			}
+			
+			foreach( ShipEngineComponent engineComponent in engineComponents )
+			{
+				engineComponent.Ship = player.Pawn.transform;
+				
+				engineComponent.MaxForwardThrustForce = 100000.0f;
+				engineComponent.MaxReverseThrustForce = 30000.0f;
+				engineComponent.Mass = 250.0f;
+				
+				engineComponent.MaxForwardThrustForceBoost = 400000.0f;
+				engineComponent.BoostThrustDuration = 5.0f;
+				engineComponent.BoostThrustCooldownDuration = 3.0f;
+				
+				rigidBody.mass += engineComponent.Mass;
+			}
+			
+			thrusters = new List<ShipEngineComponent>();	
+			thrusters.AddRange( engineComponents );
+		}
+		
+		/// <summary>
+		/// Calculates the center of mass of all the parts in the space ship.
+		/// </summary>
+		/// <exception cref="NullReferenceException">Unable to calculate the center of mass of the space ship because the rigid body is invalid.</exception>
+		private void CalculateCenterOfMass()
+		{
+			if( rigidBody == null )
+			{
+				throw new NullReferenceException( "Unable to calculate the center of mass of the space ship because the rigid body is invalid." );
+			}
+		
+			Vector3 newCenterOfMass = Vector3.zero;
+			
+			// Engine components.
+			foreach( ShipEngineComponent thruster in thrusters )
+			{
+				newCenterOfMass += thruster.transform.position * thruster.Mass;
+				totalMass += thruster.Mass;
+			}
+			
+			// Space ship component.
+			newCenterOfMass += rigidBody.worldCenterOfMass * rigidBody.mass;
+			totalMass += rigidBody.mass;
+			
+			newCenterOfMass /= totalMass;
+			
+			rigidBody.centerOfMass = newCenterOfMass;
 		}
 		
 		#endregion

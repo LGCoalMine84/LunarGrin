@@ -17,6 +17,7 @@ using System;
 using UnityEngine;
 
 using LunarGrin.Core;
+using LunarGrin.Utilities;
 
 #endregion
 
@@ -31,14 +32,14 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		#region Private Fields
 		
 		/// <summary>
+		/// The logger.
+		/// </summary>
+		private static readonly ILogger Log = LogFactory.CreateLogger( typeof( Player ) );
+		
+		/// <summary>
 		/// The player ship.
 		/// </summary>
 		private SpaceShip playerShip = null;
-		
-		/// <summary>
-		/// The player rigid body.
-		/// </summary>
-		private Rigidbody playerRigidBody = null;
 		
 		#endregion
 		
@@ -84,11 +85,12 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			{
 				base.Possess( pawn );
 				
-				PawnInitialization( pawn );
+				// Handles the internal implementation of the player space ship.
+				playerShip = new SpaceShip( this );	
 			}
 			catch( Exception ex )
 			{
-				
+				Log.Error( ex.Message );
 			}
 		}
 		
@@ -97,36 +99,6 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		#endregion
 		
 		#region Private Methods
-
-		#region Setup
-		
-		private Rigidbody myRigidBody = null;
-		
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="pawn">The pawn or model object to initialize.</param>
-		/// <exception cref="ArgumentNullException">Unable to initialize the pawn because the pawn object is invalid.</exception>
-		private void PawnInitialization( Pawn pawn )
-		{
-			if( pawn == null )
-			{
-				throw new ArgumentNullException( "Unable to initialize the pawn because the pawn object is invalid." );
-			}
-			
-			if( pawn.gameObject.GetComponent<Rigidbody>() != null )
-			{
-				// 
-			}
-		
-			myRigidBody = pawn.gameObject.AddComponent<Rigidbody>();
-			
-			playerShip = new SpaceShip( this, myRigidBody );	
-			
-			PushControls( new PlayerShipControls( this ) );
-		}
-		
-		#endregion
 		
 		#region Unity Components
 		
@@ -167,6 +139,21 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			if( playerShip != null )
 			{
 				playerShip.FixedUpdate();
+			}
+		}
+		
+		#endregion
+		
+		#region Debug
+		
+		/// <summary>
+		/// Raised when gizmos are drawn in the scene view in Unity.
+		/// </summary>
+		private void OnDrawGizmos()
+		{
+			if( playerShip != null )
+			{
+				playerShip.OnDrawGizmos();
 			}
 		}
 		

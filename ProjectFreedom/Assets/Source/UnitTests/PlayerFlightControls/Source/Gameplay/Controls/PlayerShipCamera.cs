@@ -25,6 +25,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 	/// <summary>
 	/// The camera of the player ship.
 	/// </summary>
+	/// <seealso cref="LunarGrin.Core.IControls"/>
 	public sealed class PlayerShipCamera : IControls
 	{
 		#region Private Fields
@@ -32,12 +33,82 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// The game camera that owns this control.
 		/// </summary>
-		private GameCamera gameCam = null;
+		private GameCamera gameCamera = null;
 		
 		/// <summary>
 		/// The pawn that this camera follows.
 		/// </summary>
 		private Pawn pawn = null;
+		
+		/// <summary>
+		/// The camera position offset.
+		/// </summary>
+		private Vector3 positionOffset = Vector3.zero;
+		
+		/// <summary>
+		/// The camera position damping.
+		/// </summary>
+		private Single positionDamping = 3.0f;
+		
+		/// <summary>
+		/// The camera rotation damping.
+		/// </summary>
+		private Single rotationDamping = 3.0f;
+		
+		#endregion
+		
+		#region Properties
+		
+		/// <summary>
+		/// Gets or sets the camera position offset.
+		/// </summary>
+		/// <value>The camera position offset.</value>
+		public Vector3 PositionOffset
+		{
+			get
+			{
+				return positionOffset;
+			}
+			
+			set
+			{
+				positionOffset = value;
+			}
+		}
+		
+		/// <summary>
+		/// Gets or sets the camera position damping.
+		/// </summary>
+		/// <value>The camera position damping.</value>
+		public Single PositionDamping
+		{
+			get
+			{
+				return positionDamping;
+			}
+			
+			set
+			{
+				positionDamping = value;
+			}
+		}
+		
+		/// <summary>
+		/// Gets or sets the camera rotation smoothness.
+		/// </summary>
+		/// <value>The camera rotation smoothness.</value>
+		public Single RotationDamping
+		{
+			get
+			{
+				return rotationDamping;
+			}
+			
+			set
+			{
+				rotationDamping = value;
+			}
+		}
 		
 		#endregion
 	
@@ -47,16 +118,24 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// Default constructor initializes a new instance of the <see cref="LunarGrin.UnitTests.PlayerFlightControlsUnitTest.PlayerShipCamera"/> class.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">Unable to create the player ship camera because the game camera reference is invalid.</exception>
+		/// <exception cref="InvalidOperationException">Unable to create the player ship because the pawn is invalid.</exception>
 		public PlayerShipCamera( GameCamera camera )
 		{
 			if( camera == null )
 			{
 				throw new ArgumentNullException( "Unable to create the player ship camera because the game camera reference is invalid." );
 			}
-		
-			gameCam = camera;
-			                                         
+			
+			if( GameServices.GameInfo.Player.Pawn == null )
+			{
+				throw new InvalidOperationException( "Unable to create the player ship because the pawn is invalid." );
+			}
+			
+			gameCamera = camera;		                                         
 			pawn = GameServices.GameInfo.Player.Pawn;
+			
+			// Default offset.
+			positionOffset = new Vector3( 0.0f, 10.0f, -30.0f );
 		}
 		
 		#endregion
@@ -66,23 +145,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		#region IControls
 		
 		/// <summary>
-		/// Raises the resume event. This method is called every time the owner of the controls is set.
-		/// </summary>
-		public void OnResume()
-		{
-			
-		}
-		
-		/// <summary>
-		/// Raises the shutdown event. This method is called once on destruction.
-		/// </summary>
-		public void OnShutdown()
-		{
-			
-		}
-		
-		/// <summary>
-		/// Raises the startup event. This method is called once on initialization.
+		/// Raised when the camera control has been pushed to the controls stack.
 		/// </summary>
 		public void OnStartup()
 		{
@@ -90,7 +153,23 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		}
 		
 		/// <summary>
-		/// Raises the suspend event. This method is called every time the owner of the controls is cleared.
+		/// Raised when the control is popped off the controls stack.
+		/// </summary>
+		public void OnShutdown()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Raised when the camera control has resumed as the top control in the controls stack.
+		/// </summary>
+		public void OnResume()
+		{
+			
+		}
+		
+		/// <summary>
+		/// Raised when the control has been suspended by another control being pushed to the controls stack.
 		/// </summary>
 		public void OnSuspend()
 		{
@@ -98,19 +177,21 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		}
 		
 		/// <summary>
-		/// Update this instance. Update gets called every frame by the owner of the control.
+		/// Updates the camera control.
 		/// </summary>
 		public void Update()
 		{
-			// Camera offset.
-			Vector3 toVec = pawn.transform.TransformPoint( 0.0f, 10.0f, -30.0f );
-			
-			if( gameCam != null && pawn != null )
+			if( gameCamera != null && pawn != null )
 			{
-				gameCam.transform.rotation = Quaternion.Slerp( gameCam.transform.rotation, pawn.transform.rotation, Time.deltaTime * 3.0f );
+				// Camera rotation.
+				gameCamera.transform.rotation = Quaternion.Slerp( gameCamera.transform.rotation, pawn.transform.rotation, Time.deltaTime * rotationDamping );
 				
+				// Camera offset.
+				Vector3 toVec = pawn.transform.TransformPoint( positionOffset );
 				Vector3 vel = Vector3.zero;
-				gameCam.transform.position = Vector3.SmoothDamp( gameCam.transform.position, toVec, ref vel, 3.0f * Time.deltaTime );
+				
+				// Camera position.
+				gameCamera.transform.position = Vector3.SmoothDamp( gameCamera.transform.position, toVec, ref vel, positionDamping * Time.deltaTime );
 			}
 		}
 		
