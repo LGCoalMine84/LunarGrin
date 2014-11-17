@@ -32,18 +32,18 @@ public class NavComputer : ShipComponent
 
 	private Vector3 destination = Vector3.zero;
 	
-	private Single maxSpeed = 20f;
+	//private Single maxSpeed = 20f;
 	
 	private PropulsionControlUnit PCU = null;
 	
 	private void Awake()
 	{
-		PCU = owner.GetComponent<PropulsionControlUnit>();
+		PCU = ship.GetComponent<PropulsionControlUnit>();
 	}
 	
 	private void Start()
 	{
-		StartCoroutine( RandomizeDestination() );
+		//StartCoroutine( RandomizeDestination() );
 	}
 	
 	private void Update()
@@ -52,7 +52,7 @@ public class NavComputer : ShipComponent
 		
 		direction.Normalize();
 		
-		owner.Translate( direction * maxSpeed * Time.deltaTime );
+		
 	}
 	
 	private IEnumerator RandomizeDestination()

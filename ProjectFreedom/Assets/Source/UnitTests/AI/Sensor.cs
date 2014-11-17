@@ -22,15 +22,17 @@ using LunarGrin.UnitTests.PlayerFlightControlsUnitTest;
 
 #endregion
 
+[Serializable]
 [ExecuteInEditMode]
 public class Sensor : ShipComponent
 {
 	public Single sensorRadius = 100f;
 
-	[HideInInspector]
 	[SerializeField]
+	[HideInInspector]
 	private SphereCollider sensor = null;
 	
+	//	TODO:	Triggers do not fire when a GO is destroyed... trackedTargets will have a NULL in this case.
 	private List<Collider> trackedTargets = new List<Collider>();
 	
 	public delegate void OnTargetDetected( Collider target );
@@ -83,11 +85,14 @@ public class Sensor : ShipComponent
 	
 	private void OnTriggerEnter( Collider obj )
 	{
-		trackedTargets.Add( obj );
-	
-		if ( onTargetDetected != null )
+		if ( !trackedTargets.Contains( obj ) )
 		{
-			onTargetDetected( obj );
+			trackedTargets.Add( obj );
+			
+			if ( onTargetDetected != null )
+			{
+				onTargetDetected( obj );
+			}
 		}
 	}
 	

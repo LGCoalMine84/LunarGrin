@@ -45,7 +45,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// The ship that owns the ship component.
 		/// </summary>
-		protected Transform owner = null;
+		protected Transform ship = null;
 		
 		#endregion
 		
@@ -91,17 +91,17 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// Gets or sets the ship.
 		/// </summary>
 		/// <value>The ship.</value>
-		public Transform Owner
+		public Transform Ship
 		{
 			get
 			{
-				return owner;
+				return ship;
 			}
 			set
 			{
-				if ( owner == null )
+				if ( ship == null )
 				{
-					owner = value;
+					ship = value;
 				}
 				else
 				{
