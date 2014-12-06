@@ -108,23 +108,11 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 				if( Input.GetButtonDown( "Fire1" ) ) 
 				{
 					// TODO: this should be primary weapon.
-					owner.Ship.StartForwardThrusters();
-				}
-				
-				if( Input.GetButtonUp( "Fire1" ) ) 
-				{
-					owner.Ship.StopThrusters();	
 				}
 				
 				if( Input.GetButtonDown( "Fire2" ) ) 
 				{
 					// TODO: this should be secondary weapon.
-					owner.Ship.StartReverseThrusters();
-				}
-				
-				if( Input.GetButtonUp( "Fire2" ) ) 
-				{
-					owner.Ship.StopThrusters();	
 				}
 				
 				if( Input.GetKeyDown( KeyCode.B ) ) 
@@ -137,13 +125,22 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 					owner.Ship.StartForwardThrusters();
 				}
 				
+				if ( Input.GetKeyUp( KeyCode.W ) || Input.GetKeyUp( KeyCode.UpArrow ) )
+				{
+					owner.Ship.StopThrusters();
+				}
+				
 				if ( Input.GetKey( KeyCode.S ) || Input.GetKey( KeyCode.DownArrow ) )
 				{
-					// TODO: This should be back thrusters.
 					owner.Ship.StartReverseThrusters();
        			}
        			
-       			// TODO: Tab for space vs. earth physics. make the drag and angular drag to zero or very close to zero for space physics.
+				if ( Input.GetKeyUp( KeyCode.S ) || Input.GetKeyUp( KeyCode.DownArrow ) )
+				{
+					owner.Ship.StopThrusters();
+				}
+       			
+       			// TODO:
        			// Q and E for strafing.
        			// A and D for rolling.
        			// Z for stopping the ship to a halt.
