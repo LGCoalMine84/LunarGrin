@@ -321,6 +321,8 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		
 		#region Public Methods
 		
+		#region Thrusters
+		
 		/// <summary>
 		/// Turns on the forward thrust in the engine component.
 		/// </summary>
@@ -368,6 +370,22 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 
 		#endregion
 		
+		#region Helpers
+		
+		public Vector3 GetMaximumAcceleration()
+		{
+			return ( ship.transform.forward * ( maxForwardThrustForce + maxForwardThrustForceBoost ) ) / mass;
+		}
+		
+		protected Vector3 GetMaxForwardForce()
+		{
+			return thrustForwardDir * maxForwardThrustForce;
+		}
+		
+		#endregion
+		
+		#endregion
+		
 		#region Protected Methods
 		
 		#region Helpers
@@ -408,33 +426,31 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			}
 		}
 		
+		/// <summary>
+		/// Sets the center of mass.
+		/// </summary>
 		protected void SetCenterOfMass()
 		{
-			// TODO: Does this needs to be a transform instead of a vector.
+			// The center of mass is the local position of the mesh.
 			centerOfMass = transform.localPosition;
 		}
 		
 		/// <summary>
 		/// Calculates the current thrust force of the engine component.
 		/// </summary>
-		protected Vector3 CalculateCurrentForce()
+		public Vector3 GetCurrentForce()
 		{
 			Vector3 curForceVec = Vector3.zero;
 			
 			if( Ship != null && Ship.rigidbody != null )
 			{
-				Vector3 curAccel = ( Ship.rigidbody.velocity - lastVelocity ) / Time.fixedDeltaTime;
+				Vector3 curAccel = ( Ship.rigidbody.velocity - lastVelocity ) / Time.deltaTime;
 				lastVelocity = Ship.rigidbody.velocity;
 
-				curForceVec = Ship.rigidbody.mass * curAccel;
+				curForceVec = ( Ship.rigidbody.mass * ( 1 + Ship.rigidbody.drag ) ) * curAccel;
 			}
 			
 			return curForceVec;
-		}
-		
-		protected Vector3 GetMaxForwardForce()
-		{
-			return thrustForwardDir * maxForwardThrustForce;
 		}
 		
 		#endregion
@@ -469,7 +485,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// Called by Unity to update this object every frame.
 		/// </summary>
 		protected virtual void Update()
-		{
+		{		
 			// Update the boost thrust timers.
 			if( ( engineState & EngineState.BoostReady ) != 0 )
 			{
@@ -533,17 +549,17 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 				{
 					if( BoostForwardThrusting )
 					{
-						Ship.rigidbody.AddRelativeForce( thrustForwardDir * ( maxForwardThrustForce + maxForwardThrustForceBoost ) );
+						Ship.rigidbody.AddRelativeForce( thrustForwardDir * ( maxForwardThrustForce + maxForwardThrustForceBoost ), ForceMode.Force );
 					}
 					else
 					{
-						Ship.rigidbody.AddRelativeForce( thrustForwardDir * maxForwardThrustForce );
+						Ship.rigidbody.AddRelativeForce( thrustForwardDir * maxForwardThrustForce, ForceMode.Force );
 					}
 				}
 				else if( ReverseThrusting )
 				{
-					Ship.rigidbody.AddRelativeForce( thrustReverseDir * maxReverseThrustForce );
-				}
+					Ship.rigidbody.AddRelativeForce( thrustReverseDir * maxReverseThrustForce, ForceMode.Force );
+				}	
 			}
 		}
 		

@@ -33,7 +33,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		/// <summary>
 		/// The player controller object that owns the space ship.
 		/// </summary>
-		private PlayerController player = null;
+		private Player player = null;
 		
 		/// <summary>
 		/// The rigid body component of the space ship.
@@ -46,9 +46,9 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		private List<ShipEngineComponent> thrusters = null;
 		
 		/// <summary>
-		/// The world ray caster from the mouse position to a world position.
+		/// The world point to which to move the space ship.
 		/// </summary>
-		//private Ray worldSpaceRay;
+		private Vector3 worldPoint = Vector3.zero;
 		
 		/// <summary>
 		/// The total mass of the space ship.
@@ -107,6 +107,8 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		#endregion
 		
 		#region Public Methods
+		
+		#region Thrusters
 		
 		/// <summary>
 		/// Starts the forward thrusting of the ship engine components.
@@ -183,28 +185,28 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
       		}
     	}
     	
-		Vector3 temp;
+    	#endregion
+    	
+		#region Update
+
 		/// <summary>
-		/// 
+		/// Updates the space ship every frame.
 		/// </summary>
     	public void Update()
     	{
-    		// TODO: Research the camera screentoworldpoint function for better performance?
-			//RaycastHit outHit;
-			//worldSpaceRay = player.PlayerCamera.camera.ScreenPointToRay( Input.mousePosition );
-			/*if( Physics.Raycast( worldSpaceRay, out outHit, Mathf.Infinity, 1 << 2 ) )
-    		{
-
-    		}*/
-    		
-			temp = player.PlayerCamera.camera.ScreenToWorldPoint( Input.mousePosition );
+			if( player != null && player.PlayerCamera != null && player.PlayerCamera.camera != null )
+			{
+				worldPoint = player.PlayerCamera.camera.ScreenToWorldPoint( Input.mousePosition );
+			}
     	}
     	
     	/// <summary>
-    	/// 
+    	/// Updates the physics functionality of the space ship.
     	/// </summary>
 		public void FixedUpdate()
 		{
+			Vector3 totalForce = Vector3.zero;
+		
 			// Update the thrusters.
 			if( thrusters != null )
 			{
@@ -216,17 +218,22 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			
 			if( rigidBody != null )
 			{
-				Vector3 endPoint = temp;//worldSpaceRay.GetPoint( 9000000 );
-				//endPoint.Normalize();  // to or not to normalize...that is the question.
+				Vector3 rotationVector = Vector3.RotateTowards( player.Pawn.transform.forward, worldPoint, /*3.0f*/1.0f * Time.deltaTime, 0.0f );
 				
-				Vector3 rotationVector = Vector3.RotateTowards( player.Pawn.transform.forward, endPoint, 3.0f * Time.deltaTime, 0.0f );
-				
-				Vector3 finalVector = new Vector3( -Input.GetAxis( "Mouse Y" ) * 100 * rigidBody.mass, Input.GetAxis( "Mouse X" ) * 100 * rigidBody.mass,
-				                                   -Input.GetAxis( "Mouse X" ) * rigidBody.mass * 30 );                              
+				Vector3 finalVector = new Vector3( -Input.GetAxis( "Mouse Y" ) * 100.0f * rigidBody.mass, Input.GetAxis( "Mouse X" ) * 100.0f * rigidBody.mass,
+				                                   -Input.GetAxis( "Mouse X" ) * 3.0f * rigidBody.mass );                              
 				                                   
 				finalVector = rotationVector + finalVector;
 				
 				rigidBody.AddRelativeTorque( finalVector, ForceMode.Force );
+				
+				// Drag simulation. Let's use Unity's rigid body drag instead of this.
+				//Vector3 drag = -rigidBody.velocity * 0.75f * Time.fixedDeltaTime;
+				//rigidBody.velocity += drag;
+				
+				// Angular drag.
+				//drag = -rigidBody.angularVelocity * 0.5f * Time.fixedDeltaTime;
+				//rigidBody.angularVelocity += drag;	
 			}
 		}
 		
@@ -241,6 +248,8 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 		{
 			
 		}
+		
+		#endregion
 		
 		#endregion
 		
@@ -275,6 +284,7 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 			rigidBody.drag = 0.75f;
 			rigidBody.angularDrag = 0.5f;
 			rigidBody.SetDensity( 1.0f );
+			rigidBody.mass = 4.0f;
 		}
 		
 		/// <summary>
@@ -308,10 +318,10 @@ namespace LunarGrin.UnitTests.PlayerFlightControlsUnitTest
 				
 				engineComponent.MaxForwardThrustForce = 100000.0f;
 				engineComponent.MaxReverseThrustForce = 30000.0f;
-				engineComponent.Mass = 250.0f;
+				engineComponent.Mass = 800.0f;
 				
-				engineComponent.MaxForwardThrustForceBoost = 400000.0f;
-				engineComponent.BoostThrustDuration = 5.0f;
+				engineComponent.MaxForwardThrustForceBoost = 100000.0f;
+				engineComponent.BoostThrustDuration = 10.0f;
 				engineComponent.BoostThrustCooldownDuration = 3.0f;
 				
 				rigidBody.mass += engineComponent.Mass;
