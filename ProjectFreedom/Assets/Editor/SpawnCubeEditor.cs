@@ -109,12 +109,12 @@ public class SpawnCubeEditor : Editor
 	private Boolean invalidate = false;
 	
 	/// <summary>
-	/// A flag that determines whether or not the dimension options are displayed in the inspector.
+	/// A flag that determines whether or not the dimension options are collapsed in the inspector.
 	/// </summary>
 	private Boolean showDimensionsOptions = true;
 	
 	/// <summary>
-	/// A flag that determines whether or not the padding options are displayed in the inspector.
+	/// A flag that determines whether or not the padding options are collapsed in the inspector.
 	/// </summary>
 	private Boolean showPaddingOptions = true;
 	
@@ -137,7 +137,7 @@ public class SpawnCubeEditor : Editor
 	}
 	
 	/// <summary>
-	/// OnInspectorGUI is called when the inspector is interacted with.  Target values on the target must be updated.
+	/// OnInspectorGUI is called when the inspector is interacted with.  The values on the target must be updated.
 	/// </summary>
 	public override void OnInspectorGUI()
 	{

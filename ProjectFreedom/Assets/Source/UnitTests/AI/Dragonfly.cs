@@ -71,11 +71,20 @@ public class Dragonfly : MonoBehaviour
 	{
 		if ( sensor )
 		{
+		/*
 			Vector3 toTarget = target.transform.position - transform.position;
 			
 			toTarget.Normalize();
 			
 			Single direction = Vector3.Dot( transform.forward, toTarget );
+			
+			Debug.Log( toTarget );
+			
+			Single xAngle = Mathf.Acos( toTarget.z ) * Mathf.Rad2Deg;
+			Single yAngle = Mathf.Asin( toTarget.y ) * Mathf.Rad2Deg;
+			Single zAngle = Mathf.Acos( toTarget.z ) * Mathf.Rad2Deg;
+			
+			Debug.Log( xAngle + ", " + yAngle + ", " + zAngle );
 			
 			//	90-60
 			if ( direction > 0.86 )
@@ -99,6 +108,51 @@ public class Dragonfly : MonoBehaviour
 				//	Target is behind
 				target.renderer.material = red;
 			}
+			*/
+		}
+	}
+	
+	private void OnTriggerStay( Collider target )
+	{
+		Vector3 toTarget = target.transform.position - Vector3.zero;
+		
+		toTarget.Normalize();
+		
+		Single direction = Vector3.Dot( transform.forward, toTarget );
+		
+		//Debug.Log( Mathf.Acos( direction ) * Mathf.Rad2Deg );
+		
+		Single xAngle = Mathf.Asin( toTarget.x ) * Mathf.Rad2Deg;
+		
+		Single yAngle = Mathf.Atan( toTarget.x / toTarget.y ) * Mathf.Rad2Deg;
+		
+		Single zAngle = Mathf.Acos( toTarget.z ) * Mathf.Rad2Deg;
+		
+		Debug.Log( xAngle + ", " + yAngle + ", " + zAngle );
+		
+		//Debug.Log( Quaternion.LookRotation( toTarget ).eulerAngles );
+		
+		//	90-60
+		if ( direction > 0.86 )
+		{
+			//	Target is in front
+			target.renderer.material = blue;
+		}
+		//	60-30
+		else if ( direction >= 0.50f )
+		{
+			//	Target is to the side
+			target.renderer.material = green;
+		}
+		//	30-0
+		else if ( direction > 0 )
+		{
+			target.renderer.material = yellow;
+		}
+		else
+		{
+			//	Target is behind
+			target.renderer.material = red;
 		}
 	}
 	

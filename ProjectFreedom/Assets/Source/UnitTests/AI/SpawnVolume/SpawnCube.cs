@@ -20,9 +20,6 @@ using UnityEngine;
 
 #endregion
 
-//	TODO:	Implement a SpawnObject[] where you can add the object(s) that you want to spawn.
-//	TODO:	Implement a spawn type - sequence or random
-
 /// <summary>
 /// A SpawnCube is a cube volume that creates GameObjects of a specified type based on the given width, height, 
 ///	and depth dimensions.  GameObjects can be separated by modifying a padding value for the width, height, and 
@@ -156,7 +153,7 @@ public class SpawnCube : MonoBehaviour
 		
 		GameObject go = null;
 		
-		//	If destroy any extra GameObjects outside of the volume's dimensions.
+		//	Destroy any extra GameObjects outside of the volume's dimensions.
 		while ( volumeObjects.Count > newSize )
 		{
 			go = volumeObjects[volumeObjects.Count-1];
@@ -169,7 +166,7 @@ public class SpawnCube : MonoBehaviour
 		//	Loop through the volume and update its GameObjects.
 		for ( Int32 i=0; i<newSize; ++i )
 		{
-			//	Get the updated position.
+			//	Get the position for the current index.
 			Vector3 position = GetPositionFor( i );
 			
 			//	If a GameObject at this index already exists, reuse it.
